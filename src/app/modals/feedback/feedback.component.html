@@ -1,0 +1,173 @@
+<div class="modal-header">
+    <!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner> -->
+    <h5 class="modal-title">Feedback</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive" style="font-size: 11px !important;font-weight: 800;">
+        <table class="table m-0 custmTbl">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="thtextalign">Work stream</th>
+                        <th class="thtextalign">Service</th>
+                        <th class="thtextalign">State</th>
+                        <th class="thtextalign">Map</th>
+                        <th class="thtextalign">Att Wtg&nbsp; <i class="fa fa-edit" style="cursor: pointer;"></i></th>
+                        <th class="thtextalign">Actual Wtg</th>
+                        <th class="thtextalign">Qualtiy %</th>
+                        <th class="thtextalign">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{selectedRow['w_name']}} </td>
+                        <td> {{selectedRow['service_name']}}  </td>
+                        <td> {{selectedRow['batch_name']}}  </td>
+                        <td> {{selectedRow['map']}}  </td>
+                        <td  *ngIf="!wtgEditble" (dblclick)='changeStatus(selectedRow)'>{{selectedRow['attrWtg']}}</td>
+                        <td *ngIf="wtgEditble && selectedRow['workstream'] == 4 && (selectedRow['service'] == 44 || selectedRow['service'] == 48)">
+                            <input  style="width: 50px !important;" type="number" name="newAttrWtg" [(ngModel)]="newAttrWtg" (focusout)="changeAttrVal($event)" />
+                        </td>
+                        <td> {{actualWtg}}%</td>
+                        <td> {{qualityPer}} %</td>
+                        <td>
+
+                            <button *ngIf="qualityPer >= actualWtg" type="button" style='font-size: 10px !important;' class="btn btn-sm btn-success" data-dismiss="modal">Accepted</button>
+                            <button *ngIf="qualityPer < actualWtg" type="button" style='font-size: 10px !important;' class="btn btn-sm btn-danger" data-dismiss="modal">Rejected</button>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+
+        <table class="table m-0 custmTbl" *ngIf="feedBackGridData.length > 0">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="thtextalign">Screen/Part</th>
+                    <th class="thtextalign">Type Range</th>
+                    <th class="thtextalign">Error Desc</th>
+                    <th class="thtextalign">Weightage</th>
+                    <th class="thtextalign">Actual Error</th>
+                    <th class="thtextalign">Error</th>
+                </tr>
+            </thead>
+            <tbody  *ngIf="feedBackGridData.length > 0">
+                <tr *ngFor="let item of feedBackGridData">
+                    <td> {{item.partScreen}} </td>
+                    <td> {{item.typeofrange}}  </td>
+                    <td> {{item.errorDesc}}  </td>
+                    <td> {{item.weightage}}  </td>
+                    <td> {{item.act_errors}} </td>
+                    <td> {{item.tot_errors}} </td>
+                </tr>
+            </tbody>
+    </table>
+        <div style="text-align: right !important;">
+            <!-- <button type="button" class="btn btn-sm btn-secondary float-right" style="margin:10px; font-size: 8px !important;" (click)="addErrors()">Add</button> -->
+        </div>
+        <table class="table m-0 custmTbl">
+
+            <thead class="thead-dark">
+                <tr>
+                    <th class="thtextalign">Screen/Part</th>
+                    <th class="thtextalign">Type Range</th>
+                    <th class="thtextalign">Error Desp</th>
+                    <th class="thtextalign">Wtg</th>
+                    <th class="thtextalign">ActError</th>
+                    <th class="thtextalign">Error</th>
+                    <th class="thtextalign">Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="listOfErrors.length > 0">
+                  <tr *ngFor="let item of listOfErrors;let ind = index">
+                    <td> {{item.screenprt}} </td>
+                    <td> {{item.range}}  </td>
+                    <td> {{item.errorDsp}}  </td>
+                    <td> {{item.wtg}}  </td>
+                    <td> {{item.actError}} </td>
+                    <td> {{item.aerror}}</td>
+                    <td> <span (click)="removeRow(ind)"><i style="color:red;font-size:14px;font-weight: bold;cursor: pointer;" class="ft-x font-size-10"></i></span> </td>
+                </tr>
+            </tbody>
+            <tbody class="inputbx">
+              <tr>
+                  <td>
+                        <div class="input-group">
+                              <select name="ScreenPrt" class="form-control textboxsize" [(ngModel)]="errorfeedback.screenprt"
+                              #ScreenPrt="ngModel" required (change)="GetRange()">
+                              <option value="">Select</option>
+                              <option *ngFor="let s of screenData" [ngValue]="s.partScreen">
+                                   {{s.partScreen}}</option>
+                          </select>
+                            </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                          <select name="Range"
+                          class="form-control" [(ngModel)]="errorfeedback.range"
+                          #Range="ngModel" required (change)="GetErrorDesc()">
+                          <option value="">Select</option>
+                          <option *ngFor="let r of rangeData;let x = index" [ngValue]="r.map_type">
+                             {{r.map_type}}</option>
+                      </select>
+                        </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                          <select name="ErrorDsp"
+                          class="form-control textboxsize" [(ngModel)]="errorfeedback.errorDsp" #ErrorDsp="ngModel" required (change)="seleErrorDesp(errorfeedback.errorDsp)">
+                          <option value="">Select</option>
+                          <option *ngFor="let e of erroDescData;let subind = index" [ngValue]="e.error_desc" >
+                              {{e.error_desc}}</option>
+                      </select>
+                      </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                          <input type="text"   class="form-control customInput" name="wtg" [(ngModel)]="errorfeedback.wtg" readonly  required>
+                         <!-- <input class="customInput" type="text" name="wtg" id="wtg"  > -->
+                      </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                         <!-- <input class="customInput" type="text" name="actError" id="actError"> -->
+                         <input type="text"  class="form-control customInput" name="actError"  [(ngModel)]="errorfeedback.actError" #ActError="ngModel"
+                          required>
+                      </div>
+                  </td>
+                  <td>
+                      <!-- <div class="dropdown">
+                          <input type="text" class="form-control customInput"  name="AError" [(ngModel)]="errorfeedback.aerror"
+                          readonly required>
+
+                      </div> -->
+                  </td>
+                  <td>
+                    <div class="input-group">
+                     <button type="button" [disabled]="(errorfeedback.actError == 0 || errorfeedback.actError == '' || errorfeedback.errorDsp == '')" class="btn btn-sm btn-secondary float-right" style="margin:10px; font-size: 8px !important;" (click)="addErrors()">Add</button>
+                    </div>
+                     <!-- <span (click)="removeRow()"><i style="color:red;font-size:14px;font-weight: bold;cursor: pointer;" class="ft-x font-size-10"></i></span> -->
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+
+
+        <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+            <h6>Enter Remarks</h6>
+            <fieldset class="form-group">
+                <textarea class="form-control" id="remarks" name="remarks" [(ngModel)]="remarkss" required></textarea>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- <pre>{{respArry | json}} {{qualityPer}} '<' {{actualWtg}}</pre> -->
+<hr>
+
+<div class="modal-footer">
+    <!-- <button type="button" style='font-size: 10px !important;' class="btn btn-sm btn-warning" data-dismiss="modal" (click)="closeModal('nofeedback')">No Feedback</button> -->
+    <button type="button" style='font-size: 10px !important;' class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
+    <button type="button" [disabled]="listOfErrors.length == 0" style='font-size: 10px !important;' class="btn btn-sm btn-primary" (click)="closeModal('save')">Save</button>
+
+</div>

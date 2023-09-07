@@ -1,0 +1,21 @@
+.mandatory{
+    color: red;
+    margin-top:10px;
+  }
+
+  .custmTbl{
+    th,td{
+        padding : 0.5rem 2rem !important;
+        font-size: 0.7rem !important;
+  } 
+  }
+
+  .table th, .table td{
+    padding: 1rem 1rem !important;
+  }
+
+  .nodatamsg{
+    text-align: center;
+    color: #e3b430 !important;
+    font-size: 22px;
+}

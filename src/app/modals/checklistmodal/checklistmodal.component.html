@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <h5 class="modal-title">Check List</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" *ngIf="rowchklist.length > 0">
+    <div class="table-responsive" *ngIf="selectedRow"  style="font-size: 11px !important;font-weight: 600;">
+        <table class="table m-0 custmTbl">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="7" class="thtextalign">Present Version of Checklist used in MIS</th>                            
+                </tr>
+            </thead>
+            <thead class="thead-light">
+                <tr>
+                    <th colspan="3" class="thtextalign" style="text-align: left !important;">UR-004-CL</th>
+                    <th colspan="3" class="thtextalign" style="text-align: right !important;">Checklist</th>
+                    <th colspan="3" class="thtextalign" style="text-align: right !important;">Version No: {{rowchklist[0].version}}.0,  Date : {{rowchklist[0].version_date | date}}</th>
+                </tr>
+            </thead>
+        </table>
+
+        <table class="table m-0 custmTbl">
+           
+            <tbody class="tbody-light">
+                <tr>
+                    <th class="thtextalign">Workstream</th>
+                    <td> {{selectedRow.w_name}} </td>
+
+                    <th class="thtextalign">Service</th>
+                    <td> {{selectedRow.service_name}}  </td>
+
+                    <th class="thtextalign">Sub Service</th>
+                    <td> {{selectedRow.batch_name}}  </td>
+                </tr>
+            </tbody>
+            <tbody class="tbody-light">
+                <tr>
+                    <th class="thtextalign">Map ID</th>
+                    <td> {{selectedRow.mid}} </td>
+
+                    <th class="thtextalign">Emp ID</th>
+                    <td> {{empName}} </td>
+
+                    <th class="thtextalign">Date</th>
+                    <td> {{curDate | date : 'yyyy-MM-dd'}} </td>
+                </tr>
+            </tbody>
+            <tbody class="tbody-light">
+                <tr>
+                    <th class="thtextalign">Step</th>
+                    <td> {{selectedstp}} </td>
+
+                    <th class="thtextalign">Rev Number</th>
+                    <td> {{rowchklist[0].version}}.0 </td>
+
+                    <th class="thtextalign">Rev Date</th>
+                    <td> {{rowchklist[0].version_date | date : 'yyyy-MM-dd'}} </td>
+                </tr>
+            </tbody>
+            <tbody class="tbody-light">
+                <tr>
+                    <th class="thtextalign">Map</th>
+                    <td colspan="3"> {{selectedRow.map}} </td>                                                             
+                </tr>
+            </tbody>
+        </table>
+        <hr class="w-100">
+        <table class="table m-0 custmTbl">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Task Order</th>
+                    <th>Description</th>
+                    <th>Step</th>
+                    <th><input type="checkbox" [checked]="selectedRow.chk === 'Yes'" name="chkall" id="chkall" (change)="checkAll($event,selectedInd)">Action</th>                                                          
+                </tr>
+            </thead>
+            <tbody class="tbody-light">
+                <tr *ngFor="let x of rowchklist; let inds = index">
+                    <td>{{x.order_task}}</td>
+                    <td>{{x.description}}</td>
+                    <td>{{x.step_name}}</td>
+                    <td><input [checked]="x.chk === 'Yes'" id="chklst{{selectedInd}}{{inds}}" type="checkbox" name="chkselect{{selectedInd}}{{inds}}" (change)="chkSelect($event,selectedInd,inds)"/></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="clear:both"></div>
+    </div>
+</div>
+<div *ngIf="rowchklist.length == 0" class="nodatamsg">
+    No Data Found..!
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="closeModal('save')">Save</button>
+</div>

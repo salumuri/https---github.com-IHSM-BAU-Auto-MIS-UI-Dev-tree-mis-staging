@@ -1,0 +1,525 @@
+<section class="users-edit">
+  <div class="row">
+    <div class="col-12">
+      <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+      <div class="card" >
+        <div class="card-content">
+          <div class="card-body">
+            <!-- Nav-tabs -->
+            <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left">
+              <li [ngbNavItem]="1" *ngIf="userRole != 'User'">
+                <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('1')">
+                  <i class="ft-edit mr-1"></i>
+                  <span class="d-none d-sm-block">Workstream</span>
+                </a>
+
+                <ng-template ngbNavContent>
+
+                  <div class='row col-12'>
+                        <!-- List grid  -->
+                        <div class="col-lg-7 col-md-7 col-sm-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h4 class="card-title">List of Workstreams</h4>
+
+                            </div>
+                            <div class="card-content">
+                              <div class="card-body">
+                                <ul class="list-group">
+                                  <li class="list-group-item" *ngFor="let x of workstreams;let ind = index">
+                                    <span class="badge bg-primary float-right"></span>{{x.w_name}}
+
+                                    <!-- <a href="javascript:;" class="danger p-0 float-right" (click)="deleteWorkstream(x.wid)">
+                                      <i class="ft-x font-medium-3"></i>
+                                    </a> -->
+<!--
+                                    <a href="javascript:;" class="success p-0 float-right" (click)="updateWorkstreamName(x.wid,x.w_name)">
+                                      <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                    </a> -->
+
+                                    <div *ngIf="x.wm_delete_status == 'True'" (click)="udpateStatus(x.wid,x.wm_delete_status)" class="badgecustome badge bg-light-success float-right" style="margin-right: 10px;cursor: pointer;"> Active </div>
+
+                                    <div *ngIf="x.wm_delete_status == 'False'" (click)="udpateStatus(x.wid,x.wm_delete_status)" class="badgecustome badge bg-light-danger float-right" style="margin-right: 10px;cursor: pointer;"> In Active </div>
+                                  </li>
+
+
+                                </ul>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <!-- Add Grid  -->
+                        <div class="col-md-5" *ngIf="!updateGrid">
+                          <div class="card">
+                            <div class="card-header">
+                              <h4 class="card-title">Add Workstream</h4>
+                            </div>
+                            <div class="card-content">
+                              <div class="card-body">
+                                <!-- <div class="card-text">
+                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                </div> -->
+                                <form class="form" name="workstreamFrm" id="workstreamFrm" ngNativeValidate>
+                                  <div class="form-body">
+                                    <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span></h6>
+                                    <div class="form-group">
+                                      <label for="workstream" class="sr-only">Workstream Name</label>
+                                      <input type="text" id="workstream" class="form-control" autocomplete="off" placeholder="Workstream Name" name="workstream" [(ngModel)]="workstream">
+                                    </div>
+
+                                  </div>
+                                  <div>
+                                    <button type="submit" class="btn btn-primary mr-1" (click)="frmSubmit()"><i class="ft-check mr-2"></i>Submit</button>
+                                    <button type="button" class="btn btn-secondary" (click)="frmReset()"><i class="ft-x mr-2"></i>Reset</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <!-- Update Grid  -->
+                        <div class="col-md-5" *ngIf="updateGrid">
+                          <div class="card">
+                            <div class="card-header">
+                              <h4 class="card-title">Update Workstream</h4>
+                            </div>
+                            <div class="card-content">
+                              <div class="card-body">
+                                <!-- <div class="card-text">
+                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                </div> -->
+                                <form class="form" name="workstreamFrm" id="workstreamFrm" ngNativeValidate>
+                                  <div class="form-body">
+                                    <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span></h6>
+                                    <div class="form-group">
+                                      <label for="workstream" class="sr-only">Workstream Name</label>
+                                      <input type="text" id="workstream" class="form-control" autocomplete="off" placeholder="Workstream Name" name="workstream" [(ngModel)]="workstream">
+                                    </div>
+
+                                  </div>
+                                  <div>
+                                    <button type="submit" class="btn btn-primary mr-1" (click)="updateSubmit()"><i class="ft-check mr-2"></i>Update</button>
+                                    <button type="button" class="btn btn-secondary" (click)="updatefrmReset('wm')"><i class="ft-x mr-2"></i>Cancel</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+
+
+                </ng-template>
+
+              </li>
+
+
+              <li [ngbNavItem]="2" *ngIf="userRole != 'User'">
+                <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('2')">
+                  <i class="ft-upload-cloud mr-1"></i>
+                  <span class="d-none d-sm-block">Service</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class='row col-12'>
+                    <div class="col-lg-7 col-md-7 col-sm-12">
+                      <div class="card">
+                        <div class="card-content">
+                          <div class="card-body">
+
+                            <!-- ngx-datatable-filter -->
+                            <fieldset class="form-group">
+                              <!-- <label style="font-size: 18px;">List of Services</label> -->
+                                <!-- <select name="users-list-select"
+                                  class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                  (click)="updateLimit($event)">
+                                  <option value="10">10</option>
+                                  <option value="25">25</option>
+                                  <option value="50">50</option>
+                                  <option value="100">100</option>
+                                </select>
+                                entries</label> -->
+                                <h4 class="card-title">List of Services
+
+                                  <label for="ngx-filter-ref" class="float-right">Search:
+                                    <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                                      type="text" (keyup)="filterUpdate($event)" />
+                                  </label>
+                                </h4>
+
+                            </fieldset>
+                            <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows" [scrollbarH]="true"
+                            [columns]="columns">
+                            <ngx-datatable-column name="Workstream" prop="w_name" [width]="150"></ngx-datatable-column>
+                            <ngx-datatable-column name="Service" prop="service_name" [width]="220"></ngx-datatable-column>
+
+                            <ngx-datatable-column name="Status" prop="sm_delete_status" [width]="40" >
+                              <ng-template let-row="row" ngx-datatable-cell-template>
+                                <div style="cursor: pointer;" class="badge" [ngClass]="{
+                                  'bg-light-success': (row.sm_delete_status == 'True' ? 'Active' : ''),
+                                  'bg-light-danger': (row.sm_delete_status == 'False' ? 'In Active' : '')
+                                }" (click)="updateServiceStatus(row.sid,row.sm_delete_status)">
+                                {{ (row.sm_delete_status == 'True' ? 'Active' : 'In Active') }}
+                              </div>
+
+                              </ng-template>
+
+                            </ngx-datatable-column>
+
+                            </ngx-datatable>
+                            <!-- ngx-datatable-filter -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                       <!-- Add Grid  -->
+                       <div class="col-md-5" *ngIf="!updateServiceGrid">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Add Service</h4>
+                          </div>
+                          <div class="card-content">
+                            <div class="card-body">
+                              <!-- <div class="card-text">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div> -->
+                              <form class="form" name="serviceFrm" id="serviceFrm" ngNativeValidate>
+                                <div class="form-body">
+                                  <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+
+                                    <ng-select [items]="allMasterInfo" bindLabel="w_name"
+                                                        placeholder="Select Workstream"
+                                                        [(ngModel)]="seltdWorkstream"
+                                                        bindLabel="search_label"
+                                                        bindValue="wid"
+                                                        [searchFn]="customSearchFn" appendTo="body">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+                                      </ng-select>
+                                  </div>
+                                  <h6 class="mt-2">Service Name&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+
+                                    <input type="text" id="service" class="form-control" autocomplete="off" placeholder="Service Name" name="service" [(ngModel)]="service">
+                                  </div>
+
+                                </div>
+                                <div>
+                                  <button type="submit" class="btn btn-primary mr-1" (click)="frmServiceSubmit()"><i class="ft-check mr-2"></i>Submit</button>
+                                  <button type="button" class="btn btn-secondary" (click)="frmServiceReset()"><i class="ft-x mr-2"></i>Reset</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <!-- Update Grid  -->
+                      <div class="col-md-5" *ngIf="updateServiceGrid">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Update Service</h4>
+                          </div>
+                          <div class="card-content">
+                            <div class="card-body">
+                              <!-- <div class="card-text">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div> -->
+                              <form class="form" name="sericeFrm" id="serviceFrm" ngNativeValidate>
+                                <div class="form-body">
+
+
+                                  <div class="form-group">
+
+                                     <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span></h6>
+                                    <!-- <ng-select [items]="workstreams" bindLabel="w_name"
+                                                        placeholder="Select Workstream"
+                                                        [(ngModel)]="seltdWorkstream"
+                                                        bindLabel="search_label"
+                                                        bindValue="wid"
+                                                        [searchFn]="customSearchFn" appendTo="body" [disabled]="true">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+                                      </ng-select> -->
+                                      <b>{{seltWokstreamName}}</b>
+                                  </div>
+
+
+                                  <div class="form-group">
+                                    <h6 class="mt-2">Service Name&nbsp;<span style="color:red">*</span></h6>
+                                    <input type="text" id="service" class="form-control" autocomplete="off" placeholder="Service Name" name="service" [(ngModel)]="service">
+                                  </div>
+
+                                </div>
+                                <div>
+                                  <button type="submit" class="btn btn-primary mr-1" (click)="updateServiceSubmit()"><i class="ft-check mr-2"></i>Update</button>
+                                  <button type="button" class="btn btn-secondary" (click)="updatefrmReset('sm')"><i class="ft-x mr-2"></i>Cancel</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                </ng-template>
+              </li>
+
+
+              <li [ngbNavItem]="3">
+                <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('3')">
+                  <i class="ft-settings mr-1"></i>
+                  <span class="d-none d-sm-block">Sub Services</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class='row col-12'>
+                    <div class="col-lg-7 col-md-7 col-sm-12">
+                      <div class="card">
+                        <div class="card-content">
+                          <div class="card-body">
+
+                            <!-- ngx-datatable-filter -->
+                            <fieldset class="form-group">
+                              <!-- <label style="font-size: 18px;">List of Services</label> -->
+                                <!-- <select name="users-list-select"
+                                  class="form-control form-control-sm d-inline-block width-100 p-right-25 pl-4 mx-1"
+                                  (click)="updateLimit($event)">
+                                  <option value="10">10</option>
+                                  <option value="25">25</option>
+                                  <option value="50">50</option>
+                                  <option value="100">100</option>
+                                </select>
+                                entries</label> -->
+                                <h4 class="card-title">List of Sub Services
+
+                                  <label for="ngx-filter-ref" class="float-right">Search:
+                                    <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200 ml-1"
+                                      type="text" (keyup)="filterUpdate2($event)" />
+                                  </label>
+                                </h4>
+
+                            </fieldset>
+                            <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                            [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows2" [scrollbarH]="true"
+                            [columns]="columns">
+                            <!-- <ngx-datatable class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                              [footerHeight]="50" rowHeight="auto" [limit]="limitRef" [rows]="rows2" [scrollbarH]="true"
+                              [columns]="columns" [sortType]="'multi'" [reorderable]="true" [sorts]="[{prop: 'bid', dir: 'desc'}]"> -->
+                              <ngx-datatable-column name="Workstream" prop="w_name" [width]="100"></ngx-datatable-column>
+                              <ngx-datatable-column name="Service" prop="service_name" [width]="150"></ngx-datatable-column>
+                              <ngx-datatable-column name="SubService" prop="batch_name" [width]="100"></ngx-datatable-column>
+                              <!-- <ngx-datatable-column name="Status" prop="bm_delete_status" [width]="80">
+
+                               <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                   <div style="cursor: pointer;" class="badge" [ngClass]="{
+                                      'bg-light-success': (rows2[rowIndex].bm_delete_status == 'True' ? 'Active' : ''),
+                                      'bg-light-danger': (rows2[rowIndex].bm_delete_status == 'False' ? 'In Active' : '')
+                                    }" (click)="updateSubServiceStatus(rows2[rowIndex].bid,rows2[rowIndex].bm_delete_status)">
+                                    {{ (rows2[rowIndex].bm_delete_status == 'True' ? 'Active' : 'In Active') }}
+                                  </div>
+                                </ng-template>
+
+                              </ngx-datatable-column> -->
+
+
+                              <ngx-datatable-column name="Status" prop="bm_delete_status" [width]="40" >
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                  <div style="cursor: pointer;" class="badge" [ngClass]="{
+                                    'bg-light-success': (row.bm_delete_status == 'True' ? 'Active' : ''),
+                                    'bg-light-danger': (row.bm_delete_status == 'False' ? 'In Active' : '')
+                                  }" (click)="updateSubServiceStatus(row.bid,row.bm_delete_status)">
+                                  {{ (row.bm_delete_status == 'True' ? 'Active' : 'In Active') }}
+                                </div>
+
+                                </ng-template>
+
+                              </ngx-datatable-column>
+
+                            </ngx-datatable>
+                            <!-- ngx-datatable-filter -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                       <!-- Add Grid  -->
+                       <div class="col-md-5" *ngIf="!updatesubServiceGrid">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Add Sub Service</h4>
+                          </div>
+                          <div class="card-content">
+                            <div class="card-body">
+                              <!-- <div class="card-text">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div> -->
+                              <form class="form" name="serviceFrm" id="serviceFrm" ngNativeValidate>
+                                <div class="form-body">
+                                  <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+                                    <label for="service" class="sr-only">Workstream</label>
+                                    <ng-select [items]="allMasterInfo" bindLabel="w_name"
+                                                        placeholder="Select Workstream"
+                                                        [(ngModel)]="seltdWorkstream"
+                                                        bindLabel="search_label"
+                                                        bindValue="wid"
+                                                        [searchFn]="customSearchFn" appendTo="body" (change)="selectWorkstream(seltdWorkstream)">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.w_name}}</span>
+                                            </ng-template>
+                                      </ng-select>
+                                  </div>
+                                  <h6 class="mt-2">Service&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+                                    <label for="service" class="sr-only">Service</label>
+                                    <ng-select [items]="servicesList" bindLabel="service_name"
+                                                        placeholder="Select Service"
+                                                        [(ngModel)]="seltdService"
+                                                        bindLabel="search_label"
+                                                        bindValue="sid"
+                                                        [searchFn]="customSearchFn2" appendTo="body">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.service_name}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.service_name}}</span>
+                                            </ng-template>
+                                      </ng-select>
+                                  </div>
+                                  <h6 class="mt-2">Sub Service&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+                                    <label for="service" class="sr-only">Sub Service Name</label>
+                                    <input type="text" id="service" class="form-control" autocomplete="off" placeholder="Sub Service Name" name="subserviceName" [(ngModel)]="subserviceName">
+                                  </div>
+
+                                </div>
+                                <div>
+                                  <button type="submit" class="btn btn-primary mr-1" (click)="frmServiceSubSubmit()"><i class="ft-check mr-2"></i>Submit</button>
+                                  <button type="button" class="btn btn-secondary" (click)="frmServiceSubReset()"><i class="ft-x mr-2"></i>Reset</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <!-- Update Grid  -->
+                      <div class="col-md-5" *ngIf="updatesubServiceGrid">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title">Update Sub Service</h4>
+                          </div>
+                          <div class="card-content">
+                            <div class="card-body">
+                              <!-- <div class="card-text">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                              </div> -->
+                              <form class="form" name="sericeFrm" id="serviceFrm" ngNativeValidate>
+                                <div class="form-body">
+
+
+                                  <div class="form-group">
+
+                                    <h6 class="mt-2">Workstream&nbsp;<span style="color:red">*</span> </h6>
+                                   <!-- <ng-select [items]="workstreams" bindLabel="w_name"
+                                                       placeholder="Select Workstream"
+                                                       [(ngModel)]="seltdWorkstream"
+                                                       bindLabel="search_label"
+                                                       bindValue="wid"
+                                                       [searchFn]="customSearchFn" appendTo="body">
+
+                                           <ng-template ng-label-tmp let-item="item">
+                                               <span >{{ item.w_name}}</span>
+                                           </ng-template>
+
+                                           <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                               <span >{{ item.w_name}}</span>
+                                           </ng-template>
+                                     </ng-select> -->
+                                     <b>{{seltWokstreamName}}</b>
+                                 </div>
+
+                                  <h6 class="mt-2">Service&nbsp;<span style="color:red">*</span></h6>
+                                  <div class="form-group">
+                                    <label for="service" class="sr-only">Service</label>
+                                    <!-- <ng-select [items]="servicesList" bindLabel="service_name"
+                                                        placeholder="Select Service"
+                                                        [(ngModel)]="seltdService"
+                                                        bindLabel="search_label"
+                                                        bindValue="sid"
+                                                        [searchFn]="customSearchFn2" appendTo="body">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.service_name}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.service_name}}</span>
+                                            </ng-template>
+                                      </ng-select> -->
+                                     <b>{{seltServiceName}}</b>
+                                  </div>
+
+
+                                  <div class="form-group">
+                                     <h6 class="mt-2">Sub Service&nbsp;<span style="color:red">*</span></h6>
+                                    <input type="text" id="service" class="form-control" autocomplete="off" placeholder="Sub Service Name" name="service" [(ngModel)]="subserviceName" required>
+                                  </div>
+
+                                </div>
+                                <div>
+                                  <button type="submit" class="btn btn-primary mr-1" (click)="updateSubServiceSubmit()"><i class="ft-check mr-2"></i>Update</button>
+                                  <button type="button" class="btn btn-secondary" (click)="updatefrmReset('ssm')"><i class="ft-x mr-2"></i>Cancel</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                </ng-template>
+              </li>
+
+            </ul>
+            <div class="tab-content">
+              <div [ngbNavOutlet]="nav"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>

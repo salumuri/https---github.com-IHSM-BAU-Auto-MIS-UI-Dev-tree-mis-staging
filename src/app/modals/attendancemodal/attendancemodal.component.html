@@ -1,0 +1,151 @@
+<div class="modal-header">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <h5 class="modal-title">Absenteesim</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="row">
+    <div class="modal-body">        
+        <form class="form" [formGroup]="myGroup" (ngSubmit)="onSubmit()"> 
+            <div class="row contentbody">
+            <div class="col-md-3">                
+                  <h6 class="content-sub-header m-2">OperatorID</h6>
+                  <fieldset class="form-group m-2">
+                      <input disabled type="text" id="tOperatorID" name="tOperatorID" formControlName="tOperatorID">
+                  </fieldset>                  
+              </div> 
+              
+              <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">OperatorName</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tOperatorName" name="tOperatorName" formControlName="tOperatorName">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Date</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tDate" name="tDate" formControlName="tDate">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">GL-Name</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tGlName" name="tGlName" formControlName="tGlName">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">WSM</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tWSM" name="tWSM" formControlName="tWSM">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">WorkStream</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tProcess" name="tProcess" formControlName="tProcess">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Service</h6>
+                <fieldset class="form-group m-2">                    
+                    <select class="form-control" id="tArea" name="tArea" formControlName="tArea" (change)="loadBatch()">                                           
+                        <option value="">Select</option>                                          
+                        <option *ngFor="let a of areaInfo" value="{{a.sid}}">{{a.service_name}} 
+                        </option>
+                     </select>
+                    
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">SubService</h6>
+                <fieldset class="form-group m-2">                    
+                    <select class="form-control" id="tBatch" name="tBatch" formControlName="tBatch" >                                           
+                        <option value="">Select</option>                                                                   
+                         <option *ngFor="let b of batchInfo" value="{{b.bid}}">{{b.batch_name}} 
+                         </option>
+                     </select>
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Step</h6>
+                <fieldset class="form-group m-2">                    
+                    <select class="form-control" id="tStep" name="tStep" formControlName="tStep" (change)="loadStatus($event)">                                           
+                        <option value="">Select</option>                                          
+                         <option  value="Absent">Absent</option>
+                         <option  value="AdvCompOff">AdvCompOff</option>
+                         <option  value="CompOff">CompOff</option>
+                         <!-- <option  value="CompWeekOff">CompWeekOff</option> -->
+                     </select>
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Status</h6>
+                <fieldset class="form-group m-2">                   
+                    <select class="form-control" id="tStatus" name="tStatus" formControlName="tStatus" (change)="updateTime($event)">                                           
+                        <option value="">Select</option>                                          
+                         <option *ngFor="let s of statusList" value="{{s.status}}">{{s.status}} 
+                         </option>
+                         
+                     </select>
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Shift</h6>
+                <fieldset class="form-group m-2">                    
+                    <select class="form-control" id="tShift" name="tShift" formControlName="tShift" >                                           
+                        <option value="">Select</option>                                          
+                        <option value="G">G</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>                                          
+                        <option value="3">3</option>                                          
+                        <option value="WFH">WFH</option>                                                                                      
+                    </select>
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Time</h6>
+                <fieldset class="form-group m-2">
+                    <input disabled type="text" id="tTime" name="tTime" formControlName="tTime">
+                </fieldset>                  
+            </div> 
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Upcome Weekly Offs</h6>
+                <fieldset class="form-group m-2">                   
+                    <select class="form-control" id="twof" name="twof" formControlName="twof" >   
+                        <!-- [disabled]="!isadvCombOffcheck"                                         -->
+                        <option value="">Select</option>                                          
+                        
+                         <option *ngFor="let u of upcomingCompoffdates" value="{{u.Compoffdates}}">{{u.Compoffdates}}
+                         </option>
+                     </select>
+                </fieldset>                  
+            </div> 
+            
+            <div class="col-md-3">                
+                <h6 class="content-sub-header m-2">Previously Worked Days</h6>
+                <fieldset class="form-group m-2">                    
+                    <select class="form-control" id="tpwd" name="tpwd" formControlName="tpwd" >                                           
+                        <!-- [disabled]="!iscOffcheck" -->
+                        <option value="">Select</option>                                                                   
+                         <option *ngFor="let c of Compoffdates" value="{{c.Compoffdates}}" >{{c.Compoffdates}} 
+                          </option>
+                     </select>
+                </fieldset>                  
+            </div>
+            <div class="col-md-6">               
+                <h6 class="content-sub-header m-2">Remarks</h6>
+                <fieldset class="form-group m-2">
+                    <textarea rows="4" cols="3" id="tRemarks" class="form-control" formControlName="tRemarks" autocomplete="off" name="tRemarks" ></textarea>        
+                </fieldset>    
+            </div>              
+                 
+            <div class="col-md-8 m-2 text-center"> 
+                    <button type="submit" class="btn btn-sm btn-primary">Update</button>            
+            </div>    
+             
+           </div>
+        </form> 
+    </div>
+</div>

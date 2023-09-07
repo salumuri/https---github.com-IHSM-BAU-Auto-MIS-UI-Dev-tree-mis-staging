@@ -1,0 +1,210 @@
+
+
+
+<section id="ngx-datatable-filter">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <li class="customeHideshow" style="list-style: none;font-size: 18px;font-weight: bold;">
+            Userswise Workstreams
+            <button ngbTooltip="Add New" type="button" class="btn btn-sm btn-outline-primary mt-2 pull-right" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                <i [ngClass]="{'ft-minus' : !isCollapsed}"></i>
+                <i [ngClass]="{'ft-plus' : isCollapsed}"></i>
+            </button>
+        </li>
+          <!-- <h4 class="card-title"><b>
+           </b>
+           <button type="button" class="btn btn-primary" (click)="getAdd()"><i class="fa">&#xf067;</i></button>
+          </h4> -->
+          <hr>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+          <div class="row" *ngIf="!isCollapsed">
+            <div class="col-12">
+
+
+                            <form class="form" [formGroup]="waSearchFm">
+                                <div class="row contentbody">
+                                  <div class="col-md-3 col-12">
+                                    <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                                    <fieldset class="form-group">
+                                        <select class="form-control" id="wsname" name="wsname" formControlName="wsname" (change)="getServiceslist('a')">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                            </option>
+                                        </select>
+                                        <!-- <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                                          <div *ngIf="f['wsname'].errors['required']">WorkStream Required</div>
+                                        </div> -->
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                  <h6>Service <span class="mandatory" style="color: red;">*</span></h6>
+                                  <fieldset class="form-group">
+                                      <select class="form-control" id="service" name="service" formControlName="service"  (change)="getBatches('a')">
+                                        <option value="">Select Service</option>
+                                        <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                        </option>
+                                    </select>
+                                      <!-- <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                                        <div *ngIf="f['service'].errors['required']">Service Required</div>
+                                      </div> -->
+                                  </fieldset>
+
+                              </div>
+                              <div class="col-md-3 col-12">
+                                <h6>Sub Service <span class="mandatory" style="color: red;">*</span></h6>
+                                <fieldset class="form-group">
+                                  <select class="form-control" id="state" name="state" formControlName="state">
+                                      <option value="">Select Sub Service</option>
+                                      <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                      </option>
+                                  </select>
+                                    <!-- <div *ngIf="submitted && f['state'].errors" class="customValidation">
+                                      <div *ngIf="f['state'].errors['required']">State Required</div>
+                                    </div> -->
+                                </fieldset>
+                            </div>
+                            <div class="col-md-3 col-12">
+                              <h6>Associate Name<span class="mandatory" style="color: red;">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="associate" name="associate" formControlName="associate">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let a of associateData" value="{{a.id}}">{{a.emp_id}}
+                                      </option>
+                                  </select>
+                                  <!-- <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                                    <div *ngIf="f['wsname'].errors['required']">WorkStream Required</div>
+                                  </div> -->
+                              </fieldset>
+                          </div>
+                          <div class="col-md-10">
+                              &nbsp;&nbsp;&nbsp;
+                          </div>
+                              <div class="col-md-2 float-right" style="text-align: right;">
+                                <h6>&nbsp;&nbsp;</h6>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-sm btn-primary" style="float: right;" (click)="frmSubmit()" [disabled]="waSearchFm.invalid">Submit</button>
+                                </div>
+                            </div>
+                                </div>
+                            </form>
+
+            </div>
+            </div>
+
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref"><b>Search:</b>
+                <input style="margin-left: 10px;" id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Filter..." (keyup)="filterUpdate($event)" />
+              </label>
+            </fieldset>
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true">
+              <ngx-datatable-column name="Corp ID" prop="emp_id" [width]="50"></ngx-datatable-column>
+              <ngx-datatable-column name="Employee Name" prop="emp_name" [width]="50"></ngx-datatable-column>
+              <!-- <ngx-datatable-column name="Designation" prop="designation" [width]="50"></ngx-datatable-column> -->
+              <ngx-datatable-column name="Workstream" prop="w_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Service" prop="service_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Batch" prop="batch_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Status" prop="user_status" [width]="40">
+                <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                  <div style="cursor: pointer;" class="badge" [ngClass]="{
+                      'bg-light-success': (status == 'True' ? 'Active' : ''),
+                      'bg-light-danger': (status == 'False' ? 'In Active' : '')
+                    }" (click)="udpateWorkstreamUsersStatus(rows[rowIndex].workstream,rows[rowIndex].service,rows[rowIndex].bid,rows[rowIndex].user_status)">
+                    {{ status }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <!-- <ngx-datatable-column name="Actions" [width]="60">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+
+                  <a  href="javascript:;" class="danger p-0 float-right" (click)="udpateWorkstreamUsersStatus(rows[rowIndex].workstream,rows[rowIndex].service,rows[rowIndex].bid)">
+                    <i class="ft-x font-medium-3"></i>
+                  </a>
+                 &nbsp;&nbsp;
+                  <a style="margin-right:10px;" href="javascript:;" class="success p-0 float-right" (click)="udpateTrueStatus(rows[rowIndex].workstream,rows[rowIndex].service,rows[rowIndex].bid)">
+                    <i class="ft-check font-medium-3"></i>
+                  </a>
+
+
+
+                </ng-template>
+                
+              </ngx-datatable-column> -->
+
+
+            </ngx-datatable>
+<!-- Add Grid  -->
+
+
+
+
+
+
+  <!-- <div class="row">
+    <div class="col-12">
+  <div class="card"  *ngIf="addGrid">
+    <div class="card-header">
+      <h4 class="card-title">Add New Workstream Users</h4>
+      <hr>
+    </div>
+    <div class="card-content">
+        <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+          <div class="form-body">
+              <div class="col-md-3 col-12">
+                <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                <fieldset class="form-group">
+                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname" (change)="getServiceslist('a')">
+                        <option value="">Select</option>
+                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                      <div *ngIf="f['wsname'].errors['required']">WorkStream Required</div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-3 col-12">
+              <h6>Service <span class="mandatory">*</span></h6>
+              <fieldset class="form-group">
+                  <select class="form-control" id="service" name="service" formControlName="service" (change)="getBatches('a')">
+                    <option value="">Select Service</option>
+                    <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                    </option>
+                </select>
+                  <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                    <div *ngIf="f['service'].errors['required']">Service Required</div>
+                  </div>
+              </fieldset>
+
+          </div>
+
+
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div> -->
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,225 @@
+<section id="ngx-datatable-filter">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <form class="form" [formGroup]="waSearchFm"  *ngIf="!mapSearch" (ngSubmit)="onSubmit()">
+                        <div class="row contentbody">
+                            <div class="col-md-3 col-12">
+                                <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                                        (change)="getServiceslist('a')">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                        </option>
+                                    </select>
+
+                                </fieldset>
+                            </div>
+                            <div class="col-md-3 col-12">
+                                <h6>Service <span class="mandatory" style="color: red;">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="service" name="service" formControlName="service"
+                                        (change)="getBatches('a')">
+                                        <option value="">Select Service</option>
+                                        <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                        </option>
+                                    </select>
+
+                                </fieldset>
+
+                            </div>
+                            <div class="col-md-3 col-12">
+                                <h6>Sub Service <span class="mandatory" style="color: red;">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="state" name="state" formControlName="state">
+                                        <option value="">Select Sub Service</option>
+                                        <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                        </option>
+                                    </select>
+
+                                </fieldset>
+                            </div>
+                            <div class="col-md-3 col-12">
+                              <h6>Map Type <span class="mandatory" style="color: red;">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="mtype" name="mtype" formControlName="mtype">
+                                      <option value="">Select Map Type</option>
+                                      <option value="BAU">BAU</option>
+                                      <option value="BU">BU</option>
+                                  </select>
+
+                              </fieldset>
+                          </div>
+                            <div class="col-md-4 col-12">
+                              <h6>Type <span class="mandatory" style="color: red">*</span></h6>
+                              <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block mr-2" *ngFor="let x of recordType; let ind=index;">
+                                  <div class="radio">
+                                    <input type="radio" name="stype" value="{{x.rtype}}" id="radio1_{{ind}}"
+                                      (change)="typeChange(x.rtype)" class="form-control" formControlName="stype">
+                                    <label for="radio1_{{ind}}">{{x.rtype}}</label>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+
+                            <div class="col-md-7 col-12 float-right">
+                              <h6>&nbsp;&nbsp;</h6>
+                            <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" [disabled]="waSearchFm.invalid">Search</button>
+                          </div>
+                            <div class="col-md-1 col-12">
+                              <h6>&nbsp;&nbsp;</h6>
+                              <button type="submit" class="btn btn-sm btn-dark" (click)="mapsearchGrid()">Maps</button>
+                            </div>
+
+
+                            <hr class="w-100">
+                        </div>
+                    </form>
+
+                    <div class="row contentbody" [ngbCollapse]="isCollapsed"  *ngIf="mapSearch">
+                      <div class="col-md-3 col-12">
+                        <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="wstream" name="wstream" [(ngModel)]="wstream"
+                                (change)="getServiceslist('a')">
+                                <option value="">Select</option>
+                                <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                </option>
+                            </select>
+
+                        </fieldset>
+                    </div>
+                      <div class="col-md-6 col-12" >
+                        <h6 class="content-sub-header mb-1">Search By Map <span class="mandatory" style="color: red;">*</span></h6>
+                        <div class="input-group">
+                           <input type="text" placeholder="Search by Map..." class="form-control" id="mapsearchvar" name="mapsearchvar" [(ngModel)]="mapsearchvar">
+                          </div>
+                      </div>
+
+                      <div class="col-md-1 col-12 float-right" *ngIf="mapSearch">
+                        <h6>&nbsp;&nbsp;</h6>
+                        <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" (click)="searchByMap()">Search</button>
+                      </div>
+                          <div class="col-md-2 col-12" *ngIf="mapSearch">
+                            <h6>&nbsp;&nbsp;</h6>
+
+                            <button type="submit" class="btn btn-sm btn-dark" (click)="mapsearchGrid()">Common Search</button>
+
+                          </div>
+
+                          <hr class="w-100">
+                  </div>
+
+
+                <div class="row contentbody">
+                  <div class="table-responsive"  style="font-size: 11px !important;font-weight: 600;" *ngIf="searchForm && mapsCount.length > 0">
+                      <table class="table m-0">
+                          <thead class="thead-dark">
+                              <tr>
+                                  <th>Workstream</th>
+                                  <th>Service</th>
+                                  <th>Sub Service</th>
+                                  <th>Steps</th>
+                                  <th>No.of Maps</th>
+                                  <th>Units</th>
+                                  <th>Options</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let C of mapsCount">
+                                  <td>{{C.wname}}</td>
+                                  <td>{{C.service}}</td>
+                                  <td>{{C.subservice}}</td>
+                                  <td>{{C.steps}}</td>
+                                  <td>{{C.noofmaps}}</td>
+                                  <td>{{C.units}}</td>
+                                  <td>  <a href="javascript:void(0);" (click)="getMoreInfo(C,ind)">View More</a></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+
+                  <div *ngIf="!mapSearch">
+                <div class="row contentbody">
+                  <hr class="w-100">
+                
+                     <div *ngIf="dataResponse.length > 0" class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;" >
+                    <table class="table m-0" id="excel-table">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th>S.No</th>
+                            <th>Workstream</th>
+                            <th>Service</th>
+                            <th>Sub Service</th>
+                            <th>Map</th>
+                            <th>Map Type</th>
+                            <th>Received Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let x of dataResponse; let ind=index">
+                            <td>{{ind+1}}</td>
+                            <td>{{x.w_name}}</td>
+                            <td>{{x.service_name}}</td>
+                            <td>{{x.batch_name}}</td>
+                            <td><a href="javascript:void(0)" (click)="openMapSearchMoreInfo(x,ind)">{{x.map}}</a></td>
+                            <td>{{x.map_type}}</td>
+                            <td>{{x.inst_date | date : 'YYYY-MM-dd'}}</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+             
+              <div class="nodatamsg" *ngIf="searchForm && mapsCount.length == 0" >
+                No Data Available.!
+            </div>
+          </div>
+          </div>
+
+          <div *ngIf ="mapSearch" >
+            <div class="row contentbody">
+            <hr class="w-100">
+            <div *ngIf="dataResponse.length > 0" class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;" >
+              <table class="table m-0" id="excel-table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>S.No</th>
+                      <th>Workstream</th>
+                      <th>Service</th>
+                      <th>Sub Service</th>
+                      <th>Map</th>
+                      <th>Map Type</th>
+                      <th>Received Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let x of dataResponse; let ind=index">
+                      <td>{{ind+1}}</td>
+                      <td>{{x.w_name}}</td>
+                      <td>{{x.service_name}}</td>
+                      <td>{{x.batch_name}}</td>
+                      <td><a href="javascript:void(0)" (click)="openMapMoreInfo(x,ind)">{{x.map}}</a></td>
+                      <td>{{x.map_type}}</td>
+                      <td>{{x.inst_date | date : 'YYYY-MM-dd'}}</td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        <div class="nodatamsg" *ngIf="searchForm && mapsCount.length == 0" >
+          No Data Available.!
+      </div>
+    </div>
+
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+</section>

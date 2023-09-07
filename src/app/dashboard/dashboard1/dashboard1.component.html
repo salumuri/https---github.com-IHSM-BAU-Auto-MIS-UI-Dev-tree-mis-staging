@@ -1,0 +1,195 @@
+ <!-- Minimal statistics section start -->
+ <section id="minimal-statistics">
+  <div class="row">
+      <div class="col-12">
+          <div class="content-header">Manager Module</div>
+          <p class="content-sub-header mb-1">Statistics</p>
+
+      </div>
+  </div>
+
+  <div class="row match-height">
+  <div class="row col-xl-9">
+      <div class="col-xl-4 col-lg-6 col-12">
+          <div class="card">
+              <div class="card-content">
+                  <div class="card-body">
+                      <div class="media">
+                          <div class="media-body text-left">
+                            <!-- <h3 class="mb-1 danger">$</h3>                        -->
+                            <span class="danger"><b>Time Spent</b></span>
+                          </div>
+                          <div class="media-right align-self-center">
+                            <p>{{timeSpent}} Hrs</p>
+                              <!-- <i class="ft-target danger font-large-2 float-right"></i> -->
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+          <div class="card">
+              <div class="card-content">
+                  <div class="card-body">
+                      <div class="media">
+                          <div class="media-body text-left">
+                              <h3 class="mb-1 success">$</h3>
+                              <span>Current Achievements</span>
+                          </div>
+                          <div class="media-right align-self-center">
+                              <i class="ft-award success font-large-2 float-right"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+          <div class="card">
+              <div class="card-content">
+                  <div class="card-body">
+                      <div class="media">
+                          <div class="media-body text-left">
+                              <h3 class="mb-1 warning">64.89 %</h3>
+                              <span>Completed Units</span>
+                          </div>
+                          <div class="media-right align-self-center">
+                              <i class="ft-pie-chart warning font-large-2 float-right"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+    <div class="col-xl-4 col-lg-6 col-12">
+      <div class="card">
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media">
+                      <div class="media-body text-left">
+                          <h3 class="mb-1 primary">423</h3>
+                          <span>RealTime Utilization</span>
+                      </div>
+                      <div class="media-right align-self-center">
+                          <i class="ft-repeat primary font-large-2 float-right"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="media-body text-left">
+                            <h3 class="mb-1 primary">423</h3>
+                            <span>Associate Perfomance</span>
+                        </div>
+                        <div class="media-right align-self-center">
+                            <i class="ft-trending-up primary font-large-2 float-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-12">
+      <div class="card">
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media">
+                      <div class="media-body text-left">
+                          <h3 class="mb-1 primary">423</h3>
+                          <span>User wise Quality</span>
+                      </div>
+                      <div class="media-right align-self-center">
+                          <i class="ft-user primary font-large-2 float-right"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <div class="col-xl-4 col-lg-6 col-12">
+      <div class="card">
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media">
+                      <div class="media-body text-left">
+                          <h3 class="mb-1 primary">423</h3>
+                          <span>Service State, Trends</span>
+                      </div>
+                      <div class="media-right align-self-center">
+                          <i class="ft-user success font-large-2 float-right"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-6 col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h3 class="mb-1 primary">423</h3>
+                        <span>Service State, Trends</span>
+                    </div>
+                    <div class="media-right align-self-center">
+                        <i class="ft-x-square danger font-large-2 float-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  </div>
+
+  <div lass="col-xl-3">
+
+    <div class="col-xl-12 col-lg-6">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title mb-0">Frequently Used Links </h4>
+          </div>
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media pt-0 pb-2" *ngFor="let x of getSortedArray(frequentUrls); let ind = index">
+                     <div class="media-body" *ngIf="ind < 6">
+                         <a (click)="redirectUrl(x.url)"><h4 class="font-medium-1 mb-0">{{getProperUrl(x.url)}}</h4></a>
+                          <!-- <p class="grey font-small-3 m-0">Bulk Upload Maps</p> -->
+                      </div>
+                  </div>
+                  <!-- <div class="media py-2">
+                      <div class="media-body">
+                          <a><h4 class="font-medium-1 mb-0">User Reports</h4></a>
+                          <p class="grey font-small-3 m-0">User wise reports</p>
+                      </div>
+                  </div>
+                  <div class="media py-2">
+                     <div class="media-body">
+                          <a><h4 class="font-medium-1 mb-0">Work Allotment</h4></a>
+                          <p class="grey font-small-3 m-0">Allot work to users</p>
+                      </div>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+  </div>
+</section>
+<!-- // Minimal statistics section end -->

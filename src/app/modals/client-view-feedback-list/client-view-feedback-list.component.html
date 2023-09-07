@@ -1,0 +1,77 @@
+<div class="modal-header">
+    <!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner> -->
+    <h5 class="modal-title" style="text-align: center;"><b>Feedback Details (YYYY-MMM-DD)</b></h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;"  *ngIf="selectedRow!=''">
+
+        <table class="table m-0 custmTbl">
+
+            <tbody class="tbody-light">
+                <tr>
+                    <th class="thtextalign"><b>Feedback Type :</b></th>
+                    <td> {{selectedRow.feedbacktype}} </td>
+
+                    <th class="thtextalign"><b>Service :</b></th>
+                    <td> {{selectedRow.services}}  </td>
+
+                    <th class="thtextalign"><b>Given Date :</b></th>
+                    <td> {{selectedRow.givenDate | date : 'YYYY-MMM-dd'}} </td>
+                </tr>
+            </tbody>
+            <tbody class="tbody-light">
+                <tr>
+
+                    <th class="thtextalign"><b>Duration To :</b></th>
+                    <td> {{selectedRow.todate | date : 'YYYY-MMM-dd'}} </td>
+
+                    <th class="thtextalign"><b>Workstream :</b></th>
+                    <td> {{selectedRow.w_name}} </td>
+
+                    <th class="thtextalign"><b>Given By :</b></th>
+                    <td> {{selectedRow.givenbyname}} </td>
+                </tr>
+            </tbody>
+            <tbody class="tbody-light">
+                <tr>
+
+                    <th class="thtextalign"><b>Duration From :</b></th>
+                    <td> 	{{selectedRow.fromDate | date : 'YYYY-MMM-dd'}} </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <hr class="w-100">
+        <div  *ngIf="selectedRow!=''" class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;" >
+            <table class="table m-0" id="excel-table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>S.No</th>
+                    <th>Description</th>
+                    <th>Weightage</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                    <th>Definition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let x of respData; let ind=index">
+                    <td>{{ind+1}}</td>
+                    <td>{{x.feedbackparameter}}</td>
+                    <td>{{x.weightage}}</td>
+                    <td >{{(x.Rating == 0 ? '' : x.Rating)}}</td>
+                    <td>{{x.Comments}}</td>
+                    <td>{{x.parameterdef}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="nodatamsg" *ngIf="selectedRow == '' && subAction">
+              No data found.!
+            </div>
+        </div>

@@ -1,0 +1,274 @@
+<section class="checklist">
+
+  <div class="row">
+    <div class="col-12">
+      <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+      <div class="card">
+        <div class="card-content custmTbl">
+          <div class="card-body">
+            <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+            <h4 class="content-header" style="text-align: center;"><b>DailyLog Report</b></h4>
+            <hr>
+            <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+              <div class="row contentbody">
+
+                <div class="col-md-2 col-12">
+                  <h6>WorkStream <span class="mandatory" style="color: red">*</span></h6>
+                  <fieldset class="form-group">
+                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                      (change)="getServiceslist()">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                      </option>
+                    </select>
+
+                  </fieldset>
+                </div>
+                <div class="col-md-2 col-12">
+                  <h6>Region</h6>
+                  <fieldset class="form-group">
+                    <select class="form-control" id="region" name="region" formControlName="region">
+                      <option value="">Select</option>
+                      <option *ngFor="let x of walotRegions" [ngValue]="x.rid">{{x.region_name}}
+                      </option>
+                    </select>
+
+                  </fieldset>
+                </div>
+                <div class="col-md-2 col-12">
+                  <h6>Service <span class="mandatory" style="color: red">*</span></h6>
+                  <fieldset class="form-group">
+                    <select class="form-control" id="service" name="service" formControlName="service"
+                      (change)="getBatches()">
+                      <option value="">Select Service</option>
+                      <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                      </option>
+                    </select>
+                  </fieldset>
+                </div>
+                <div class="col-md-2 col-12">
+                  <h6>Sub Service</h6>
+                  <fieldset class="form-group">
+                    <select class="form-control" id="state" name="state" formControlName="state" (change)="getMaps()">
+                      <option value="">Select State</option>
+                      <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                      </option>
+                    </select>
+                  </fieldset>
+                </div>
+                <!-- <div class="col-md-4 col-12">
+                                    <h6>Maps</h6>
+                                    <fieldset class="form-group">
+                                        <select class="form-control" name="map" formControlName="map">
+                                            <option value="">Select maps</option>
+                                            <option *ngFor="let m of mapsDt" [ngValue]="m.map">{{m.map}}
+                                            </option>
+                                        </select>
+                                    </fieldset>
+                                </div> -->
+                <div class="col-md-4 col-12">
+                  <h6>Type <span class="mandatory" style="color: red">*</span></h6>
+                  <ul class="list-unstyled mb-0">
+                    <li class="d-inline-block mr-2" *ngFor="let x of recordType; let ind=index;">
+                      <div class="radio">
+                        <input type="radio" name="rtype" value="{{x.rtype}}" id="radio1_{{ind}}"
+                          (change)="typeChange(x.rtype)" class="form-control" formControlName="rtype">
+                        <label for="radio1_{{ind}}">{{x.rtype}}</label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-2 col-12" *ngIf="received">
+                  <h6>Received From <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="receivedfrmdt"
+                        formControlName="receivedfrmdt" ngbDatepicker #d2="ngbDatepicker"
+                        (change)="dateInputFun('receivedfrom')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d2.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12 pull-right" *ngIf="received">
+                  <h6>To <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group pull-right">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="receivedtodt"
+                        formControlName="receivedtodt" ngbDatepicker #d3="ngbDatepicker"
+                        (change)="dateInputFun('receivedto')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d3.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12" *ngIf="timeentry">
+                  <h6>Time Entry From <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="timeentryfrmdt"
+                        formControlName="timeentryfrmdt" ngbDatepicker #d2="ngbDatepicker"
+                        (change)="dateInputFun('timeentryfrom')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d2.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12 pull-right" *ngIf="timeentry">
+                  <h6>To <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group pull-right">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="timeentrytodt"
+                        formControlName="timeentrytodt" ngbDatepicker #d3="ngbDatepicker"
+                        (change)="dateInputFun('timeentryto')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d3.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12" *ngIf="delivered">
+                  <h6>Shipment From <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="shipmentfrmdt"
+                        formControlName="shipmentfrmdt" ngbDatepicker #d4="ngbDatepicker"
+                        (change)="dateInputFun('shipmentfrom')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d4.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12 pull-right" *ngIf="delivered">
+                  <h6>To <span class="mandatory" style="color: red">*</span></h6>
+                  <div class="form-group pull-right">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="Entry Date" name="shipmenttodt"
+                        formControlName="shipmenttodt" ngbDatepicker #d5="ngbDatepicker"
+                        (change)="dateInputFun('shipmentto')">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="d5.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-12" *ngIf="step_delivered">
+                  <h6>Step</h6>
+                  <fieldset class="form-group">
+                    <select class="form-control" id="step" name="step" formControlName="step">
+                      <option value="">Select Step</option>
+                      <option *ngFor="let w of userSteps" [ngValue]="w.step_id">{{w.step_name}}
+                      </option>
+                    </select>
+                  </fieldset>
+                </div>
+                <div class="col-md-2 float-right" style="text-align: right;">
+                  <h6>&nbsp;&nbsp;</h6>
+                  <div class="form-group pull-right">
+                    <button *ngIf="waSearchFm.get('rtype').value == 'Delivered'" type="submit"
+                      class="btn btn-sm btn-primary"
+                      [disabled]="(waSearchFm.get('rtype').value == 'Delivered' && this.waSearchFm.get('shipmentfrmdt').value == '' || this.waSearchFm.get('shipmenttodt').value == '')">Search</button>
+                    <button *ngIf="waSearchFm.get('rtype').value == 'Received'" type="submit"
+                      class="btn btn-sm btn-primary"
+                      [disabled]="(waSearchFm.get('rtype').value == 'Received' && this.waSearchFm.get('receivedfrmdt').value == '' || this.waSearchFm.get('receivedtodt').value == '')">Search</button>
+                    <button *ngIf="waSearchFm.get('rtype').value == 'TimeEntry'" type="submit"
+                      class="btn btn-sm btn-primary"
+                      [disabled]="(waSearchFm.get('rtype').value == 'TimeEntry' && this.waSearchFm.get('timeentryfrmdt').value == '' || this.waSearchFm.get('timeentrytodt').value == '')">Search</button>
+                    <button *ngIf="waSearchFm.get('rtype').value == 'Pending'" type="submit"
+                      class="btn btn-sm btn-primary">Search</button>
+                  </div>
+                </div>
+
+                <div class="col-md-6 float-right" style="text-align: right;">
+                  <div class="pull-right" *ngIf="reportData.length > 0">
+                    <h6><b>Excel Export</b></h6>
+                    <div class="col-md-8">
+                      <button type="submit" class="btn btn-sm btn-ligth float-right" style="width: 30px;"
+                        (click)="exportexcel()">
+                        <i class="fa fa-file-excel-o"
+                          style="font-size:30px;color:rgb(75, 165, 75);margin-right: 30px;"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+            <hr class="w-100">
+            <div class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;"
+              *ngIf="reportData.length > 0">
+              <table class="table m-0" id="excel-table">
+                <thead class="thead-dark">
+                <tr>
+                <th>Workstream</th>
+                <th>Service</th>
+                <th>Batch</th>
+                <th>Step</th>
+                <th>Record</th>
+                <th>Record Type</th>
+                <th>Time Spent</th>
+                <th>Entities</th>
+                <th>Runs</th>
+                <th>Folder Name</th>
+                <th>Status</th>
+                <th>Acceptance</th>
+                <th>Associate</th>
+                <th>Manager</th>
+                <th>Remarks</th>
+                <th>Rec Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of reportData; let ind = index">
+                    <td>{{item.w_name}}</td>
+                    <td>{{item.service_name}}</td>
+                    <td>{{item.batch_name}}</td>
+                    <td>{{item.step_name}}</td>
+                    <td>{{item.map}}</td>
+                    <td>{{item.map_type}}</td>
+                    <!-- <td>{{x['time_spent']}}</td> -->
+                    <!-- <div *ngIF=""> -->
+                    <td *ngIf="!item.editabletime" (dblclick)='changeToTime(ind,item)' >{{item?.time_spent}}</td>
+                      <td *ngIf="item.editabletime">
+                       <input (focusout)="updateTime(ind,item)" style="width: 50px !important;" type="number" name="time_spent" [(ngModel)]="item.time_spent"/>
+                         </td>
+                        <!-- </div> -->
+                    <td>{{item.entities}}</td>
+                    <td>{{item.runs}}</td>
+                    <td>{{item.folder_name}}</td>
+                    <td>{{item.status}}</td>
+                    <td>{{item.acceptance}}</td>
+                    <td>{{item.emp_name}}</td>
+                    <td>{{item.gl_name}}</td>
+                    <td>{{item.remarks}}</td>
+                    <td>{{item.date | date : 'yyyy-MM-dd'}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div *ngIf="reportData == 0 && frmSubmit" class="nodatamsg">
+              No Data Found..!
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

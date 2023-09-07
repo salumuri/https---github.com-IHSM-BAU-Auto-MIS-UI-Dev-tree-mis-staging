@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-12">
+        <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+        <div class="card">
+            <div>
+                <div class="col-md-12 col-12" style="padding-top: 1ch;">
+                    <h5 style="color:rgb(232, 50, 50) ;">QC Feed Back Form - UR-029-QCFR
+
+                      <a [href]="QualityFeedbackReport" class="float-right">
+                        Sample <i class="fa fa-file-excel-o" style="font-size:30px;color:green;margin-right: 30px;"></i>
+                      </a>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row contentbody">
+                        <div class="col-md-4 col-12">
+                            <fieldset class="form-group">
+                                <label for="inputGroupFile01"> &nbsp;</label>
+                                <div class="custom-file">
+                                    <input type="file" #csvReader name="Upload CSV" multiple id="jsonFile"
+                                        accept=".xlsx" id="txtFileUpload" accept=".xlsx" class="custom-file-input"
+                                        (change)="onFileChangeBlkUp($event)">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose External
+                                        Report</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-2 col-12">
+                            <h6>&nbsp;</h6>
+                            <fieldset class="form-group">
+                                <button class="btn btn-sm btn-primary" (click)="saveBulkData()">Upload</button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive" *ngIf="tableshow == true">
+    <!-- style="font-size: 11px !important;font-weight: 600;" -->
+    <h6>Not Imported Records....</h6>
+    <table class="table m-0 table-bordered" id="excel-table" >
+        <thead class="thead-dark" >
+        <th>Workstream</th>
+        <th>Region</th>
+         <th>Service</th>
+         <th>Sub Service</th>
+         <th>Record</th>
+         <th>Record Type</th>
+        </thead>
+        <tbody>
+           <tr *ngFor="let x of exceldata">
+                <td>{{x.workstream}}</td>
+                <td>{{x.region}}</td>
+                <td>{{x.service}}</td>
+                <td>{{x.subservice}}</td>
+                <td>{{x.map}}</td>
+                <td>{{x.maptype}}</td>
+           </tr>
+        </tbody>
+    </table>
+</div>
+<!-- <div class="nodatamsg" *ngIf="currentdata == 0">
+    No Data Found..!
+</div>  -->
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"
+        (click)="closeModal('close')">Close</button>
+</div>

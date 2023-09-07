@@ -1,0 +1,111 @@
+<div class="modal-header">
+  <!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner> -->
+  <h5 class="modal-title">Feedback</h5>
+  <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="table-responsive" style="font-size: 11px !important;font-weight: 840;text-align: center;">
+      <table class="table m-0 custmTbl">
+              <thead class="thead-dark">
+                  <tr>
+                      <th class="thtextalign">Work stream</th>
+                      <th class="thtextalign">Service</th>
+                      <th class="thtextalign">State</th>
+                      <th class="thtextalign">Map</th>
+                      <!-- <th class="thtextalign">Att Wtg</th> -->
+                      <th class="thtextalign">Actual Wtg</th>
+                      <!-- <th class="thtextalign">Qualtiy %</th>
+                      <th class="thtextalign">Status</th> -->
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td> {{selectedRow['w_name']}} </td>
+                      <td> {{selectedRow['service_name']}}  </td>
+                      <td> {{selectedRow['batch_name']}}  </td>
+                      <td> {{selectedRow['map_name']}}  </td>
+                      <!-- <td> {{selectedRow['attrWtg']}} </td> -->
+                      <!-- <td> {{actualWtg}}%</td>
+                      <td> {{qualityPer}} %</td> -->
+                      <td>
+
+                          <button *ngIf="selectedRow.acceptance == 'Accepted'" type="button" style='font-size: 10px !important;' class="btn btn-sm btn-success" data-dismiss="modal">Accepted</button>
+                          <button *ngIf="selectedRow.acceptance == 'Rejected'" type="button" style='font-size: 10px !important;' class="btn btn-sm btn-danger" data-dismiss="modal">Rejected</button>
+                      </td>
+                  </tr>
+              </tbody>
+      </table>
+
+
+      <div style="text-align: right !important;">
+          <!-- <button type="button" class="btn btn-sm btn-secondary float-right" style="margin:10px; font-size: 8px !important;" (click)="addErrors()">Add</button> -->
+      </div>
+      <table class="table m-0 custmTbl">
+
+          <thead class="thead-dark">
+              <tr>
+                  <th class="thtextalign">Screen/Part</th>
+                  <th class="thtextalign">Type Range</th>
+                  <th class="thtextalign">Error Desp</th>
+                  <th class="thtextalign">Wtg</th>
+                  <th class="thtextalign">ActError</th>
+              </tr>
+          </thead>
+          <tbody *ngIf="listOfErrors?.length > 0">
+                <tr *ngFor="let item of listOfErrors;let ind = index">
+                  <td> {{item.partScreen}} </td>
+                  <td> {{item.Typeofrange}}  </td>
+                  <td> {{item.errorDesc}}  </td>
+                  <td> {{item.weightage}}  </td>
+                  <td> {{item.act_errors}} </td>
+              </tr>
+          </tbody>
+
+      </table>
+
+      <div *ngIf="listOfErrors?.length == 0 && !serviceChk" class="nodatamsg">
+        No Data Found..!
+    </div>
+    <hr>
+  </div>
+</div>
+
+
+  <div class="mb-4">
+  <form name="feedbackTime">
+
+
+      <div class="row col-12">
+
+          <div class="col-md-4" *ngIf="selectedRow?.acceptance == 'Rejected'">
+                <h6 class="content-sub-header mb-1" style="text-align: left !important;">Select Shift <span class="mandatory" style="color: red">*</span></h6>
+                <select class="form-control" id="gshift" name="gshift" [(ngModel)]="sltshift" placeholder="Select Shift" required>
+                    <option value="">Select Shift</option>
+                    <option value="WFH">WFH</option>
+                    <option value="G">G</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+          </div>
+
+        <div class="col-md-4" *ngIf="selectedRow.acceptance == 'Rejected'">
+            <h6 class="content-sub-header mb-1" style="text-align: left !important;">Enter Time <span class="mandatory" style="color: red">*</span></h6>
+            <input class="form-control"  type="text" [(ngModel)]="timeentry" name="timeentry" placeholder="Enter Time" value="timeentry" required>
+      </div>
+
+      <div class="col-md-4 float-right" style="text-align: right;" >
+        <h6 class="content-sub-header mb-1" style="text-align: left !important;">&nbsp;</h6>
+     <button type="button" style='font-size: 10px !important;' class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
+   &nbsp; <button *ngIf="userTyp == 'User' && selectedRow.acceptance == 'Rejected'" type="submit" [disabled]="listOfErrors.length == 0 || timeentry == ''" style='font-size: 10px !important;' class="btn btn-sm btn-primary" (click)="closeModal('save')">Checked</button>
+   <button *ngIf="userTyp == 'User' && selectedRow.acceptance == 'Accepted'"  type="submit"  style='font-size: 10px !important;' class="btn btn-sm btn-primary" (click)="closeModal('save')">Checked</button>
+    </div>
+    </div>
+
+
+   </form>
+
+
+</div>

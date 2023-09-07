@@ -1,0 +1,117 @@
+<!-- <section id="time-entry">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+  <div class="row" *ngIf="feedbackErrorlist.length > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content custmTbl">
+                <div class="card-body">
+                  <h4 class="content-header" style="text-align: center;">User Feedback Error List</h4>
+                  <br>
+                  <table class="table m-0 custmTbl">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Employee</th>
+                        <th>Workstream</th>
+                        <th style="width:100px">Service</th>
+                        <th>Sub Service</th>
+                        <th>Record</th>
+                        <th style="width:200px">Date</th>
+                        <th style="width:200px">QC Per</th>
+                        <th>Acceptance</th>
+                        <th>Feedback Type</th>
+                        <th>Status</th>
+                        <th>Option</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let x of feedbackErrorlist; let ind = index">
+                        <td>{{x['feedbackTo_CorpID']}}</td>
+                        <td>{{x['w_name']}}</td>
+                        <td>{{x['service_name']}}</td>
+                        <td>{{x['batch_name']}}</td>
+                        <td>{{x['map_name']}}</td>
+                        <td>{{x.date | date : 'yyyy-MM-dd'}}</td>
+                        <td>{{x.qual_per}} %</td>
+                        <td>{{x['acceptance']}}</td>
+                        <td><span class="color-red" *ngIf="x.feedback_type == 'External'">{{x.feedback_type}}</span>
+                          <span class="color-green"  *ngIf="x.feedback_type == 'Internal'">{{x.feedback_type}}</span></td>
+                          <td><span class="color-red" *ngIf="x.check_status == 'False'">{{x.check_status}}</span>
+                            <span class="color-green"  *ngIf="x.check_status == 'True'">{{x.check_status}}</span></td>
+                        <td><button type="submit" class="btn btn-sm btn-secondary float-right" style="font-size: 8px !important;" (click)="openFeedbackErrorsModal(x,ind)">View More</button></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="feedbackErrorlist.length == 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content custmTbl">
+                <div class="card-body">
+                  <h3 class="warningerror">No Data..!</h3>
+                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+  </section> 
+
+
+   -->
+
+
+   
+<section id="ngx-datatable-filter">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+                    <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+                    <h4 class="content-header" style="text-align: center;">User Feedback Error List</h4>
+                    <hr>
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref">Search:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Filter the Name column..." (keyup)="filterUpdate($event)" />
+              </label>
+            </fieldset>
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true">
+              <ngx-datatable-column name="Employee" prop="feedbackTo_CorpID" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Workstream" prop="w_name" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Service" prop="service_name" [width]="200"></ngx-datatable-column>
+              <ngx-datatable-column name="Sub Service" prop="batch_name" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Record" prop="map_name" [width]="250"></ngx-datatable-column>
+              <ngx-datatable-column name="Date" prop="date" [width]="200"></ngx-datatable-column>
+              <ngx-datatable-column name="QC Per" prop="qual_per" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Acceptance" prop="acceptance" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Feedback Type" prop="feedback_type" [width]="150"></ngx-datatable-column>
+              <ngx-datatable-column name="Status" prop="check_status" [width]="40">
+                <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                  <div style="cursor: pointer;" class="badge" [ngClass]="{
+                      'bg-light-success': (status == 'True' ? 'Active' : ''),
+                      'bg-light-danger': (status == 'False' ? 'In Active' : '')
+                    }">
+                    {{ status }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Options" [width]="40">
+                <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                  <button type="submit" class="btn btn-sm btn-secondary float-right" style="font-size: 8px !important;" (click)="openFeedbackErrorsModal(x,ind)">View More</button>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

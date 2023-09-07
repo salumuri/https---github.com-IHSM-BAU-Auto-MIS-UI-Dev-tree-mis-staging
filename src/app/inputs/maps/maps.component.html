@@ -1,0 +1,121 @@
+<!-- Basic Select starts -->
+<section id="bootstrap-select">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="border-bottom: 1px solid #c3bebe;">
+                    <!-- <h4><b>Add Maps</b></h4> -->
+                    <div class="content-header">Add Maps</div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <fieldset class="form-group">
+                                    <label for="inputGroupFile01"> &nbsp;</label>
+                                    <div class="custom-file">
+                                        <input type="file" #csvReader name="Upload CSV" multiple id="jsonFile" accept=".xlsx" id="txtFileUpload" (change)="onFileChangeBlkUp($event)"
+                                        accept=".xlsx" class="custom-file-input">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+
+                            <!-- <div class="col-md-4 col-12">
+                                <h6><b>WorkStream </b></h6>
+                                <div class="form-group">
+                                    <select name="project" class="form-control textboxsize" [(ngModel)]="project"
+                                        class="form-control" (change)="processChange()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let w of workstreamData" [ngValue]="w.w_name">{{w.w_name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <h6><b>Month-Year </b></h6>
+                                <div class="input-group">
+                                    <select name="project" class="form-control textboxsize" [(ngModel)]="mAndYear">
+                                        <option *ngFor="let item of monthAndYear" [ngValue]="item.mAndY">{{item.mAndY}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div> -->
+                            <div class="col-md-8 col-12" style="text-align: right;">
+                                <h6 class="content-sub-header mb-1">Sample Excel</h6>
+                                <div class="pull-right">
+                                    <a [href]="mapExcel">
+                                      <i class="fa fa-file-excel-o" style="font-size:30px;color:green;margin-right: 30px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4 col-12">
+                                <div class="mt-2">
+                                    <input type="file" class="mt-2" [disabled]="uploadfile" #csvReader
+                                        name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)"
+                                        accept=".csv">
+                                </div>
+                            </div> -->
+
+
+                            <hr class="w-100">
+
+                            <div class="w-100 exceldata" *ngIf="IsShowTbl && curreentdata.length > 0">
+                                <div class="d-flex mt-2 mb-2 justify-content-between">
+                                    <div>Total Count : <label class="badge badge-warning">{{records.length}}</label></div>
+                                    <div>
+                                        <button type="submit" class="btn btn-sm btn-primary float-right"  (click)="saveBulkData()">Dump to Database</button>
+                                        <!-- <input type="button" class="btnsave ml-3" value="Dump to Database"
+                                            style="width: auto;" (click)="saveBulkData()">-->
+
+                                        </div>
+                                </div>
+                                <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+                                    <table class="table m-0">
+                                      <thead class="thead-dark">
+                                        <tr style="color:White;background-color:#74AFB5;font-weight:bold;">
+                                            <th>Workstream</th>
+                                            <th>Region</th>
+                                            <th>Service</th>
+                                            <th>Sub Service</th>
+                                            <th>Record</th>
+                                            <th>Record Type</th>
+                                            <th>Units</th>
+                                            <th style="min-width: 150px;">Received Date</th>
+                                            <th>Folder Name</th>
+                                            <th>TL Name</th>
+                                            <th>Runs</th>
+                                            <th>Complexity</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let item of curreentdata">
+                                            <td>{{item['workstream']}}</td>
+                                            <td>{{item['region']}}</td>
+                                            <td>{{item['service']}}</td>
+                                            <td>{{item['batch']}}</td>
+                                            <td>{{item['map']}}</td>
+                                            <td>{{item['map_type']}}</td>
+                                            <td>{{item['units']}}</td>
+                                            <td style="min-width: 150px;">{{item['inst_date'] | date : 'yyyy-MM-dd'}}</td>
+                                            <td>{{item['folder_name']}}</td>
+                                            <td>{{item['task_manager']}}</td>
+                                            <td>{{item['runs']}}</td>
+                                            <td>{{item['complexity']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- <pagination-controls (pageChange)="pageChangeEvents($event)"></pagination-controls> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- Basic Select ends -->

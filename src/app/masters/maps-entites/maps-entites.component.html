@@ -1,0 +1,76 @@
+<section id="ngx-datatable-filter">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" style="text-align:center"><b>Maps
+                        </b></h4>
+                    <hr>
+                </div>
+                <div class="col-12">
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="frmSubmit()">
+                      <div class="row contentbody">
+                        <div class="col-md-3 col-12">
+                          <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                          <fieldset class="form-group">
+                            <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                              (change)="getServiceslist('a')">
+                              <option value="">Select</option>
+                              <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                              </option>
+                            </select>
+                          </fieldset>
+                        </div>
+                        <div class="col-md-3 col-12">
+                          <h6>Service <span class="mandatory" style="color: red;">*</span></h6>
+                          <fieldset class="form-group">
+                            <select class="form-control" id="service" name="service" formControlName="service"
+                              (change)="getBatches('a')">
+                              <option value="">Select Service</option>
+                              <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                              </option>
+                            </select>
+                          </fieldset>
+    
+                        </div>
+                        <div class="col-md-3 col-12">
+                          <h6>Sub Service</h6>
+                          <fieldset class="form-group">
+                            <select class="form-control" id="state" name="state" formControlName="state">
+                              <option value="">Select Sub Service</option>
+                              <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                              </option>
+                            </select>
+                          </fieldset>
+                        </div>
+                       
+                        <div class="col-md-10">
+                          &nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class="col-md-2 float-right" style="text-align: right;">
+                          <h6>&nbsp;&nbsp;</h6>
+                          <div class="form-group pull-right">
+                            <button type="submit" class="btn btn-sm btn-primary" style="float: right;"
+                              [disabled]="waSearchFm.invalid">Submit</button>
+                          </div>
+                        </div>
+                        <br>
+                      </div>
+                    </form>
+                  </div>
+               
+            </div>
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true">
+            <ngx-datatable-column name="Workstream" prop="w_name" [width]="50" ></ngx-datatable-column>
+            <ngx-datatable-column name="Service" prop="service_name" [width]="50"></ngx-datatable-column>
+            <ngx-datatable-column name="Sub Service" prop="batch_name" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Map" prop="map" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Entities" prop="entities" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Current Step" prop="step_name" [width]="40">
+             
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+    </div>
+</section>

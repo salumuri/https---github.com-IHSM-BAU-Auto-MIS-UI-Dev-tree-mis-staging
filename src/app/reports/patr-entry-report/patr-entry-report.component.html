@@ -1,0 +1,77 @@
+
+<section class="checklist">
+  <div class="row">
+    <div class="col-12">
+        <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">PATR Screen</h4>
+          </div>
+            <div class="card-content custmTbl">
+                <div class="card-body">
+
+                  <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+                    <table class="table m-0 custmTbl table-bordered">
+
+                        <thead class="thead-light ">
+                            <tr>
+                                <th colspan="3" class="thtextalign" style="border:1px solid lightgray; text-align: center !important;">UR- 041- PATR</th>
+                                <th colspan="3" class="thtextalign" style="border:1px solid lightgray; text-align: center !important;">Person(s) authorizing release of product</th>
+                                <th colspan="3" class="thtextalign" style="border:1px solid lightgray; text-align: center !important;">Version 1.0 Dated: 7th May 2014</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <hr>
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+                    <div class="row col-12">
+
+                    <div class="col-md-3 col-12">
+                      <label>Workstream : </label>
+                      <select (change)="getServiceslist()" class="form-select form-select-padding-x-sm" style="width: 100%;" aria-label=".form-select-sm example" id="wsname" name="wsname" formControlName="wsname">
+                          <option class="form-select-padding-x-sm" value="">Select Workstream</option>
+                          <option class="form-select-padding-x-sm" *ngFor="let w of workstreamData" value="{{w.wid}}">
+                              {{w.w_name}}
+                          </option>
+                      </select>
+                  </div>
+
+
+                  <div class="col-md-3 col-12">
+                    <label>Service : </label>
+                    <select class="form-select form-select-padding-x-sm" style="width: 100%;" aria-label=".form-select-sm example" id="wsname" name="wsname" formControlName="wsname">
+                        <option class="form-select-padding-x-sm" value="">Select Service</option>
+                        <option class="form-select-padding-x-sm" *ngFor="let s of walotServices" value="{{s.sid}}">
+                            {{s.service_name}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <label>Project Code : </label>
+                  CP-23-50018.9
+              </div>
+
+              <div class="col-md-3 col-12">
+                <label>Version No : </label>
+                1/20/2020 12:00:00 AM /	  Revision 1.1
+            </div>
+
+              </div>
+            </form>
+
+            <br><br>
+            <p>
+              The following associates are authorized to perform the final Quality Assurance on the data and ensure that product requirements as stated by the customer are being met and quality product is delivered to the customer.
+            </p>
+            <br><br>
+            <p>
+              * All the above persons are authorized to release the final product to the client
+            </p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</section>

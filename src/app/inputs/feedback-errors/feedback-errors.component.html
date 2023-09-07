@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner> -->
+    <h5 class="modal-title">Feedback Errors</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive" style="font-size: 11px !important;font-weight: 800;">
+        <table class="table m-0 custmTbl">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="thtextalign">Work stream</th>
+                        <th class="thtextalign">Service</th>
+                        <th class="thtextalign">State</th>
+                        <th class="thtextalign">Map</th>
+                        <th class="thtextalign">Att Wtg</th>
+                        <th class="thtextalign">Actual Wtg</th>
+                        <th class="thtextalign">Qualtiy %</th>
+                        <th class="thtextalign">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> US Wells</td>
+                        <td> Completions  </td>
+                        <td> West Virginia  </td>
+                        <td> Greeshma_Test  </td>
+                        <td> 1 </td>
+                        <td> 25 </td>
+                        <td> 99 %</td>
+                        <td>Accepted</td>
+                       
+                    </tr>
+                </tbody>
+        </table>
+
+        
+       
+</div>
+<div class="modal-footer">
+    <button type="button" style='font-size: 10px !important;' class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
+    <button type="button"  style='font-size: 10px !important;' class="btn btn-sm btn-primary" (click)="closeModal('save')">Save</button>
+</div>

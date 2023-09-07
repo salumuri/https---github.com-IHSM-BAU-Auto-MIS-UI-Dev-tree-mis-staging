@@ -1,0 +1,110 @@
+<section class="attendance">
+
+    <div class="row">
+        <div class="col-12">
+            <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">                         
+                    <h4 class="content-header" style="text-align: center;"><b>Attendance Management</b></h4>
+                    <hr>
+                        <form class="form" [formGroup]="waSearchFm"  (ngSubmit)="onSubmit()">
+                            <div class="row contentbody">
+                                <div class="col-md-2 col-12">
+                                    <h6>Date</h6>                                    
+                                    <fieldset class="form-group">
+                                        <div class="input-group">
+                                        <input class="form-control"  placeholder="Entry Date"  name="fromdt" formControlName="fromdt" ngbDatepicker
+                                          #d2="ngbDatepicker" 
+                                          [(ngModel)]="selectedDateValue"                                       
+                                          >
+                                          <div class="input-group-append">
+                                            <div class="input-group-text" (click)="d2.toggle()">
+                                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                        </div> 
+                                    </div>                                    
+                                    </fieldset> 
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <h6>WorkStream</h6>                                    
+                                    <fieldset class="form-group">
+                                        <select class="form-control" id="wname" name="wname" formControlName="wname" (change)="onChange($event)">                                           
+                                           <option value="">Select</option>                                          
+                                            <!-- <option *ngIf="workstreamData!=''" value="ALL">ALL</option> -->
+                                            <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.Workstreams}}
+                                            </option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <h6>&nbsp;&nbsp;</h6>
+                                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                                </div>                               
+                               
+                            </div>                            
+                        </form>
+                        <input id="chkbx" type="checkbox" name="chkbx"  [(ngModel)]="isChecked" (change)="toggleEditable($event)">  MIS Entered less than 9.0 hrs.
+                        
+                        <hr class="w-100">                       
+                    </div>
+                     <div class="row col-12">                        
+                        
+                        <div class="col-md-4">
+                            <h6 class="card-title m-2 text-info  text-center">MIS Entered</h6>      
+                            <table class="table" id="excel-table" >
+                                <thead >
+                                  <tr>
+                                    <th>Emp Name</th>
+                                    <th>Corp ID</th>
+                                    <th>Hrs.</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                  <tr *ngFor="let x of EnteredData | paginate: { id: 'pagination2',itemsPerPage: 10, currentPage: page1,totalItems:EnteredData.lenght }">
+                                    <!-- | paginate: { itemsPerPage: 10, currentPage: page1 }" -->
+                                    <td>{{x.Emp_Name}}</td>
+                                    <td style="color: #976ae7;" (click)="openPopup(x.Emp_Vid,x.TotalTime)">{{x.Emp_ID}}</td>                                    
+                                    <td>{{x.TotalTime}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>  
+                              <pagination-controls *ngIf="EnteredData != 0" id="pagination2" (pageChange)="page1 = $event">  </pagination-controls>                           
+                              <div *ngIf="EnteredData == 0" >                                
+                                No Data Found..!
+                            </div>
+                        </div> 
+                        
+                        <div class="col-md-4 ">                            
+                          <h6 class="card-title m-2 text-info  text-center" >MIS Not Entered</h6>                            
+                           
+                          <table class="table " id="excel-table" >
+                              <!-- table-bordered border-primary -->
+                              <thead >
+                                <tr>
+                                  <th>Emp Name</th>
+                                  <th>Corp ID</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  
+                                <tr *ngFor="let x of NotEnteredData | paginate: { id: 'pagination1',itemsPerPage: 10, currentPage: page,totalItems:NotEnteredData.lenght }">                                  
+                                  <td>{{x.Emp_Name}}</td>
+                                  <td style="color: #976ae7;" (click)="openPopup(x.Emp_Vid,'notime')">{{x.Emp_ID}}</td>
+                                  <!-- <td><a href="#" class="link-primary" (click)="openPopup($event)">{{x.Emp_ID}}</a></td> -->
+                                </tr>
+                              </tbody>
+                            </table>                            
+                            <pagination-controls *ngIf="NotEnteredData != 0" id="pagination1" (pageChange)="page = $event">  </pagination-controls>
+                            <div *ngIf="NotEnteredData == 0">                             
+                              No Data Found..!
+                          </div>
+                      </div> 
+                    </div>
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        </div>
+</section>

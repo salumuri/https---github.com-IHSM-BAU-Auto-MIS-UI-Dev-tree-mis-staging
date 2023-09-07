@@ -1,0 +1,136 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+            <div class="row m-0">
+              <!-- <img [src]="logoClient"> -->
+              <!-- <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3">
+                <
+              </div> -->
+              <!-- <p><img [src]="logoClient"></p> -->
+              <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3">
+                <!-- <img [src]="logoClient" alt="" class="img-fluid" width="400" height="230"> -->
+                <!-- <p><img [src]="logoClient"></p> -->
+                <!-- <br> -->
+                <img class=" ls-is-cached lazyloaded" loading="lazy" style="margin: 0px 80px 0px 80px;" data-src="https://cdn2.hubspot.net/hubfs/5724847/FY_19_Revamp_Assets_Website/Home/Cust_logo/Cyient-logo.png" alt="Cyient Logo" width="136" height="24" src="https://cdn2.hubspot.net/hubfs/5724847/FY_19_Revamp_Assets_Website/Home/Cust_logo/Cyient-logo.png">
+              </div>
+              <div class="col-lg-6 col-12 px-4 py-3">
+                <h4 class="mb-2 card-title text-center">Login</h4>
+                <!-- <p>Welcome back, please login to your account.</p> -->
+                <!-- <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed" (close)="isLoginFailed = false">
+                  <p class="mb-0">Login failed!</p>
+                </ngb-alert> -->
+                <div>
+                  <fieldset class="form-group" >
+                <!-- <select class="form-control" id="usertype" name="usertype" [(ngModel)]="usertype" (change)="changeUserType(usertype)">
+                  <option value="" selected>Select User Type</option>
+                  <option value="cuser">Cyient User</option>
+                  <option value="client">Client</option>
+              </select> -->
+                  <!-- <button [ngClass]="{'logtype': usertype === 'cuser'}" class="btn btn-outline-dark mr-1 mb-1"  (click)="getUserType('cuser')">Cyient</button>
+                  <button [ngClass]="{'logtype': usertype === 'client'}" class="btn btn-outline-dark mr-1 mb-1"  (click)="getUserType('client')">Client</button> -->
+
+                  <!-- <div class="custom-switch custom-switch-success custom-control-inline mb-1 mb-xl-0">
+                    <input type="checkbox" class="custom-control-input" id="custom-switch-1" checked>
+                    <label class="custom-control-label mr-1" for="custom-switch-1">
+                      <span>Cyient</span>
+                    </label>
+                  </div>
+                  <div class="custom-switch custom-switch-success custom-control-inline mb-1 mb-xl-0">
+                    <input type="checkbox" class="custom-control-input" id="custom-switch-2">
+                    <label class="custom-control-label mr-1" for="custom-switch-2">
+                      <span>Client</span>
+                    </label>
+                  </div> -->
+
+                  <!-- <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="modelRadio">
+                    <label ngbButtonLabel class="btn btn-outline-secondary" [ngClass]="{'btn-outline-success': modelRadio === 1}">
+                        <input ngbButton type="radio" [value]="1" (click)="getUserType('cuser')"> Cyient
+                    </label>
+                    <label ngbButtonLabel class="btn btn-outline-secondary" [ngClass]="{'btn-outline-success': modelRadio === 2}">
+                        <input ngbButton type="radio" [value]="2" (click)="getUserType('client')"> Client
+                    </label>
+                  </div> -->
+
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="customCheck"   (change)="chkclient($event)"  id="custom-check-1" checked="checked">
+                    <label class="custom-control-label" for="custom-check-1"><span><b>Customer</b></span></label>
+                  </div>
+
+                </fieldset>
+              </div>
+                <form class="md-float-material" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div>
+                    <input type="email" [attr.disabled]="(userTypeSelection ? true : null)" class="form-control" placeholder="User Id" formControlName="username">
+                    <span class="md-line"></span>
+                  </div>
+                  <div class="errormessage" >
+                  <small *ngIf="submitted && loginForm.controls.username.hasError('required')">
+                      User Id is Required
+                  </small>
+              </div>
+              <br>
+                  <div class="form-group">
+                      <input type="password" [attr.disabled]="(userTypeSelection ? true : null)" class="form-control" placeholder="Password"  formControlName="password">
+                      <span class="md-line"></span>
+                    <div class="errormessage" >
+                    <small *ngIf="submitted && loginForm.controls.password.hasError('required')">
+                        Password is Required
+                    </small>
+                </div>
+                  </div>
+                  <div class="d-sm-flex justify-content-between mb-3 font-small-2">
+                    <div class="remember-me mb-2 mb-sm-0">
+                      <div class="checkbox auth-checkbox">
+                        <!-- <input type="checkbox" formControlName="rememberMe" class="form-control" id="rememberMe">
+                        <label for="rememberMe"><span class="font-small-2 mb-3 font-weight-normal">Remember Me</span></label> -->
+                      </div>
+                    </div>
+                    <!-- <a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a> -->
+                  </div>
+                  <div class="d-flex justify-content-between flex-sm-row flex-column">
+                    <!-- <a [routerLink]="['/pages/register']" class="btn bg-light-primary mb-2 mb-sm-0">Register</a> -->
+                    <div class="row m-t-20">
+                      <div class="col-md-12">
+                          <input type="submit" style="float: right;" value="Sign In" [disabled]="loginForm.invalid" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                      </div>
+                    </div>
+                  </div>
+                  &nbsp;
+                 
+
+                </form>
+                <div class="d-flex justify-content-between flex-sm-row flex-column">
+                  <!-- <a [routerLink]="['/pages/register']" class="btn bg-light-primary mb-2 mb-sm-0">Register</a> -->
+                  <div class="row m-t-20">
+                    <div class="col-md-12">
+                        <!-- <input type="submit" style="float: right;" value="Sign In" [disabled]="loginForm.invalid" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"> -->
+                        <a href="javascript:void(0)"  *ngIf="disable" id="forgotPwd" name="forgotPwd" (click)="forgotClient()">Forgot Password?</a>
+                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <h6 class="mb-2 card-title text-right" style="color:rgb(46, 46, 173);font-size: 11px;">Version 100.00.400</h6>
+                <!-- <span style="color:rgb(46, 46, 173);font-size: 11px;" class="text-right">Version 100.00.200</span> -->
+                <!-- <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="text-primary m-0">Or Login With</h6>
+                  <ngx-spinner></ngx-spinner>
+                  <div class="login-options">
+                    <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
+                    <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Login Page Ends-->

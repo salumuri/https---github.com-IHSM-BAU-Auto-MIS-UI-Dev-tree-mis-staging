@@ -1,0 +1,138 @@
+<section id="ngx-datatable-filter">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="text-align: center;">
+          <!-- <li class="customeHideshow content-header" style="list-style: none;"> -->
+            <h4 class="content-header ">Workstream Users Access</h4>
+            <!-- <button ngbTooltip="Add New" type="button" class="btn btn-sm btn-outline-primary mt-2 pull-right"
+              (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+              <i [ngClass]="{'ft-minus' : !isCollapsed}"></i>
+              <i [ngClass]="{'ft-plus' : isCollapsed}"></i>
+            </button> -->
+          <!-- </li> -->
+          <hr>
+          <button *ngIf="!isCollapsed" ngbTooltip="Add New" type="button" class="btn btn-sm btn-outline-primary mt-2 pull-right"
+              (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+              <i [ngClass]="{'ft-minus' : !isCollapsed}"></i>
+              <i [ngClass]="{'ft-plus' : isCollapsed}"></i>
+            </button>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+            <div class="row" *ngIf="!isCollapsed">
+              <div class="col-12">
+                <form class="form" [formGroup]="waSearchFm" (ngSubmit)="frmSubmit()">
+                  <div class="row contentbody">
+                    <div class="col-md-3 col-12">
+                      <h6>WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                      <fieldset class="form-group">
+                        <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                          (change)="getServiceslist('a')">
+                          <option value="">Select</option>
+                          <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                          </option>
+                        </select>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <h6>Service <span class="mandatory" style="color: red;">*</span></h6>
+                      <fieldset class="form-group">
+                        <select class="form-control" id="service" name="service" formControlName="service"
+                          (change)="getBatches('a')">
+                          <option value="">Select Service</option>
+                          <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                          </option>
+                        </select>
+                      </fieldset>
+
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <h6>Sub Service <span class="mandatory" style="color: red;">*</span></h6>
+                      <fieldset class="form-group">
+                        <select class="form-control" id="state" name="state" formControlName="state">
+                          <option value="">Select Sub Service</option>
+                          <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                          </option>
+                        </select>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3">
+                      <h6>Associate Name <span class="mandatory" style="color: red;">*</span></h6>
+
+                      <fieldset class="form-group">
+
+                                <ng-select [items]="associateData" bindLabel="emp_name"
+                                        placeholder="Select Associate"
+                                        bindLabel="search_label"
+                                        bindValue="id"
+                                        [searchFn]="customSearchFn" formControlName="assocName">
+                              <!-- <ng-template ng-label-tmp let-item="item">
+                                <span >Select Associate</span>
+                            </ng-template> -->
+                            <ng-template ng-label-tmp let-item="item">
+                                <span >{{ item.emp_name + ' - (' + item.emp_id +')'}}</span>
+                            </ng-template>
+
+                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span >{{ item.emp_name +  ' - (' + item.emp_id +')'}}</span>
+                            </ng-template>
+
+                </ng-select>
+                              </fieldset>
+                  </div>
+                    <div class="col-md-10">
+                      &nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class="col-md-2 float-right" style="text-align: right;">
+                      <h6>&nbsp;&nbsp;</h6>
+                      <div class="form-group pull-right">
+                        <button type="submit" class="btn btn-sm btn-primary" style="float: right;"
+                          [disabled]="waSearchFm.invalid">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref"><b>Search:</b>
+                <input style="margin-left: 10px;" id="ngx-filter-ref"
+                  class="form-control form-control-sm d-inline-block width-200" type="text" placeholder="Filter..."
+                  (keyup)="filterUpdate($event)" />
+
+              </label>
+              <button *ngIf="isCollapsed" ngbTooltip="Add New" type="button" class="btn pb-1 btn-sm btn-outline-primary mt-2 float-right"
+              (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+              <i [ngClass]="{'ft-minus' : !isCollapsed}"></i>
+              <i [ngClass]="{'ft-plus' : isCollapsed}"></i>
+            </button>
+            </fieldset>
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true">
+              <ngx-datatable-column name="Corp ID" prop="emp_id" [width]="50" ></ngx-datatable-column>
+              <ngx-datatable-column name="Employee Name" prop="emp_name" [width]="50"></ngx-datatable-column>
+              <!-- <ngx-datatable-column name="Designation" prop="designation" [width]="50"></ngx-datatable-column> -->
+              <ngx-datatable-column name="Workstream" prop="w_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Service" prop="service_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Sub Service" prop="batch_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Status" prop="user_status" [width]="40">
+                <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                  <div style="cursor: pointer;" class="badge" [ngClass]="{
+                      'bg-light-success': (status == 'True' ? 'Active' : ''),
+                      'bg-light-danger': (status == 'False' ? 'In Active' : '')
+                    }"
+                    (click)="udpateWorkstreamUsersStatus(rows[rowIndex].id,rows[rowIndex].workstream,rows[rowIndex].service,rows[rowIndex].bid,rows[rowIndex].user_status)">
+                    {{ status }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

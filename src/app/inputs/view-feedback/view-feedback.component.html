@@ -1,0 +1,181 @@
+<section class="viewfeed">
+
+    <div class="row">
+        <div class="col-12">
+            <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+            <div class="card">
+                <div class="card-content custmTbl">
+                    <div class="card-body">
+                         <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+                    <h4 class="content-header" style="text-align: center;"><b>View Feedback Report</b></h4>
+                    <hr>
+                        <form class="form" [formGroup]="stSearchFm" (ngSubmit)="getFeedbackData()">
+                            <div class="row contentbody">
+                                <!-- <div class="col-md-2 col-12">
+                                    <h6>Feedback Type<span class="mandatory" style="color: red">*</span></h6>
+                                    <select  (change)="getInfo()"  class="form-select form-select-padding-x-sm" style="width: 100%;" aria-label=".form-select-sm example" id="ftyle" name="ftyle" formControlName="ftyle">
+                                        <option class="form-select-padding-x-sm" value="">Select Type</option>
+                                        <option class="form-select-padding-x-sm" value="CCI">CCI</option>
+                                        <option class="form-select-padding-x-sm" value="CFB">CFB</option>
+                                    </select>
+                                  </div> -->
+                                  <!-- <div class="col-md-2 col-12">
+                                    <h6 class="content-sub-header mb-1">Feedback Type<span class="mandatory" style="color: red">*</span></h6>
+                                    <fieldset class="form-group">
+                                        <select class="form-select form-select-padding-x-sm" style="width: 100%;" aria-label=".form-select-sm example" id="ftyle" name="ftyle" formControlName="ftyle">
+                                            <option class="form-select-padding-x-sm" value="">Select Type</option>
+                                            <option class="form-select-padding-x-sm" value="CCI">CCI</option>
+                                            <option class="form-select-padding-x-sm" value="CCI">CFB</option>
+                                        </select>
+                                    </fieldset>
+                                </div> -->
+                                <div class="col-md-2 col-12">
+                                    <h6>WorkStream</h6>
+                                    <fieldset class="form-group">
+                                        <select  class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                                        (change)="getFeedbackNames()">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let w of workstreamData" value="{{w.wid}}-{{w.w_name}}">
+                                                {{w.w_name}}
+                                            </option>
+                                        </select>
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-md-2 col-12">
+                                    <h6>Feedback From</h6>
+                                    <fieldset class="form-group">
+                                        <select  class="form-control" id="ffrom" name="ffrom" formControlName="ffrom"
+                                        (change)="getDuration()">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let f of fdfromnames" value="{{f.emp_no}}">
+                                                {{f.emp_name}}
+                                            </option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+
+                                <!-- <div class="col-md-2 col-12">
+                                    <h6>Feedback Duration</h6>
+                                    <fieldset class="form-group">
+                                        <select  class="form-control" id="fduration" name="fduration" formControlName="fduration">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let d of durations"  value="{{d.duration}}">
+                                                {{d.duration}}
+                                            </option>
+                                        </select>
+                                    </fieldset>
+                                </div> -->
+
+                                <div class="col-md-2 col-12">
+                                    <h6>From Date</h6>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" (ngModelChange)="dateValidate()" placeholder="Entry Date" [maxDate]="minDate"  name="fromdt" formControlName="fromdt" ngbDatepicker
+                                            #d2="ngbDatepicker">
+                                            <div class="input-group-append">
+                                            <div class="input-group-text" (click)="d2.toggle()">
+                                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+
+
+                                <div class="col-md-2 col-12">
+                                    <h6>To Date</h6>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <!-- (input)="fromDate = validateInput(fromDate, dpFromDate.value)" -->
+                                            <input class="form-control" (ngModelChange)="dateValidate()" placeholder="Entry Date" [maxDate]="minDate"  name="todt" formControlName="todt" ngbDatepicker
+                                            #d3="ngbDatepicker">
+
+                                            <div class="input-group-append">
+                                                <!-- <span   (click)="toValidate()" ></span> -->
+                                            <div class="input-group-text" (click)="d3.toggle()">
+                                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+<!--
+                                <div class="col-md-2 col-12">
+                                    <h6>To Date</h6>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="Entry Date" name="todt" formControlName="todt" ngbDatepicker
+                                            #d2="ngbDatepicker">
+                                            <div class="input-group-append">
+                                            <div class="input-group-text" (click)="d3.toggle()">
+                                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div> -->
+
+                              <div class="col-md-4">
+                                <h6>&nbsp;</h6>
+                                <div class="float-right" style="text-align: right;">
+                                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                                </div>
+                            </div>
+                          </div>
+                      </form>
+                                <hr class="w-100">
+                                <div class="col-md-6 float-right" style="text-align: right;"  *ngIf="feedbackData.length > 0">
+                                      <button type="submit" class="btn btn-sm btn-ligth float-right" style="width: 120px; text-align: right;"
+                                        (click)="exportExl('ViewFeedbackData')">Export
+                                        <i class="fa fa-file-excel-o"
+                                          style="font-size:20px;color:rgb(75, 165, 75);margin-right: 20px;"></i>
+                                      </button>
+                                 </div>
+                                <div class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;" *ngIf="feedbackData.length > 0">
+                                    <table class="table m-0" id="excel-table">
+                                        <thead class="thead-dark">
+                                          <tr>
+                                            <th>Workstream</th>
+                                            <th>Service</th>
+                                            <th>Given By</th>
+                                            <th>Given Date</th>
+                                            <th>Duration From</th>
+                                            <th>Duration To</th>
+                                            <th width="250px">Overall Comments</th>
+                                            <th>Rating</th>
+                                            <th>Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let x of feedbackData  | paginate: { itemsPerPage: 10, currentPage : p}">
+                                            <td>{{x.w_name}}</td>
+                                            <td>{{x.services}}</td>
+                                            <td>{{x.givenbyname}}</td>
+                                            <td>{{x.givenDate | date : 'YYYY-MM-dd'}}</td>
+                                            <td>{{x.fromDate | date : 'YYYY-MM-dd'}}</td>
+                                            <td>{{x.todate | date : 'YYYY-MM-dd'}}</td>
+                                            <td width="250px">{{x.overallcomment}}</td>
+                                            <td>{{x.OverallRating}}
+                                            </td>
+                                            <td>  <a href="javascript:void(0);" (click)="openFeedbackErrorsModal(x,ind)">View More</a></td>
+                                            </tr>
+                                        </tbody>
+                                      </table>
+                                      <hr class="w-100">
+                                      <div id="pagination">
+                                        <pagination-controls (pageChange)="p=$event"></pagination-controls>
+                                      </div>
+                                    </div>
+
+                                    <div class="nodatamsg" *ngIf="feedbackData.length == 0 && subAction">
+                                      No data found.!
+                                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

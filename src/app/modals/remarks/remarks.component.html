@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <h5 class="modal-title">Enter Remarks for above 9 hours Time Entry</h5>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+        <!-- <h6>Enter Remarks</h6> -->
+        <fieldset class="form-group">
+            <textarea class="form-control" id="remarks" name="remarks" [(ngModel)]="remarks" required></textarea>
+        </fieldset>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="closeModal('save')">Save</button>
+</div>

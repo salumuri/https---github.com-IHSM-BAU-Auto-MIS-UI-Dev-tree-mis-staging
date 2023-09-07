@@ -1,0 +1,42 @@
+.mandatory{
+    color: red;
+    margin-top:10px;
+  }
+
+  .custmTbl{
+    th,td{
+        padding : 0.5rem 2rem !important;
+        font-size: 0.7rem !important;
+  } 
+  }
+  .table th{
+    padding: 0.5rem 0.5rem !important;
+    text-align: center;
+  }
+  .table td{
+    padding: 0.1rem 0.1rem !important;
+    text-align: center;
+  }
+
+  .nodatamsg{
+    text-align: center;
+    color: #e3b430 !important;
+    font-size: 22px;
+}
+  .title1{  
+    color:red;
+    font-family: Verdana;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+  .title2{
+   
+    font-family: Verdana;
+    font-size: 10pt;
+    font-weight: bold;
+  
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }

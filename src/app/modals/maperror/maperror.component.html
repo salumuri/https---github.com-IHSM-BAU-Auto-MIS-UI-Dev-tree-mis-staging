@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <h1>Error List</h1>
+    <span (click)="exportAsXLSX()" style="margin: 1px;cursor: pointer;border: 1ch;"><img [src]="excel1"/>&nbsp;Ex</span>
+</div>
+<div><span style="padding: 3px;">Attribute Wise Count :{{sumerror}}</span>
+    <span style="padding: 3px;">Document wise Count :</span>{{document}}</div>
+<div class="modal-body">
+    <div class="table-responsive">
+        <!-- style="font-size: 11px !important;font-weight: 600;"  -->
+        <table class="table m-0  custmTbl table-bordered" id="excel-table" >
+            <thead class="thead-dark"> 
+                <!-- custmTbl -->
+                <tr>
+                    <th>Workstream</th>
+                    <th>Service</th>
+                    <th>Sub Service</th>
+                    <th>Record Type</th>
+                    <th>Record</th>
+                    <th>Date</th>
+                    <th>Error Number</th>
+                    <th>Error Description</th>
+                    <th>Error Count</th>
+                    <th>Feedback For Step</th>
+                    <th>Feedback To</th>
+                    <th>Feedback To Associate</th>
+                    <th>Done By</th>
+                    <th>Done By Associate</th>                    
+                    <th>Acceptance</th>
+                    <th>Qual Per</th>
+                    <th>Feedback Type</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <thead class="thead-light">
+                <tr *ngFor="let x of errorData | paginate: { id: 'pagination2',itemsPerPage: 10, currentPage: page1,totalItems:errorData.lenght }">
+                    <td>{{x.w_name}}</td>
+                    <td>{{x.service_name}}</td>
+                    <td>{{x.batch_name}}</td>
+                    <td>{{x.mapType}}</td>
+                    <td>{{x.map}}</td>
+                    <td>{{x.date | date : 'yyyy-MM-dd'}}</td>
+                    <td>{{x.errorNo}}</td>
+                    <td>{{x.errorDesc}}</td>
+                    <td>{{x.errorcount}}</td>
+                    <td>{{x.feedbackstep}}</td>
+                    <td>{{x.feedbackTo}}</td>
+                    <td>{{x.feedbcname}}</td>
+                    <td>{{x.doneBy}}</td>
+                    <td>{{x.qcdone}}</td>                    
+                    <td>{{x.acceptance}}</td>
+                    <td>{{x.qual_per}}</td>
+                    <td>{{x.feedback_type}}</td>
+                    <td>{{x.remarks}}</td>
+                </tr>
+            </thead>
+        </table>
+        <div class="clear:both"></div>
+        <pagination-controls *ngIf="errorData!= 0" id="pagination2" (pageChange)="page1 = $event">  </pagination-controls>                           
+        <div *ngIf="errorData == 0" class="nodatamsg">
+            No Data Found..!
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"
+        (click)="closeModal('close')">Close</button>
+</div>

@@ -1,0 +1,40 @@
+.thtextalign{
+  text-align: center !important;
+}
+.custmTbl{
+  th,td{
+      padding : 0.5rem 0.5rem !important;
+      font-size: 10px !important;
+  }
+}
+
+.nodatamsg{
+  text-align: center;
+  color: #e3b430 !important;
+  font-size: 22px;
+}
+
+.form-control{
+  font-size: 0.8rem !important;
+}
+
+
+.mb-1 {
+  display:block;
+}
+
+.custmbtn{
+  padding : 0.1rem 0.5rem !important;
+  font-size: 0.8rem !important;
+}
+
+.moreInfo{
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+::ng-deep .dark-modal .modal-dialog {
+  max-width: 90%;
+  width: 90%;
+}

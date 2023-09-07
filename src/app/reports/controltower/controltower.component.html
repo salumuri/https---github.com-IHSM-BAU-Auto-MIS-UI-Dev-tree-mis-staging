@@ -1,0 +1,268 @@
+<div class="row">
+    <div class="col-12">
+        <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+        <div class="card">
+            <div>
+                <div class="col-md-12 col-12" style="padding-top: 1ch;"><h4 style="color:rgb(232, 50, 50) ;">E3 Project Code :: {{this.e3Project}}</h4></div>
+
+                <div class="card-body">
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+                        <div class="row contentbody">
+                            <!-- <div class="col-md-2 col-12">
+                                <h6>Layout</h6>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-inline-block mr-2" *ngFor="let x of recordType; let ind=index;">
+                                        <div class="radio">
+                                            <input type="radio" name="rtype" value="{{x.rtype}}" id="radio1_{{ind}}"
+                                                class="form-control" formControlName="rtype"
+                                                (change)="onItemChange(x.rtype)">
+                                            <label for="radio1_{{ind}}">{{x.rtype}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div> -->
+                            <div class="col-md-2 col-12">
+                                <h6>WorkStream</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                                        (change)="getServiceslist()">
+                                        <option value="">Select Workstream</option>
+                                        <option value="12">Over All</option>
+                                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                        </option>
+                                    </select>
+
+                                </fieldset>
+                            </div>
+                            <!-- <div class="col-md-2 col-12">
+                                <h6>Service</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="service" name="service" formControlName="service"
+                                        (change)="getManagers()">
+                                        <option value="">Select Service</option>
+                                        <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>Manager</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="manager" name="manager" formControlName="manager"
+                                        (change)="getTeamLead()">
+                                        <option value="">Select Manager</option>
+                                        <option *ngFor="let x of walotManagers" [ngValue]="x.emp_id">{{x.emp_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>Team Lead</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="teamlead" name="teamlead"
+                                        formControlName="teamlead">
+                                        <option value="">Select Team Lead</option>
+                                        <option *ngFor="let x of walotTeamLeaders" [ngValue]="x.empNo">{{x.emp_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div> -->
+                            <div class="col-md-2 col-12">
+                                <h6>Financial Year</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="financeyear" name="financeyear"
+                                        formControlName="financeyear" (change)="onItemChange($event.target.value)">
+                                        <option value="0">Select Finanace</option>
+                                        <option *ngFor="let x of finance">{{x.ftype}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-2 col-12">
+                                <h6>Search</h6>
+                                <fieldset class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-primary" (click)="getControlTowerData()">Search</button>
+                                </fieldset>
+                            </div>
+<!--
+                            <div class="row-12 col-12">
+                                <div class="col-md-2 float-right" style="text-align: right;">
+                                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                                </div>
+                            </div> -->
+                        </div>
+
+                    </form>
+                    <!-- <hr class="w-100"> -->
+                    <div class="row-12 col-12" style="padding: 0px;">
+                        <table class="table m-0 custmTbl table-bordered" >
+                            <thead >
+                                <tr>
+                                    <th>Workstream</th>
+                                </tr>
+                                <tr>
+                                    <th>CT Verification Percent</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <hr class="w-100">
+                    <div class="table-responsive">
+                        <table class="table m-0 custmTbl table-bordered" id="excel-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <td colspan="17" width="10%" align="center" class="head">{{selectedWorkStream}}  ControlTower</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="17" width="10%" align="center" class="head">{{workstreamOwner}} Owner</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" width="20%" align="center" class="tdcust">Area of Focus</td>
+                                    <td colspan="4" width="10%" align="center" class="tdcust">Customer</td>
+                                    <td colspan="5" width="10%" align="center" class="tdcust">Quality & Delivery</td>
+                                    <td colspan="3" width="10%" align="center" class="tdcust">Associate</td>
+                                    <td colspan="3" width="10%" align="center" class="tdcust">Financial</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" rowspan="2"  width="20%" align="center" class="tdcust">KPI/Metric</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">CFB Score
+                                        (>=6)</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">CFB Score
+                                        (1-7)</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Escapes
+                                        (Significant)</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Escapes
+                                        (Non-Significant)</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">COPQ</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">COQ</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">FTA</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">OTD</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Projects
+                                        in
+                                        Red</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust"> &nbsp;&nbsp;Associate&nbsp;&nbsp;
+                                    Count</td>
+                                    <td colspan="1" rowspan="2" class="tdcust">Voluntary Attrition
+                                        Annualized</td>
+
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Training
+                                    Hours</td>
+                                    <td colspan="1"  rowspan="2" width="10%" align="center" class="tdcust">Utilization</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Revenue
+                                        (% Actual
+                                        Vs
+                                        Forecast)</td>
+                                    <td colspan="1" rowspan="2" width="10%" align="center" class="tdcust">Automation Saving
+                                        Hours</td>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                  <td align="center" colspan="2" class="tdcust1">UOM</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">Number</td>
+                                  <td align="center" class="tdcust1">Number</td>
+                                  <td align="center" class="tdcust1">Number</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">Number</td>
+                                  <td align="center" class="tdcust1">Number</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                  <td align="center" class="tdcust1">%</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2" class="tdcust2">Target</td>
+                                    <td align="center" class="tdcust2">100</td>
+                                    <td align="center" class="tdcust2">6</td>
+                                    <td align="center" class="tdcust2">0</td>
+                                    <td align="center" class="tdcust2">0</td>
+                                    <td align="center" class="tdcust2">1</td>
+                                    <td align="center" class="tdcust2">1</td>
+                                    <td align="center" class="tdcust2">99</td>
+                                    <td align="center" class="tdcust2">100</td>
+                                    <td align="center" class="tdcust2">0</td>
+                                    <td align="center" class="tdcust2">500</td>
+                                    <td align="center" class="tdcust2">< 18</td>
+                                    <td align="center" class="tdcust2"><= 3</td>
+                                    <td align="center" class="tdcust2">87</td>
+                                    <td align="center" class="tdcust2">100</td>
+                                    <td align="center" class="tdcust2">10</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="center" colspan="2"  class="tdcust3">Baseline</td>
+                                    <td align="center" class="tdcust3">99.65</td>
+                                    <td align="center" class="tdcust3">6.87</td>
+                                    <td align="center" class="tdcust3">0</td>
+                                    <td align="center" class="tdcust3">0</td>
+                                    <td align="center" class="tdcust3">0.07</td>
+                                    <td align="center" class="tdcust3">1</td>
+                                    <td align="center" class="tdcust3">99.98</td>
+                                    <td align="center" class="tdcust3">100</td>
+                                    <td align="center" class="tdcust3">0</td>
+                                    <td align="center" class="tdcust3">614</td>
+                                    <td align="center" class="tdcust3">5.52</td>
+                                    <td align="center" class="tdcust3">4.65</td>
+                                    <td align="center" class="tdcust3">85.45</td>
+                                    <td align="center" class="tdcust3">102.31</td>
+                                    <td align="center" class="tdcust3">10.24</td>
+                                  </tr>
+                            <tr class="tdcust3" *ngFor="let x of controTower;let ind = index">
+                                <td *ngIf="getTrue2(ind)" [attr.rowspan]="getTrue(ind)" align="center" >{{qtype}}</td>
+                                <td align="center">{{x.monthc}}</td>
+                                <td align="center">{{x.CFB_Score_no}}</td>
+                                <td align="center">{{x.CFB_Score}}</td>
+                                <td align="center">{{x.Escapes}}</td>
+                                <td align="center">4</td>
+                                <td align="center">{{x.COPQ}}</td>
+                                <td align="center">6</td>
+                                <td align="center">7</td>
+                                <td align="center">100</td>
+                                <td align="center">9</td>
+                                <td align="center">10</td>
+                                <td align="center">11</td>
+                                <td align="center">12</td>
+                                <td align="center">13</td>
+                                <td align="center">14</td>
+                                <td align="center">15</td>
+
+                            </tr>
+
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">Q1 Sum or Avg</td>
+                                <td  align="center">{{q1}}</td>
+                            </tr>
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">Q2 Sum or Avg</td>
+                            </tr >
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">Q3 Sum or Avg</td>
+                            </tr>
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">Q4 Sum or Avg</td>
+                            </tr>
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">YTD Sum or Avg</td>
+                            </tr>
+                            <tr class="tdcust3">
+                                <td colspan="2" align="center">Metric Owner</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="nodatamsg" *ngIf="controTower == 0">
+                        No Data Found..!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

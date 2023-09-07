@@ -1,0 +1,1047 @@
+<section class="users-edit">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card" >
+          <div class="card-content">
+            <div class="card-body">
+              <!-- Nav-tabs -->
+              <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left">
+                <li [ngbNavItem]="1" *ngIf="userRole != 'User'">
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('1')">
+                    <i class="ft-edit mr-1"></i>
+                    <span class="d-none d-sm-block">New Work Allotment </span>
+                  </a>
+
+                  <ng-template ngbNavContent>
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+                        <div class="row contentbody" [ngbCollapse]="isCollapsed"  *ngIf="!mapSearch">
+                            <div class="col-md-3 col-12">
+                                <h6 class="content-sub-header mb-1">Workstream <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname" (change)="getServiceslist('a')">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                                      <div *ngIf="f['wsname'].errors['required']">Workstream Required</div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <h6 class="content-sub-header mb-1">Region</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="region" name="region" formControlName="region">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let x of walotRegions" [ngValue]="x.rid">{{x.region_name}}
+                                      </option>
+                                  </select>
+                                    <div *ngIf="submitted && f['region'].errors" class="customValidation">
+                                      <div *ngIf="f['region'].errors['required']">Region Required</div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- <div class="col-md-3 col-12">
+                              <h6 class="content-sub-header mb-1">Service <span class="mandatory">*</span></h6>
+
+                              <fieldset class="form-group">
+
+                                        <ng-select [items]="walotServices" bindLabel="service_name"
+                                                placeholder="Select Service"
+                                                bindLabel="search_label"
+                                                bindValue="sid"
+                                                [searchFn]="waSearchFm" formControlName="service" (change)="getBatches('a')">
+                                      <ng-template ng-label-tmp let-item="item">
+                                        <span >Select Service</span>
+                                    </ng-template>
+                                    <ng-template ng-label-tmp let-item="item">
+                                        <span >{{ item.service_name}}</span>
+                                    </ng-template>
+
+                                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                        <span >{{ item.service_name }}</span>
+                                    </ng-template>
+
+                        </ng-select>
+                                      </fieldset>
+                          </div> -->
+
+                          <div class="col-md-3 col-12">
+                            <h6 class="content-sub-header mb-1">Service <span class="mandatory">*</span></h6>
+                            <fieldset class="form-group">
+                              <select class="form-control" id="service" name="service" formControlName="service" (change)="getBatches('a')">
+                                  <option value="">Select Service</option>
+                                  <option *ngFor="let w of walotServices" [ngValue]="w.sid">{{w.service_name}}
+                                  </option>
+                              </select>
+                                <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                                  <div *ngIf="f['service'].errors['required']">Service Required</div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                            <!-- <div class="col-md-3 col-12">
+                                <h6 class="content-sub-header mb-1">Service <span class="mandatory">*</span></h6> -->
+
+                                <!-- <fieldset class="form-group">
+                                    <select class="form-control" id="service" name="service" formControlName="service" (change)="getBatches('a')">
+                                      <option value="">Select Service</option>
+                                      <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                      </option>
+                                  </select>
+                                    <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                                      <div *ngIf="f['service'].errors['required']">Service Required</div>
+                                    </div>
+                                </fieldset> -->
+
+                            <!-- </div> -->
+
+                            <div class="col-md-3 col-12">
+                                <h6 class="content-sub-header mb-1">Sub Service <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                  <select class="form-control" id="state" name="state" formControlName="state" (change)="getReceivedDates()">
+                                      <option value="">Select Sub Service</option>
+                                      <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                      </option>
+                                  </select>
+                                    <div *ngIf="submitted && f['state'].errors" class="customValidation">
+                                      <div *ngIf="f['state'].errors['required']">State Required</div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <h6 class="content-sub-header mb-1">Received Date</h6>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                      <input  class="form-control" placeholder="Select Date" [maxDate]="minDate" 
+                                      name="recdate"  [(ngModel)] = "recdate" (change)="selectedRecvDate(recdate)" ngbDatepicker
+                                      #d2="ngbDatepicker" [ngModelOptions]="{standalone: true}">
+                                      <div class="input-group-append">
+                                      <div class="input-group-text" (click)="d2.toggle()">
+                                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                      </div>
+                                      </div>
+                                  </div> 
+                                  </div>
+                                <!-- <div class="input-group">
+                                    <select class="form-control" id="recdate" name="recdate" formControlName="recdate" (change)="selectedRecvDate()">
+                                      <option value="">Select Date</option>
+                                      <option *ngFor="let w of receivedDates" value="{{w.rdate}}">{{w.rdate}}
+                                      </option>
+                                  </select>
+                                     <div *ngIf="submitted && f['recdate'].errors" class="customValidation">
+                                      <div *ngIf="f['recdate'].errors['required']">Received Date Required</div>
+                                    </div> 
+                                  </div> -->
+                            </div>
+
+                            <div class="col-md-6 col-12" *ngIf="!modifyGrid">
+                              <h6 class="content-sub-header mb-1">Select Step <span class="mandatory">*</span></h6>
+                              <ul class="list-unstyled mb-0">
+                                  <li class="d-inline-block mr-2" *ngFor="let x of userSteps; let ind=index;">
+                                    <div class="radio">
+                                      <input type="radio"  [(ngModel)]="stepname" name="stepname" (change)="stepChange()" value="{{x.step_id}}" id="radio1_{{ind}}" class="form-control" formControlName="stepname">
+                                      <label for="radio1_{{ind}}">{{x.step_name}}</label>
+                                    </div>
+                                  </li>
+                              </ul>
+                              <div *ngIf="submitted && f['stepname'].errors" class="customValidation">
+                                <div *ngIf="f['stepname'].errors['required']">Please select atleast one Step</div>
+                              </div>
+                            </div>
+
+
+                            <div class="col-md-6 col-12" *ngIf="modifyGrid">
+                              <h6 class="content-sub-header mb-1">Select Step<span class="mandatory">*</span></h6>
+                              <ul class="list-unstyled mb-0">
+                                  <li class="d-inline-block mr-2" *ngFor="let x of userSteps2; let ind=index;">
+                                    <div class="radio">
+                                      <input type="radio"  [(ngModel)]="stepname" name="stepname" (change)="stepChange()" value="{{x.step_id}}" id="radio1_{{ind}}" class="form-control" formControlName="stepname">
+                                      <label for="radio1_{{ind}}">{{x.step_name}}</label>
+                                    </div>
+                                  </li>
+                              </ul>
+                              <div *ngIf="submitted && f['stepname'].errors" class="customValidation">
+                                <div *ngIf="f['stepname'].errors['required']">Please select atleast one Step</div>
+                              </div>
+                            </div>
+                          <!-- <div class="col-md-5 col-12" *ngIf="!modifyGrid">
+                            &nbsp;&nbsp;&nbsp;
+                          </div> -->
+
+
+                            <div class="col-md-3 col-12">
+                              <h6>&nbsp;&nbsp;</h6>
+                              <button type="submit" class="btn btn-sm btn-dark float-right" (click)="mapsearchGrid()">Maps</button>
+
+                              <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" [disabled]="waSearchFm.invalid">Search</button>
+                              <!-- <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" [disabled]="waSearchFm.invalid">Search</button> -->
+                            </div>
+
+                            <hr class="w-100">
+                        </div>
+
+                      </form>
+
+                      <div class="row contentbody" [ngbCollapse]="isCollapsed"  *ngIf="mapSearch">
+
+                          <div class="col-md-6 col-12" >
+                            <h6 class="content-sub-header mb-1">Search By Map</h6>
+                            <div class="input-group">
+                               <input type="text" placeholder="Search by Map..." class="form-control" id="mapsearchvar" name="mapsearchvar" [(ngModel)]="mapsearchvar">
+                              </div>
+                          </div>
+
+
+                              <div class="col-md-6 col-12" *ngIf="mapSearch">
+                                <h6>&nbsp;&nbsp;</h6>
+
+                                <button type="submit" class="btn btn-sm btn-dark float-right" (click)="mapsearchGrid()">Common Search</button>
+
+                                <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" (click)="searchByMaps()">Search</button>
+                              </div>
+                              <hr class="w-100">
+                      </div>
+                        <div class="row">
+
+                <div class="col-12">
+                    <!-- <div class="card-header">
+                        <h4 class="card-title">WorK Allotment List</h4>
+                      </div> -->
+                      <div class='row' >
+                        <div class="col-md-6" *ngIf="!modifyGrid">
+                            <div class="form-group row align-items-center">
+                                <div class="col-lg-2 col-2">
+                                    <label for="first-name" class="text-capitalize content-sub-header mb-1">Map Count</label>
+                                </div>
+                                <div class="col-lg-2 col-3">
+                                    <input type="number" id="first-name" class="form-control" name="wcount" [(ngModel)]="wcount" placeholder="Enter Count" (focusout)="checkEmpty()" >
+                                </div>
+                                <div class="col-lg-5 col-5">
+                                  <ul class="list-unstyled mb-0">
+                                    <li class="d-inline-block mr-2">
+                                      <div class="radio">
+                                        <input type="radio" name="filterType" id="radio1" checked (change)="resetGrid();selectfilterType('seq')">
+                                        <label for="radio1">Squence</label>
+                                      </div>
+                                    </li>
+                                    <li class="d-inline-block mr-2">
+                                      <div class="radio">
+                                        <input type="radio" name="filterType" id="radio2" (change)="resetGrid();selectfilterType('rand')">
+                                        <label for="radio2">Random</label>
+                                      </div>
+                                    </li>
+                                    <li class="d-inline-block mr-2" *ngIf="(mapsData.length > 0 || modifyGridTbl?.length > 0)">
+                                      <div class="radio">
+                                        <span style="margin-left:10px;cursor:pointer" (click)="resetGrid()"><i class="ft-refresh-ccw mr-1"></i></span>
+                                      </div>
+                                    </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-1 col-9">
+                                    <button type="button" [disabled]="(mapsData.length == 0 || modifyGridTbl?.length == 0) && wcount == 0" class="btn btn-sm btn-primary float-right" (click)="getCountval(wcount)">Select</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row align-items-center">
+                                <div class="col-lg-3 col-3">
+                                    <label class="text-capitalize content-sub-header mb-1">Associate Name</label>
+                                </div>
+                                <div class="col-lg-6 col-6">
+
+                                        <ng-select [items]="userObj" bindLabel="emp_name"
+                                                        placeholder="Select Associate"
+                                                        [(ngModel)]="seltdAssociate"
+                                                        (change)="selectAssoate()"
+                                                        bindLabel="search_label"
+                                                        bindValue="id"
+                                                        [searchFn]="customSearchFn">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <span >{{ item.emp_name + ' - (' + item.emp_id +')'}}</span>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                <span >{{ item.emp_name +  ' - (' + item.emp_id +')'}}</span>
+                                            </ng-template>
+
+                                        </ng-select>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                          <!-- <div class="col-md-6 col-12" *ngIf="mapsData?.length > 0">
+                            <h6 class="content-sub-header mb-1">Select Allot Step<span class="mandatory">*</span></h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block mr-2" *ngFor="let x of userStepsCopy; let ind=index;">
+                                  <div class="radio">
+                                    <input type="radio" (change)="getAllotStep(allotstep)" name="allotstep" value="{{x.step_id}}" id="radio1_allotstep_{{ind}}" class="form-control" [(ngModel)]="allotstep" required>
+                                    <label for="radio1_allotstep_{{ind}}">{{x.step_name}}</label>
+                                  </div>
+                                </li>
+                            </ul>
+
+                        </div> -->
+                        <div class="col-lg-12 col-9" *ngIf="modifyGrid">
+                          <button type="button" [disabled]="getActionActive()" class="btn btn-sm btn-primary float-right" (click)="insertMaps(seltdAssociate)">Allot</button>
+                      </div>
+                        <div class="col-lg-12 col-9" *ngIf="!modifyGrid && mapsData.length > 0">
+                          <button type="button" [disabled]="getActionActive()" class="btn btn-sm btn-primary float-right" (click)="insertMaps(seltdAssociate)">Allot</button>
+                      </div>
+                        <hr class="w-100">
+                    </div>
+
+                    <section id="dark">
+                        <div class="row">
+                          <div class="col-12">
+                          <div *ngIf="!modifyGrid && mapsData.length == 0 && submitted" class="nodatamsg">
+                              No Data Found..!
+                          </div>
+                            <div class="card" *ngIf="!modifyGrid && mapsData.length > 0">
+
+                             <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+
+                              <div class="d-flex mt-2 mb-2 justify-content-between">
+                                <div>Total Count : <span class="badge badge-warning">{{mapsData.length}}</span>&nbsp;&nbsp;
+                                  Selected Count : <span class="badge badge-warning">{{checkedCategoryList.length}}</span>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="search-hero">
+                                      <input class="form-control" type="text" name="mapsearchtext" [(ngModel)]="mapsearchtext" autocomplete="off" placeholder="Search for Map">
+                                    </div>
+                             </div>
+                              </div>
+
+                              <table class="table m-0 custmTbl">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th><input type="checkbox" name="isMasterSel" [(ngModel)]="isMasterSel" (change)="checkUncheckAll()"/></th>
+                                          <th style="width:200px">Record</th>
+                                          <th *ngIf="!mapSearch">Rework</th>
+                                          <th >Record Type</th>
+                                          <th>Work Stream</th>
+                                          <th>Service</th>
+                                          <th>Sub Service</th>
+                                          <th>Folder Name</th>
+                                          <th *ngIf="wsId == 2 && srId == 31 && 
+                                          (gstateId==187 || gstateId==180 || gstateId==184 || gstateId==179 || gstateId==193)">
+                                          Type of Map</th>
+                                          
+                                          <th style="width:100px">Entites <i class="ft-edit mr-1" style="margin-left: 10px;"></i></th>
+                                          <th style="width:100px">Runs <i class="ft-edit mr-1" style="margin-left: 10px;"></i></th>
+                                          <th>Received Date</th>
+                                          <th *ngIf="userCustomGrid['Total_Units'] == 'Y'">Total Units</th>
+                                          <th *ngIf="userCustomGrid['Complexity'] == 'Y'">Complexity</th>
+                                          <th *ngIf="userCustomGrid['Remarks'] == 'Y'">Remarks</th>
+                                          <th *ngIf="userCustomGrid['QueryNumber'] == 'Y'">Query No</th>
+                                          <th *ngIf="userCustomGrid['Currency'] == 'Y'">Currency</th>
+                                          <th *ngIf="userCustomGrid['TLName'] == 'Y'">TL Name</th>
+                                          <th *ngIf="userCustomGrid['OperatorName'] == 'Y'">Operator Name</th>
+                                          <th *ngIf="userCustomGrid['Runs'] == 'Y'">Runs</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let x of mapsData | filter : mapsearchtext; let ind =index">
+                                          <th scope="row"><input type="checkbox" name="checkasingle" [(ngModel)]="x.chk" (change)="isAllSelected()"/></th>
+                                          <td style="width:200px">{{x.map}}</td>
+                                          <td style="color:red;font-weight: bold;" *ngIf="!mapSearch">
+                                            <span *ngIf="x.rework_production != '' || x.rework_qc != ''">
+                                            <ng-template #tipContent><b>{{x.reworkProdBy }}</b></ng-template>
+                                            <label data-toggle="tooltip" [ngbTooltip]="tipContent">{{(x.rework_production != "" ? 'Reworked Production' : "")}}</label>
+                                            &nbsp;
+                                            <ng-template #tipContent2><b>{{x.reworkQcBy }}</b></ng-template>
+                                            <label [ngbTooltip]="tipContent2" >{{(x.rework_qc  != "" ? 'Reworked QC' : '')}}</label>
+                                            </span>
+                                          </td>
+                                          <td>{{x.map_type}}</td>
+                                          <td>{{x.w_name}}</td>
+                                          <td>{{x.service_name}}</td>
+                                          <td>{{x.batch_name}}</td>
+                                          <td>{{x.folder_name}}</td>
+                                          <td *ngIf="x.workstream == 2 && x.service == 31 && (x.batch==187 ||
+                                           x.batch==180 || x.batch==184 || x.batch==179 || x.batch==193) && 
+                                           gstateId != 1469">{{x.type_of_map}}</td>
+                                          <td *ngIf="!x.editable" (dblclick)='changeToEntites(ind,x)'>{{x.entities}}</td>
+                                          <td *ngIf="x.editable">
+                                              <input (focusout)="updateEntities(ind,x)" style="width: 50px !important;" type="number" name="entities"
+                                              [(ngModel)]="x.entities"/>
+                                          </td>
+                                          <td *ngIf="!x.editables" (dblclick)='changeToRuns(ind,x)'>{{x.runs}}</td>
+                                          <td *ngIf="x.editables">
+                                              <input (focusout)="updateRuns(ind,x)" style="width: 50px !important;" type="number" name="runs"
+                                              [(ngModel)]="x.runs"/>
+                                          </td>
+                                          <td>{{x.inst_date | date : 'yyyy-MM-dd'}}</td>
+                                          <td *ngIf="userCustomGrid['Total_Units'] == 'Y'">{{x.total_kms}}</td>
+                                          <td *ngIf="userCustomGrid['Complexity'] == 'Y'">{{x.priority}}</td>
+                                          <td *ngIf="userCustomGrid['Remarks'] == 'Y'">{{x.remarks}}</td>
+                                          <td *ngIf="userCustomGrid['QueryNumber'] == 'Y'">{{x.queryNumber}}</td>
+                                          <td *ngIf="userCustomGrid['Currency'] == 'Y'">{{x.Currency}}</td>
+                                          <td *ngIf="userCustomGrid['TLName'] == 'Y'">{{x.TL}}</td>
+                                          <td *ngIf="userCustomGrid['OperatorName'] == 'Y'">{{x.prod_name}}</td>
+                                          <td *ngIf="userCustomGrid['Runs'] == 'Y'">{{x.runs}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                            </div>
+
+
+
+                            <div class="card" *ngIf="modifyGrid && modifyGridTbl.length > 0">
+                              <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+                                <div class="d-flex mt-2 mb-2 justify-content-between">
+                                  <div>Total Count : <span class="badge badge-warning">{{modifyGridTbl.length}}</span>&nbsp;&nbsp;
+                                    Selected Count : <span class="badge badge-warning">{{checkedCategoryList.length}}</span>
+                                  </div>
+                                </div>
+                                     <table class="table m-0">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th><input type="checkbox" name="isMasterSel2" [(ngModel)]="isMasterSel2" (change)="checkUncheckAll()"/></th>
+                                          <th style="width:200px">Record</th>
+
+                                          <th>Record Type</th>
+                                          <th>Alloted To</th>
+                                          <th>Current Step</th>
+                                          <th>Workstream</th>
+                                          <th>Service</th>
+                                          <th>No of Units</th>
+                                          <th>Folder Name</th>
+                                          <th>Alloted Date</th>
+                                          <th></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let x of modifyGridTbl">
+                                          <th scope="row"><input type="checkbox" name="checkasingle" [(ngModel)]="x.chk" (change)="isAllSelected()"/></th>
+                                          <td style="width:200px">{{x.map}}</td>
+                                          <td>{{x.map_type}}</td>
+                                          <td>{{x.emp_name}} <br><span style="font-size:10px">({{x.emp_id}})</span></td>
+                                          <td>{{x.alloted_step}}</td>
+                                          <td>{{x.w_name}}</td>
+                                          <td>{{x.service_name}}</td>
+                                          <td>{{x.total_kms}}</td>
+                                          <td>{{x.folder_name}}</td>
+                                          <td>{{filDate(x.alloted_date)}}</td>
+                                          </tr>
+                                      </tbody>
+                                    </table>
+                                   </div>
+
+                             </div>
+                             <div *ngIf="modifyGrid && modifyGridTbl.length == 0 && submitted" class="nodatamsg">
+                                 No Data Found..!
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                </div>
+                <!-- <hr class="w-100">
+                <div class="selected-column col-12 mt-1">
+                  <h4>
+                    Selections <small>({{ chkBoxSelected?.length }})</small>
+                  </h4>
+                  <ul>
+                    <li *ngFor="let sel of chkBoxSelected">
+                      {{ sel.full_name }}
+                    </li>
+                    <li *ngIf="!chkBoxSelected?.length">No Selections</li>
+                  </ul>
+                </div> -->
+               </div>
+
+                </ng-template>
+
+                </li>
+
+                <li [ngbNavItem]="1" *ngIf="userRole == 'User'">
+
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('1')">
+                    <i class="ft-edit mr-1"></i>
+                    <span class="d-none d-sm-block">Work Allotment Grid</span>
+                  </a>
+              <ng-template ngbNavContent>
+
+                        <div class="card" *ngIf="userGrid.length > 0">
+
+                          <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+
+                                 <table class="table m-0">
+                                  <thead class="thead-dark">
+                                    <tr>
+                                      <!-- <th><input type="checkbox" name="isMasterSel2" [(ngModel)]="isMasterSel2" (change)="checkUncheckAll()"/></th> -->
+                                      <th style="width:200px">Record</th>
+                                      <th>Record Type</th>
+                                      <th>Current Step</th>
+                                      <th>Workstream</th>
+                                      <th>Service</th>
+                                      <th>Sub Service</th>
+                                      <th>Alloted By</th>
+                                      <th>Alloted Date</th>
+                                      <th>Alloted Step</th>
+                                      <th *ngIf="userCustomGrid['Total_Units'] == 'Y'">Total Units</th>
+                                      <th *ngIf="userCustomGrid['Complexity'] == 'Y'">Complexity</th>
+                                      <th *ngIf="userCustomGrid['Remarks'] == 'Y'">Remarks</th>
+                                      <th *ngIf="userCustomGrid['QueryNumber'] == 'Y'">Query No</th>
+                                      <th *ngIf="userCustomGrid['Currency'] == 'Y'">Currency</th>
+                                      <th *ngIf="userCustomGrid['TLName'] == 'Y'">TL Name</th>
+                                      <th *ngIf="userCustomGrid['OperatorName'] == 'Y'">Operator Name</th>
+                                      <th *ngIf="userCustomGrid['Runs'] == 'Y'">Runs</th>
+                                      <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let x of userGrid">
+                                      <!-- <th scope="row"><input type="checkbox" name="checkasingle" [(ngModel)]="x.chk" (change)="isAllSelected()"/></th> -->
+                                      <td style="width:200px">{{x.map}}</td>
+                                      <td>{{x.map_type}}</td>
+                                      <td>{{x.step_name}}</td>
+                                      <td>{{x.w_name}}</td>
+                                      <td>{{x.service_name}}</td>
+                                      <td>{{x.batch_name}}</td>
+                                      <td>{{x.alloted_by_name}}</td>
+                                      <td>{{x.received_date | date: 'dd/MM/yyyy'}}</td>
+                                      <td>{{x.step_name}}</td>
+                                      <td *ngIf="userGrid['Total_Units'] == 'Y'">{{x.total_kms}}</td>
+                                      <td *ngIf="userGrid['Complexity'] == 'Y'">{{x.priority}}</td>
+                                      <td *ngIf="userGrid['Remarks'] == 'Y'">{{x.remarks}}</td>
+                                      <td *ngIf="userGrid['QueryNumber'] == 'Y'">{{x.queryNumber}}</td>
+                                      <td *ngIf="userGrid['Currency'] == 'Y'">{{x.currency}}</td>
+                                      <td *ngIf="userGrid['TLName'] == 'Y'">{{x.TL}}</td>
+                                      <td *ngIf="userGrid['OperatorName'] == 'Y'">{{x.operatorName}}</td>
+                                      <td *ngIf="userGrid['Runs'] == 'Y'">{{x.runs}}</td>
+                                      </tr>
+
+                                  </tbody>
+                                </table>
+                               </div>
+                         </div>
+                         <div  *ngIf="userGrid.length == 0" class="nodatamsg">
+                          No Data Available.!
+                      </div>
+
+                </ng-template>
+                </li>
+
+                <li [ngbNavItem]="2" *ngIf="userRole != 'User'">
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('2')">
+                    <i class="ft-upload-cloud mr-1"></i>
+                    <span class="d-none d-sm-block">Bulk Allotment</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <div class='col-12'>
+                      <form class="form" [formGroup]="waSearchFmb" (ngSubmit)="onSubmitb()">
+                        <div class="row contentbody" [ngbCollapse]="isCollapsed">
+
+                            <div class="col-md-3">
+                                <h6 class="content-sub-header mb-1">Workstream <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="bwsname" name="bwsname" formControlName="bwsname" (change)="getServiceslist('b')">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h6 class="text-capitalize content-sub-header mb-1">Service <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="bservice" name="bservice" formControlName="bservice" (change)="getBatches('b')">
+                                      <option value="">Select Service</option>
+                                      <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                      </option>
+                                  </select>
+                                </fieldset>
+
+                            </div>
+
+                            <div class="col-md-3">
+                              <h6 class="content-sub-header mb-1">Sub Service <span class="mandatory">*</span></h6>
+                              <fieldset class="form-group">
+                                <select class="form-control" id="bstate" name="bstate" formControlName="bstate" (change)="getStepsByService('b')">
+                                    <option value="">Select Sub Service</option>
+                                    <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                    </option>
+                                </select>
+                                  <div *ngIf="submitted && f['state'].errors" class="customValidation">
+                                    <div *ngIf="f['state'].errors['required']">State Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+                            <div class="col-md-5">
+                              <h6 class="content-sub-header mb-1">Select Step <span class="mandatory">*</span></h6>
+                              <ul class="list-unstyled mb-0">
+                                  <li class="d-inline-block mr-2" *ngFor="let x of userSteps; let ind=index;" >
+                                    <div class="radio" >
+                                      <input type="radio"  name="bstepname" value="{{x.step_id}}" id="bradio1_{{ind}}" class="form-control" formControlName="bstepname">
+                                      <label for="bradio1_{{ind}}">{{x.step_name}}</label>
+                                    </div>
+                                  </li>
+                              </ul>
+                          </div>
+                          <!-- <div class="col-md-5 col-12" *ngIf="!modifyGrid">
+                            &nbsp;&nbsp;&nbsp;
+                          </div> -->
+
+                            <div class="col-md-1 col-12">
+                                <h6>&nbsp;&nbsp;</h6>
+                                <button type="submit" class="btn btn-sm btn-primary float-right" [disabled]="waSearchFmb.invalid">Search</button>
+                            </div>
+
+                            <hr class="w-100">
+                        </div>
+
+                      </form>
+
+                      </div>
+                    <!-- Information content starts -->
+                    <div class="mt-2" id="information">
+                      <div class='row col-12'>
+                      <div class="col-md-4">
+                        <!-- <div class="col-md-4" *ngIf="userSteps.length > 0"> -->
+                          <div class="form-group row align-items-center">
+                              <fieldset class="form-group">
+                                  <label for="inputGroupFile01" class="text-capitalize content-sub-header mb-1">Select File</label>
+                                  <div class="custom-file">
+                                      <input type="file" name="files[]" multiple id="jsonFile" accept=".xlsx" (change)="onFileChangeBlkUp($event)" class="custom-file-input" id="inputGroupFile01">
+                                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                      <br>
+                                      {{uploadedFilename}}
+                                  </div>
+                              </fieldset>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <!-- <div class="col-md-2" *ngIf="userSteps.length > 0"> -->
+                        <fieldset class="form-group">
+                          <label for="inputGroupFile01"> &nbsp;&nbsp; </label>
+                          <div class="custom-file">
+                            <button type="button" class="btn btn-sm btn-primary float-right" [disabled]="!blkUploadfile" (click)="postBulkWorkAllotment()">Submit</button>
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6" *ngIf="exlsJson.length > 0">
+                        <!-- <div class="col-md-4">Total Count3:
+                          <span class="badge badge-warning">{{(finalExcelJson.length > 0 ? finalExcelJson.length : exlsJson.length)}}</span>
+                         </div> -->
+                                <div class="pull-right" *ngIf="!excelUpload">
+                                  <h6><b>Export Data Excel </b></h6>
+                                  <div class="col-md-8" >
+                                    <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 30px;" (click)="exportexcel()"><i
+                                        class="fa fa-file-excel-o" style="font-size:30px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button>
+                                </div>
+                                  <!-- <div class="pull-right">
+                                      <a href='/assets/excelfiles/BulkAllot_Sampletemplate.xlsx'><i
+                                              class="fa fa-file-excel-o" style="font-size:30px;color:green;margin-right: 30px;"></i>
+                                      </a>
+                                  </div> -->
+                                    <!-- <a href='/assets/excelfiles/BulkAllot_Sampletemplate.xlsx'>  <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 36px;"><i
+                                      class="fa fa-file-excel-o" style="font-size:30px;color:rgb(75, 165, 75);margin-right: 10px;"></i></button>
+                                      </a> -->
+                                      </div>
+                      </div>
+
+
+                    </div>
+                          <div class="row" *ngIf="!excelUpload && exlsJson.length > 0">
+
+                            <div class="col-12">
+                              <div class="card cal-md-12">
+                                <div class="d-flex mt-2 mb-2 justify-content-between">
+                                  <div>Total Count :  <span class="badge badge-warning">{{exlsJson.length}}</span></div>
+                                </div>
+
+                               <div class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;">
+                                      <table class="table m-0" id="excel-table">
+                                        <thead class="thead-dark">
+                                          <tr>
+                                            <!-- <th><input type="checkbox" name="isMasterSel" [(ngModel)]="isMasterSel" (change)="checkUncheckAll()"/></th> -->
+                                            <th>Workstream</th>
+                                            <th>Service</th>
+                                            <th>Sub Service</th>
+                                            <th>Record</th>
+                                            <th>Record_type</th>
+                                            <th>Received</th>
+                                            <th *ngFor="let y of userStepsCopy">
+                                                {{y.step_name}}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let x of exlsJson">
+                                            <!-- <th scope="row"><input type="checkbox" name="checkasingle" (change)="isAllSelected()"/></th> -->
+                                            <td>{{x.WS_Name}}</td>
+                                            <td>{{x.Service_Name}}</td>
+                                            <td>{{x.Batch_Name}}</td>
+                                            <td>{{x.map}}</td>
+                                            <td>{{x.map_type}}</td>
+                                            <td>{{x.Received_Date}}</td>
+                                            <th *ngFor="let i of userStepsCopy">
+                                                {{getKey(x,i.step_name)}}
+                                            </th>
+                                          </tr>
+
+                                        </tbody>
+                                      </table>
+
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div  *ngIf="exlsJson.length == 0 && bulkbtn" class="nodatamsg">
+                            No Data Available.!
+                          </div>
+
+                          <div class="row" *ngIf="excelUpload && uploadExlsJson.length > 0">
+                            <div class="col-12">
+                              <div class="card cal-md-12">
+                                <div class="d-flex mt-2 mb-2 justify-content-between">
+                                  <div>Total Count :  <span class="badge badge-warning">{{uploadExlsJson.length}}</span></div>
+                                </div> 
+                               <div class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;">
+                                      <table class="table m-0">
+                                        <thead class="thead-dark">
+                                          <tr>
+                                            <!-- <th><input type="checkbox" name="isMasterSel" [(ngModel)]="isMasterSel" (change)="checkUncheckAll()"/></th> -->
+                                            <th *ngFor="let y of tabHeaders[0]" class='table-header' scope="col">{{y}}</th>
+                                            
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let x of uploadExlsJson">
+                                        
+                                              <td *ngFor="let z of tabHeaders[0]">{{x[z]}}</td>
+                                         
+                                          </tr>
+
+                                        </tbody>
+                                      </table>
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <!-- Information content ends -->
+                  </ng-template>
+                </li>
+
+
+                <li [ngbNavItem]="3">
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('3')">
+                    <i class="ft-settings mr-1"></i>
+                    <span class="d-none d-sm-block">Custom Grid</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <!-- Information content starts -->
+                    <div class="mt-2" id="information">
+                      <!-- Information form starts -->
+                      <ul class="list-unstyled mb-0">
+                        <span *ngFor="let x of userCustomGrid | keyvalue; let ind = index">
+                        <li class="d-inline-block mr-4 mb-4" *ngIf="x.key != 'id' && x.key != 'userId' && x.key != 'prmdone'">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [checked]="getChecked(x.value)" name="customCheck_{{x.key}}" id="custom-check-1_{{x.key}}" (change)="changeCustomGrid($event,x.key)">
+                            <label class="custom-control-label" for="custom-check-1_{{x.key}}" style="cursor: pointer;"><span>{{labFilter(x.key)}}</span></label>
+                          </div>
+                        </li>
+                      </span>
+                        <!-- <li class="d-inline-block mr-4 mb-4">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [checked]="x.value" name="customCheck_{{x.key}}" id="custom-check-1_{{x.key}}" (change)="changeCustomGrid($event,x.key)">
+                            <label class="custom-control-label" for="custom-check-1_{{x.key}}"><span>{{x.key}}</span></label>
+                        </li> -->
+                        </ul>
+
+                      <div class="row">
+                        <div class="col-md-12 col-12">
+                          <button type="button" class="btn btn-sm btn-primary float-right" (click)="updateUserCustomGrid()">Update</button>
+                      </div>
+
+                      </div>
+                      <div class="row">
+                        <hr class="w-100">
+                      </div>
+
+                      <!-- Information form ends -->
+                    </div>
+                    <!-- Information content ends -->
+                  </ng-template>
+                </li>
+                <li class="customeHideshow" *ngIf="gridPos == 1">
+                    <button ngbTooltip="Hide/Show Search" type="button" class="btn btn-sm btn-outline-primary mt-2 pull-right" (click)="isCollapsed = !isCollapsed"
+                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                        <i [ngClass]="{'ft-minus' : !isCollapsed}"></i>
+                        <i [ngClass]="{'ft-plus' : isCollapsed}"></i>
+                    </button>
+                </li>
+                <li class="modifyBtn" *ngIf="userRole != 'User'">
+                    <button type="button" *ngIf="!modifyGrid && gridPos == 1" class="btn btn-sm btn-warning float-right" (click)="modifyGridTab('true')">Modify</button>
+                    <button type="button" *ngIf="modifyGrid && gridPos == 1" class="btn btn-sm btn-success float-right" (click)="modifyGridTab('false')">New Allotment</button>
+
+                </li>
+                <li [ngbNavItem]="4">
+                  <a ngbNavLink class="nav-link d-flex align-items-center" (click)="getTabPos('4')">
+                    <i class="ft-upload-cloud mr-1"></i>
+                    <span class="d-none d-sm-block">Split Maps</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmits()">
+                      <div class="row contentbody" [ngbCollapse]="isCollapsed"  *ngIf="!mapSearch">
+                          <div class="col-md-3 col-12">
+                              <h6 class="content-sub-header mb-1">Workstream <span class="mandatory">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="wsname" name="wsname" formControlName="wsname" (change)="getServiceslist('a')">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                      </option>
+                                  </select>
+                                  <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                                    <div *ngIf="f['wsname'].errors['required']">Workstream Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+
+                          <div class="col-md-3 col-12">
+                              <h6 class="content-sub-header mb-1">Region</h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="region" name="region" formControlName="region">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let x of walotRegions" [ngValue]="x.rid">{{x.region_name}}
+                                    </option>
+                                </select>
+                                  <div *ngIf="submitted && f['region'].errors" class="customValidation">
+                                    <div *ngIf="f['region'].errors['required']">Region Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+                        <div class="col-md-3 col-12">
+                          <h6 class="content-sub-header mb-1">Service <span class="mandatory">*</span></h6>
+                          <fieldset class="form-group">
+                            <select class="form-control" id="service" name="service" formControlName="service" (change)="getBatches('a')">
+                                <option value="">Select Service</option>
+                                <option *ngFor="let w of walotServices" [ngValue]="w.sid">{{w.service_name}}
+                                </option>
+                            </select>
+                              <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                                <div *ngIf="f['service'].errors['required']">Service Required</div>
+                              </div>
+                          </fieldset>
+                      </div>
+
+                          <div class="col-md-3 col-12">
+                              <h6 class="content-sub-header mb-1">Sub Service <span class="mandatory">*</span></h6>
+                              <fieldset class="form-group">
+                                <select class="form-control" id="state" name="state" formControlName="state" (change)="getReceivedDates()">
+                                    <option value="">Select Sub Service</option>
+                                    <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                    </option>
+                                </select>
+                                  <div *ngIf="submitted && f['state'].errors" class="customValidation">
+                                    <div *ngIf="f['state'].errors['required']">State Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+
+                          <div class="col-md-3 col-12">
+                              <h6 class="content-sub-header mb-1">Received Date</h6>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                    <input  class="form-control" placeholder="Select Date" [maxDate]="minDate" 
+                                    name="recdate"  [(ngModel)] = "recdate" (change)="selectedRecvDate(recdate)" ngbDatepicker
+                                    #d2="ngbDatepicker" [ngModelOptions]="{standalone: true}">
+                                    <div class="input-group-append">
+                                    <div class="input-group-text" (click)="d2.toggle()">
+                                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                    </div>
+                                    </div>
+                                </div> 
+                                </div>
+                              <!-- <div class="input-group">
+                                  <select class="form-control" id="recdate" name="recdate" formControlName="recdate" (change)="selectedRecvDate()">
+                                    <option value="">Select Date</option>
+                                    <option *ngFor="let w of receivedDates" value="{{w.rdate}}">{{w.rdate}}
+                                    </option>
+                                </select>
+                                   <div *ngIf="submitted && f['recdate'].errors" class="customValidation">
+                                    <div *ngIf="f['recdate'].errors['required']">Received Date Required</div>
+                                  </div> 
+                                </div> -->
+                          </div>
+
+                          <div class="col-md-6 col-12" *ngIf="!modifyGrid">
+                            <h6 class="content-sub-header mb-1">Select Step <span class="mandatory">*</span></h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block mr-2" *ngFor="let x of userSteps; let ind=index;">
+                                  <div class="radio" *ngIf="ind == 0">
+                                    <input type="radio"  [(ngModel)]="stepname" name="stepname" (change)="stepChange()" value="{{x.step_id}}" id="radio1_{{ind}}" class="form-control" formControlName="stepname">
+                                    <label for="radio1_{{ind}}">{{x.step_name}}</label>
+                                  </div>
+                                </li>
+                            </ul>
+                            <div *ngIf="submitted && f['stepname'].errors" class="customValidation">
+                              <div *ngIf="f['stepname'].errors['required']">Please select atleast one Step</div>
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-6 col-12" *ngIf="modifyGrid">
+                            <h6 class="content-sub-header mb-1">Select Step<span class="mandatory">*</span></h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block mr-2" *ngFor="let x of userSteps2; let ind=index;">
+                                  <div class="radio" *ngIf="ind == 0">
+                                    <input type="radio"  [(ngModel)]="stepname" name="stepname" (change)="stepChange()" value="{{x.step_id}}" id="radio1_{{ind}}" class="form-control" formControlName="stepname">
+                                    <label for="radio1_{{ind}}">{{x.step_name}}</label>
+                                  </div>
+                                </li>
+                            </ul>
+                            <div *ngIf="submitted && f['stepname'].errors" class="customValidation">
+                              <div *ngIf="f['stepname'].errors['required']">Please select atleast one Step</div>
+                            </div>
+                          </div>
+                        <!-- <div class="col-md-5 col-12" *ngIf="!modifyGrid">
+                          &nbsp;&nbsp;&nbsp;
+                        </div> -->
+
+
+                          <div class="col-md-3 col-12">
+                            <h6>&nbsp;&nbsp;</h6>
+                            <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" [disabled]="waSearchFm.invalid || enaSea==1">Search</button>
+                           </div>
+
+                          <hr class="w-100">
+                      </div>
+
+                    </form>
+                   
+                  
+                   
+                    </ng-template>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div [ngbNavOutlet]="nav"></div>
+              </div>
+           
+                    
+              <section id="dark">
+                <div class="row">
+                  <div class="col-12">
+                  <!-- <div *ngIf="!modifyGrid && mapsData.length == 0 && submitted" class="nodatamsg">
+                      No Data Found..!
+                  </div> -->
+                    <div class="card" *ngIf="splitGridShow">
+            
+                     <div class="table-responsive" style="font-size: 11px !important;font-weight: 600;">
+            
+                      <div class="d-flex mt-2 mb-2 justify-content-between">
+                        <div>Total Count : <span class="badge badge-warning">{{finalSplitMapsData.length}}</span>&nbsp;&nbsp;
+                          Selected Count : <span class="badge badge-warning">{{splitCheckedList}}</span>
+                         
+                        </div>
+                        <div class="col-md-6 col-12" >
+                          <h6>&nbsp;&nbsp;</h6>
+
+                          <button type="submit" class="btn btn-sm btn-dark float-right" (click)="SaveSplitedMaps()" [disabled]="enaUploadBtn == false">Upload Splited Maps</button>
+
+                          <!-- <button type="submit" class="btn btn-sm btn-primary float-right mapsearchgrid" (click)="searchByMaps()">Search</button> -->
+                        </div>
+                      </div>
+                      
+            
+                      <table class="table m-0 custmTbl" >
+                              <thead class="thead-dark">
+                                <tr>
+                                  <th></th>
+                                  <th style="width:200px">Record</th>
+                               
+                                  <th >Record Type</th>
+                                  <th>Work Stream</th>
+                                  <th>Service</th>
+                                  <th>Sub Service</th>
+                                  <th>Folder Name</th>
+                                 
+                                  <th style="width:100px">Entites</th>
+                                  <th style="width:100px">Runs </th>
+                                  <th>Received Date</th>
+                                  <th *ngIf="userCustomGrid['Total_Units'] == 'Y'">Total Units</th>
+                                  <th *ngIf="userCustomGrid['Complexity'] == 'Y'">Complexity</th>
+                                  <th *ngIf="userCustomGrid['Remarks'] == 'Y'">Remarks</th>
+                                  <th *ngIf="userCustomGrid['QueryNumber'] == 'Y'">Query No</th>
+                                  <th *ngIf="userCustomGrid['Currency'] == 'Y'">Currency</th>
+                                  <th *ngIf="userCustomGrid['TLName'] == 'Y'">TL Name</th>
+                                
+                                  <th *ngIf="userCustomGrid['Runs'] == 'Y'">Runs</th>
+                                  <th [ariaDisabled]="!enaSplitBtn" (click)="getSplitMaps()"><i class="ft-edit mr-1"></i>Split</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let x of splitMapsData; let ind =index">
+                                  <th scope="row" *ngIf="x.chkStatus"><input type="checkbox" name="checkasingle" [(ngModel)]="x.chk" (change)="enableSplitCount(x)"/></th>
+                                  <th scope="row" *ngIf="!x.chkStatus"></th>
+                                  <td style="width:200px">{{x.map}}</td>
+                                 
+                                  <td>{{x.map_type}}</td>
+                                  <td>{{x.w_name}}</td>
+                                  <td>{{x.service_name}}</td>
+                                  <td>{{x.batch_name}}</td>
+                                  <td>{{x.folder_name}}</td>
+                                  <td>{{x.entities}}</td>
+                                 <td>{{x.runs}}</td>
+                               
+                                  <td>{{x.inst_date | date : 'yyyy-MM-dd'}}</td>
+                                  <td *ngIf="userCustomGrid['Total_Units'] == 'Y'">{{x.total_kms}}</td>
+                                  <td *ngIf="userCustomGrid['Complexity'] == 'Y'">{{x.priority}}</td>
+                                  <td *ngIf="userCustomGrid['Remarks'] == 'Y'">{{x.remarks}}</td>
+                                  <td *ngIf="userCustomGrid['QueryNumber'] == 'Y'">{{x.queryNumber}}</td>
+                                  <td *ngIf="userCustomGrid['Currency'] == 'Y'">{{x.Currency}}</td>
+                                  <td *ngIf="userCustomGrid['TLName'] == 'Y'">{{x.TL}}</td>
+                                  <td *ngIf="userCustomGrid['Runs'] == 'Y'">{{x.runs}}</td>
+                                  <td *ngIf="!x.seditbles" (dblclick)='enableSplitCount(x)'>{{x.splitCount}}</td>
+                                  <td *ngIf="x.seditbles && x.splitCount >= 0">
+                                        <input  style="width: 50px !important;" type="number" name="splitCount" [(ngModel)]="x.splitCount"/>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+            
+                    </div>
+                   
+                     <div *ngIf="splitMapsData.length == 0 && splitGridShow" class="nodatamsg">
+                         No Data Found..!
+                    </div>
+                  </div>
+                </div>
+              </section>
+             
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>

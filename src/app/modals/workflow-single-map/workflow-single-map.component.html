@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h5 class="modal-title" style="text-align: center;"><b>WorkFlow Details</b></h5>
+  <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+      <div  *ngIf="selectedRow!=''" class="table-responsive" id="excel-table" style="font-size: 11px !important;font-weight: 600;" >
+          <table class="table m-0" id="excel-table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>S.No</th>
+                  <th>Received Date</th>
+                  <th>Asc ID</th>
+                  <th>Asc Name</th>
+                  <th>Map</th>
+                  <th>Step</th>
+                  <th>TimeEntry Date</th>
+                  <th>Time Spent</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of dataResponse; let ind=index">
+                  <td>{{ind+1}}</td>
+                  <td>{{x.date  | date : 'YYYY-MM-dd'}}</td>
+                  <td>{{x.emp_id}}</td>
+                  <td>{{x.emp_name}}</td>
+                  <td>{{x.map}}</td>
+                  <td>{{x.step_name}}</td>
+                  <td>{{x.timeDate | date : 'YYYY-MM-dd'}}</td>
+                   <td>{{x.time_spent}}</td>
+                  <td>{{x.status}}</td>
+                  </tr>
+              </tbody>
+            </table>
+         </div>
+      </div>

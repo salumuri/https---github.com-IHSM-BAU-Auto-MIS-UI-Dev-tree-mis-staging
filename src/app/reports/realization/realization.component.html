@@ -1,0 +1,127 @@
+<section class="projections">
+
+  <div class="row">
+      <div class="col-12">
+          <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+          <div class="card">
+            <div class="card-header" style="border-bottom: 1px solid #c3bebe;" *ngIf="!proMontlyCreate">
+                 <h4 class="content-header" style="text-align: center;"><b>Realization Report</b>
+                <div class="col-md-2 float-right">
+                  <button type="submit" class="btn btn-sm btn-primary float-right" (click)="addProjection()">Add New</button>
+               </div>
+              </h4>
+            </div>
+
+            <div class="card-header" style="border-bottom: 1px solid #c3bebe;" *ngIf="proMontlyCreate">
+              <h4><b>Add New</b>
+             <div class="col-md-2 float-right">
+               <button type="submit" class="btn btn-sm btn-primary float-right" (click)="addProjection()">Back to Grid</button>
+            </div>
+           </h4>
+         </div>
+
+              <div class="card-content custmTbl">
+                  <div class="card-body">
+
+                    <div class="table-responsive" *ngIf="!proMontlyCreate">
+                      <table class="table m-0 custmTbl" id="excel-table" >
+                          <thead class="thead-dark">
+                            <tr>
+                              <!-- <th>Month</th>
+                              <th>Year</th>    -->
+                              <th>Workstream</th>
+                              <th>Sub Stream</th>
+                              <th>Service</th>
+                              <th>Sub Service</th>
+                              <th>UOM</th>
+                              <th>Volume Cost</th>
+                              <th>Unit Rate</th>
+                              <th>January</th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let x of projectionDetails"  [style.background]="getColor(x['sub_service'])">
+
+                              <!-- <td><span *ngIf="x.workstream != 'Blank'">{{x['month']}}</span></td>
+                              <td>{{x['year']}}</td>    -->
+                              <td>{{x['workstream']}}</td>
+                              <td>{{x['sub_stream']}}</td>
+                              <td>{{x['service']}}</td>
+                              <td [ngClass]="{'subservicecss': getHeader(x.uom,x.sub_service)}">{{x['sub_service']}}</td>
+                              <td>{{x['uom']}}</td>
+                              <td>{{x['volumne_cost']}}</td>
+                              <td><span *ngIf="x.workstream != 'Blank'">{{x['unit_rate']}}</span></td>
+                              <td><span>$ </span> {{x['January']}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+
+                      <div class="table-responsive" *ngIf="proMontlyCreate">
+
+                        <div class="row contentbody">
+                          <div class="col-md-4 col-12">
+                              <h6>Select Month <span class="mandatory">*</span></h6>
+                              <fieldset class="form-group">
+                                  <input type="month" id="start" value="thismonth" class="form-control textboxsize" [(ngModel)]="selectedMonth" (change)="getProDate(selectedMonth,$event)">
+                              </fieldset>
+                          </div>
+
+                          <div class="col-md-8 col-12" style="text-align: right !important;">
+                              <h6>&nbsp;&nbsp;</h6>
+                              <button type="submit" class="btn btn-sm btn-primary" [disabled]="selectedMonth == ''" (click)="insertProjection()">Submit</button>
+                          </div>
+                      </div>
+
+                          <table class="table m-0 custmTbl" id="excel-table" >
+                              <thead class="thead-dark">
+                                <tr>
+                                  <!-- <th>Month</th>
+                                  <th>Year</th>    -->
+                                  <th>Workstream</th>
+                                  <th>Sub Stream</th>
+                                  <th>Service</th>
+                                  <th>Sub Service</th>
+                                  <th>UOM</th>
+                                  <th>Volume Cost</th>
+                                  <th>Unit Rate</th>
+                                  <th>{{getCurrMonth()}}</th>
+                                  <th>SPGI Owner</th>
+                                  <th>WS</th>
+                                  <th>Cyient Owner</th>
+                                  <th>PO</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let x of projectionReport"  [style.background]="getColor(x.sub_service)">
+
+                                  <!-- <td><span *ngIf="x.workstream != 'Blank'">{{x['month']}}</span></td>
+                                  <td>{{x['year']}}</td>    -->
+                                  <td>{{x['workstream']}}</td>
+                                  <td>{{x['sub_stream']}}</td>
+                                  <td>{{x['service']}}</td>
+                                  <td [ngClass]="{'subservicecss': getHeader(x.uom,x.sub_service)}">{{x['sub_service']}}</td>
+                                  <td>{{x['uom']}}</td>
+                                  <td>{{x['volumne_cost']}}</td>
+                                  <td><span *ngIf="x.workstream != 'Blank'">{{x['unit_rate']}}</span></td>
+                                  <td *ngIf="!getHeader(x.uom,x.sub_service)">
+                                    <input width="20px" type="number" name="volumeorcost" [(ngModel)]="x.actual_value" (keyup)="onKeyUpEvent($event)"></td>
+                                  <td *ngIf="getHeader(x.uom,x.sub_service)"><span>$ </span> {{round(x.actual_value,2)}}</td>
+                                  <td>{{x['SPGI Owner']}}</td>
+                                  <td>{{x['WS']}}</td>
+                                  <td>{{x['Cyient Owner']}}</td>
+                                  <td>{{x['PO']}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                  </div>
+
+              </div>
+          </div>
+      </div>
+      </div>
+</section>

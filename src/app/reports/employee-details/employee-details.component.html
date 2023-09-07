@@ -1,0 +1,162 @@
+<!-- <section class="checklist">
+
+    <div class="row"> -->
+        <!-- <div class="col-12">
+            <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+            <div class="card">
+                <div class="card-content custmTbl">
+                    <div class="card-body">
+                      <div class="row">
+                      <div class="col-md-4">
+                        <label>Search</label>
+                        <fieldset class="form-group position-relative has-icon-right">
+                            <input type="text" class="form-control" (keyup)="getFilterData(searchme)" id="iconLeft2" placeholder="Employee search" [(ngModel)]="searchme">
+                            <div class="form-control-position">
+                                <i class="ft-search"></i>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                      &nbsp;
+                    </div>
+                    <div class="col-md-2" >
+                      <label>&nbsp;</label>
+                      <fieldset class="form-group">
+                      <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 30px;" (click)="exportexcel()"><i
+                          class="fa fa-file-excel-o" style="font-size:30px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button>
+                        </fieldset>
+                        </div>
+                  </div>
+                        <div class="table-responsive" *ngIf="reportData.length > 0">
+                            <table class="table m-0 custmTbl" id="excel-table" >
+                                <thead class="thead-dark">
+                                  <tr>
+                                    <th>EMP ID</th>
+                                    <th>Emp Name</th>
+                                    <th>Emp CorpID</th>
+                                    <th>Designation</th>
+                                    <th>Email</th>
+                                    <th>Workstream</th>
+                                    <th>Service</th>
+                                    <th>Task Manager</th>
+                                    <th>Exist status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let x of reportData">
+                                    <td>{{x.emp_id}}</td>
+                                    <td>{{x.emp_name}}</td>
+                                    <td>{{x.emp_id}}</td>
+                                    <td>{{x.designation}}</td>
+                                    <td>{{x.email_id}}</td>
+                                    <td>{{x.workstream_name}}</td>
+                                    <td>{{x.service_name}}</td>
+                                    <td>{{x.task_manager_name}}</td>
+                                    <td>{{x.exist_status}}</td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+<!--
+
+        <div class="col-12">
+          <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+          <div class="card">
+              <div class="card-content custmTbl">
+                  <div class="card-body"> -->
+
+          <!-- ngx-datatable-filter -->
+          <!-- <fieldset class="form-group">
+            <label for="ngx-filter-ref">Search:
+              <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                placeholder="Filter the Name column..." (keyup)="filterUpdate($event)" />
+            </label>
+          </fieldset>
+
+          <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+            [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true"> -->
+            <!-- <ngx-datatable-column name="Name" prop="corpID" [width]="200">
+              <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div *ngIf="row.avatar.length > 0; else customAvatar">
+                    <img class="rounded-circle mr-1" src="assets/img/portrait/small/{{row.avatar}}"
+                      height="32" width="32" alt="datatable-avatar">
+                  </div>
+                  <ng-template #customAvatar>
+                    <div class="avatar mr-1 ml-0"
+                      [ngClass]="{'bg-primary': row.status == '1', 'bg-success':row.status == '2', 'bg-danger':row.status == '3' , 'bg-warning':row.status == '4', 'bg-info':row.status == '5'}  ">
+                      <div class="avatar-content">{{ name | shortName }}</div>
+                    </div>
+                  </ng-template>
+                  <div class="cell-line-height">
+                    <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
+                    <span class="text-muted font-small-2">
+                      {{ row.post }}</span>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column> -->
+            <!-- <ngx-datatable-column name="CorpID" prop="emp_id" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="EmpName" prop="emp_name" [width]="250"></ngx-datatable-column>
+            <ngx-datatable-column name="Designation" prop="designation" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Workstream" prop="workstream_name" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Service" prop="service_name" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="TaskManager" prop="task_manager_name" [width]="200"></ngx-datatable-column>
+
+
+          </ngx-datatable> -->
+          <!-- ngx-datatable-filter -->
+
+        <!-- </div>
+        </div>
+      </div>
+
+    </div>
+
+</div>
+
+</section> -->
+
+
+
+<section id="ngx-datatable-filter">
+   <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+                    <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+                    <h4 class="content-header" style="text-align: center;"><b>Employee Details</b></h4>
+
+                    <hr>
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref">Search:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Filter the Name column..." (keyup)="filterUpdate($event)" />
+              </label>
+              <span class="pull-right" (click)="exportExcel()"> Export &nbsp; <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 30px;" (click)="exportexcel()"><i
+                class="fa fa-file-excel-o" style="font-size:30px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button></span>
+            </fieldset>
+
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true">
+              <ngx-datatable-column name="CorpID" prop="emp_id" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="EmpName" prop="emp_name" [width]="250"></ngx-datatable-column>
+              <ngx-datatable-column name="Designation" prop="designation" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Workstream" prop="workstream_name" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Service" prop="service_name" [width]="200"></ngx-datatable-column>
+              <ngx-datatable-column name="TaskManager" prop="task_manager_name" [width]="200"></ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

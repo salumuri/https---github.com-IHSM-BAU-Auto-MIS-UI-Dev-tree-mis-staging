@@ -1,0 +1,112 @@
+<section id="bootstrap-select">
+    <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="border-bottom: 1px solid #c3bebe;">
+                    
+                    <div class="content-header">Upload DashBoard Data</div>
+                </div>
+                 <!--<div class="card-content">-->
+                    <div class="card-body">
+                        <div class="col-md-12 col-12">
+                            <form class="form" #MyForm="ngForm"  (ngSubmit)="onSubmit(MyForm)">
+                                <div class="row contentbody">
+                                    <div class="col-md-2 col-12">
+                                        <h5>Report Name</h5>
+                                        
+                                        <fieldset class="form-group">
+                                            <select class="form-control" id="Report" name="Report" 
+                                               (change)="GetWorkstream()" [(ngModel)]='details.ReportName'
+                                               #Report="ngModel" required>
+                                               <option value="">Select</option>
+                                               <option *ngFor="let r of ReportTypeData" value="{{r.repottype}}">{{r.repottype}}
+                                               <!--<option value="Delivery">Delivery</option>
+                                               <option value="Demand Vs Supply">Demand Vs Supply</option>
+                                               <option value="Quality">Quality</option>
+                                               <option value="Weekly Report">Weekly Report</option>!-->
+                                                
+                                            </select>
+                                            <span class="text-danger"
+                                                *ngIf="(Report.touched) && Report.errors?.required">
+                                                  Please select Report Name
+                                             </span>
+                                        </fieldset> 
+                                    </div>  
+                                    <div class="col-md-2 col-12">
+                                        <h5>WorkStream</h5>
+                                        
+                                        <fieldset class="form-group">
+                                            <select class="form-control" id="wname" name="wname" [(ngModel)]='details.wsname'
+                                              #wname="ngModel" required>                                               
+                                               <option value="">Select</option>
+                                                <option *ngFor="let w of workstreamData" value="{{w.w_name}}">
+                                                    {{w.w_name}}
+                                                </option>
+                                            </select>    
+                                            <span class="text-danger"
+                                                *ngIf="(wname.touched) && wname.errors?.required">
+                                                Please select WorkStream
+                                            </span>
+                                        </fieldset> 
+                                    </div>  
+                                        
+                                </div> 
+                                <div class="row" contentbody>
+                                    <div class="col-md-4 col-12">
+                                      <h5>Document Name</h5>                                            
+                                      <fieldset class="form-group">
+                                              <input type="text" id="DocName" class="form-control" autocomplete="off" placeholder="Document Name" name="DocName" [(ngModel)]='details.DocName' #DocName="ngModel" required>        
+                                              <span class="text-danger"
+                                                *ngIf="(DocName.touched) && DocName.errors?.required">
+                                                Please enter Document Name
+                                            </span>
+                                      </fieldset> 
+                                    </div>  
+                                    
+                                </div> 
+                                <div class="row" contentbody>
+                                    <div class="col-md-4 col-12">
+                                        <h5>Description</h5>                                            
+                                        <fieldset class="form-group">
+                                                <!--<input type="text" id="description" class="form-control" autocomplete="off" placeholder="Description" name="description" [(ngModel)]='details.description' #description="ngModel" required>-->
+                                               <textarea rows="5" cols="5" id="description" class="form-control" autocomplete="off" placeholder="Description" name="description" [(ngModel)]='details.description' #description="ngModel" required></textarea>        
+                                                <span class="text-danger"
+                                                *ngIf="(description.touched) && description.errors?.required">
+                                                Please enter Description
+                                            </span>
+                                        </fieldset> 
+                                      </div> 
+                                </div>
+                                <div class="row" contentbody>
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group">                          
+    
+                                            <label for="inputGroupFile01"> &nbsp;</label>
+                                            <div class="custom-file">
+                                                   
+                                                <input type="file" #file  (change)="upload(file.files)"
+                                                     class="custom-file-input">
+                                                     <label class="custom-file-label" for="inputGroupFile01">
+                                                        {{(this.UploadFileName != ''  ? this.UploadFileName : 'Choose file')}}
+                                                     </label>
+                                            </div>
+                                            
+                                        </fieldset>
+                                    </div>   
+
+                                    <div class="col-md-2 col-12">
+                                        <h6>&nbsp;&nbsp;</h6>
+                                        <button type="submit" class="btn btn-sm btn-primary">Upload</button>
+                                    </div>
+                                </div>
+                            </form>
+                                
+                            
+                        </div>
+                    </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+ </section>       

@@ -1,0 +1,240 @@
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+
+.dark-modal .modal-title {
+color: white;
+}
+.ngx-datatable {
+border: 1px solid #dddddd;
+}
+
+
+
+.tilehead{
+  margin:20px;
+  text-align: center !important;
+}
+
+ng-select select-dropdown > div {
+  z-index: 2 !important;
+}
+
+.badgecustome{
+  margin-right: 10px !important;
+  font-size: 8px !important;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mandatorys{
+  color: red !important;
+  margin-top:10px !important;
+}
+
+.form-control{
+font-size: 0.8rem !important;
+}
+
+.thtextalign{
+text-align: center !important;
+}
+
+.custmTbl{
+th,td{
+    padding : 0.5rem 2rem !important;
+    font-size: 0.7rem !important;
+}
+}
+
+.nodatamsg{
+text-align: center;
+color: #e3b430 !important;
+font-size: 22px;
+}
+
+.mb-1 {
+display:block;
+}
+
+.custmbtn{
+padding : 0.1rem 0.5rem !important;
+font-size: 0.8rem !important;
+}
+
+.megaBtn button{
+font-size: 0.8rem !important;
+}
+
+.btncustom{
+font-size: 0.7rem !important;
+}
+
+.chkcount{
+font-weight: bold;
+color:red;
+}
+
+.mandatory{
+color: red;
+margin-top:10px;
+}
+
+.contentbody{
+  //margin-top:25px;
+}
+
+.collpsToggle{
+  width: 96%;
+  position: absolute;
+  top: 16px;
+  left: 29px;
+}
+.radio label{
+font-size: 10px !important;
+}
+
+.modifyBtn{
+position: absolute;
+right: 85px;
+top: 26px;
+}
+
+.customeHideshow{
+float: right;
+text-align: right;
+width: 30%;
+position: absolute;
+right: 26px;
+top: 15px;
+}
+
+.table th, .table td{
+padding: 1rem 1rem !important;
+}
+
+.customValidation{
+width: 100%;
+margin-top: 0.25rem;
+font-size: 90%;
+color: #F55252;
+}
+
+@import "../../../assets/sass/core/variables/variables";
+@import "../../../assets/sass/core/variables/app-variables";
+@import "../../../assets/sass/core/colors/palette-variables";
+
+.ng-dropdown-panel .ng-dropdown-panel-items {
+.ng-option {
+  img {
+    margin-right: 0.7rem;
+    &+b {
+      vertical-align: middle;
+    }
+  }
+  &.ng-option-marked {
+    background-color: $primary !important;
+    color: $white !important;
+  }
+}
+.ng-option-selected {
+  background-color: $primary !important;
+  color: $white !important;
+}
+}
+.ng-select {
+.ng-select-container {
+  background-color: transparent !important;
+  border-color: $border-color;
+  border-radius: $border-radius;
+  color: $body-color;
+}
+.ng-dropdown-panel {
+  border-color: $border-color;
+  box-shadow: none;
+  margin: 0;
+}
+&.ng-select-opened>.ng-select-container {
+  border-color: $primary !important;
+}
+&.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+  border-color: $primary;
+  box-shadow: none;
+}
+&.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: $primary;
+  color: $white;
+  border-radius: $border-radius;
+  .ng-value-icon {
+    border: 1px solid map-get($primary-color, darken-1);
+    border-right: 0 !important;
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+    padding: 1px 0 1px 5px;
+    &:hover {
+      background-color: inherit;
+    }
+  }
+  .ng-value-label {
+    border: 1px solid map-get($primary-color, darken-1);
+    border-left: 0 !important;
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+}
+}
+
+
+html body.layout-dark {
+// for dark layout
+&:not(.layout-transparent) {
+  .ng-select {
+    .ng-select-container {
+      border-color: $dl-border-color;
+      color: $dl-text-color;
+      .ng-input>input,
+      .ng-input>input::placeholder {
+        color: $dl-text-color;
+      }
+    }
+  }
+}
+// for transparent layout
+&.layout-transparent {
+  .ng-select {
+    .ng-select-container {
+      border-color: $tl-border-color;
+      color: $tl-text-color;
+      .ng-input>input,
+      .ng-input>input::placeholder {
+        color: $tl-text-color;
+      }
+    }
+  }
+}
+// for dark and transparent layouts
+.ng-dropdown-panel {
+  border-color: $dl-border-color;
+  .ng-dropdown-panel-items .ng-option {
+    background-color: $dl-bg-color;
+    color: $dl-text-color;
+    &.ng-option-disabled {
+      color: $dl-disabled-color;
+    }
+  }
+  .ng-optgroup.ng-option-disabled {
+    background-color: $dl-bg-color;
+    color: $dl-disabled-color;
+  }
+  .ng-dropdown-header,
+  .ng-dropdown-footer {
+    background-color: $bg-color-dark;
+    color: $dl-disabled-color;
+    border-color: $dl-border-color;
+  }
+}
+}

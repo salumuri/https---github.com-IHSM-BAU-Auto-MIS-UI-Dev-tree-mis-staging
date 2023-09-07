@@ -1,0 +1,71 @@
+<section id="ngx-datatable-filter">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+                      <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+                      <h4 class="content-header" style="text-align: center;"><b>Time Entry List</b></h4>
+                      <hr>
+
+                      <!-- <div class="pull-right" *ngIf="serverSideRowData.length > 0">
+                        <h6><b>Export Data Excel </b></h6>
+                        <div class="col-md-8" >
+                          <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 30px;" (click)="exportexcel()"><i
+                              class="fa fa-file-excel-o" style="font-size:30px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button>
+                      </div>
+                    </div> -->
+
+              <fieldset class="form-group">
+                <label for="ngx-filter-ref">Search:
+                  <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                    placeholder="Filter the Name column..." (keyup)="filterUpdate($event)" />
+                </label>
+                <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 30px;" (click)="exportexcel()">
+                  <i class="fa fa-file-excel-o" style="font-size:22px;color:rgb(75, 165, 75);margin-right: 10px;"></i></button>
+                </fieldset>
+              <ngx-datatable class="bootstrap core-bootstrap"  [columns]="columns" [columnMode]="ColumnMode.force"
+                [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows" [scrollbarH]="true" id="excel-table">
+                <ngx-datatable-column name="Employee" prop="emp_name" [width]="150"></ngx-datatable-column>
+                <ngx-datatable-column name="Workstream" prop="w_name" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Service" prop="service_name" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Sub Service" prop="batch_name" [width]="150"></ngx-datatable-column>
+                <ngx-datatable-column name="Date" prop="date" [width]="100">
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date : 'YYYY-MM-dd'}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Shift" prop="shift" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="TaskManager" prop="taskManager" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="GL" prop="Glid" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Record" prop="map" [width]="200"></ngx-datatable-column>
+                <ngx-datatable-column name="RecordType" prop="map_type" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Type of Map" prop="type_of_map" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Step" prop="step_name" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Undercost" prop="undercost" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Status" prop="status" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Acceptance" prop="acceptance" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="TimeSpent" prop="time_spent" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Entities" prop="entities" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="runs" prop="runs" [width]="100"></ngx-datatable-column>
+                 <ngx-datatable-column name="Folder Name" prop="folder_name" [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Remarks" prop="remarks" [width]="150"></ngx-datatable-column>
+                <!-- <ngx-datatable-column name="Status" prop="check_status" [width]="40">
+                  <ng-template let-status="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                    <div style="cursor: pointer;" class="badge" [ngClass]="{
+                        'bg-light-success': (status == 'True' ? 'Active' : ''),
+                        'bg-light-danger': (status == 'False' ? 'In Active' : '')
+                      }">
+                      {{ status }}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column> -->
+                <!-- <ngx-datatable-c     -->
+              </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>

@@ -1,0 +1,201 @@
+<section class="checklist">
+<div class="row">
+    <div class="col-12">
+        <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+        <div class="card">
+            <div>
+                <!-- <div class="col-md-12 col-12" style="padding-top: 1ch;">
+                    <h5 style="color:rgb(232, 50, 50) ;">QC Feed Back Form - UR-029-QCFR</h5>
+                </div> -->
+                <div class="card-body">
+                     <!-- <div class="content-header" style="text-align: center;">Attendance Report</div> -->
+                     <h4 class="content-header">
+                      <b>QC Feed Back Form - UR-029-QCFR</b>
+                      <button class="btn btn-sm btn-primary float-right" (click)="getModel()">External Feedback</button>
+                    </h4>
+                     <hr>
+                    <form class="form" [formGroup]="waSearchFm">
+                        <div class="row contentbody">
+                            <div class="col-md-2 col-12">
+                                <h6>From Date  <span class="mandatory">*</span></h6>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="Entry Date" name="receiveddt"
+                                            formControlName="receiveddt" ngbDatepicker #d2="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text" (click)="d2.toggle()">
+                                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-12 pull-right">
+                                <h6>To Date  <span class="mandatory">*</span></h6>
+                                <div class="form-group pull-right">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="End Date" name="shipmentdt"
+                                            formControlName="shipmentdt" ngbDatepicker #d3="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text" (click)="d3.toggle()">
+                                                <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>WorkStream <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                                        (change)="getServiceslist()">
+                                        <option value="">Select Workstream</option>
+                                        <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>Service</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="service" name="service" formControlName="service"
+                                        (change)="getBatches()">
+                                        <option value="">Select Service</option>
+                                        <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>Sub Process</h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="batch" name="batch" formControlName="batch"
+                                        (change)="onChange1()">
+                                        <option value="">Select Batch</option>
+                                        <option *ngFor="let x of walotBatches" [ngValue]="x.bid">{{x.batch_name}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <h6>Type of Report <span class="mandatory">*</span></h6>
+                                <fieldset class="form-group">
+                                    <select class="form-control" id="rtype" name="rtype"
+                                        formControlName="rtype" (change)="onItemChange($event.target.value)">
+                                        <option value="0">Select Type</option>
+                                        <option *ngFor="let x of recordType">{{x.rtype}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                            <!-- <div class="col-md-4 col-12" >
+                                <fieldset class="form-group">
+                                    <label for="inputGroupFile01"> &nbsp;</label>
+                                    <div class="custom-file">
+                                        <input type="file" #csvReader name="Upload CSV" multiple id="jsonFile"
+                                            accept=".xlsx" id="txtFileUpload" accept=".xlsx" class="custom-file-input" (change)="onFileChangeBlkUp($event)">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose External Report</label>
+                                    </div>
+                                </fieldset>
+                        </div> -->
+
+                        <div class="col-md-2 col-6">
+                            <h6>Error List Type</h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-inline-block mr-2" *ngFor="let x of errorType; let ind=index;">
+                                    <div class="radio">
+                                      <input type="radio" name="etype" value="{{x.etype}}" id="radio1_{{ind}}" class="form-control" formControlName="etype" (click)="getWindow(waSearchFm.get('wsname').value,waSearchFm.get('service').value,waSearchFm.get('batch').value,x.etype)">
+                                      <label for="radio1_{{ind}}">{{x.etype}}</label>
+                                    </div>
+                                  </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-2 col-6">
+                          <h6>&nbsp;</h6>
+                          <fieldset class="form-group">
+                              <button type="submit" class="btn btn-sm btn-primary" (click)="onSubmit()">Generate Report</button>
+
+                               </fieldset>
+                      </div>
+                        <!-- <div class="col-md-2 col-6">
+                            <h6>External Feedback</h6>
+                                <button  class="btn btn-sm btn-primary" (click)="getModel()">External Feedback</button>
+                        </div> -->
+                        <div class="col-md-8 col-6">
+                            <h6>&nbsp;</h6>
+                            <!-- <span class="float-right" *ngIf="reportData && reportData?.length > 0" (click)="exportexcel()" style="margin: 1px;cursor: pointer;border: 1ch;">Export &nbsp;<img src="/assets/img/icons/excel1.png"/></span> -->
+                            <span (click)="exportexcel()" *ngIf="reportData?.length > 0" class="float-right" style="margin: 1px;cursor: pointer;border: 1ch;"><img src="/assets/img/icons/excel1.png"/>&nbsp;Ex</span>
+                          </div>
+                      </div>
+                        </form>
+
+                    <div class="table-responsive"  *ngIf="tableshow == true"  id="excel-table">
+                        <table  class="table m-0 custmTbl" id="excel-table" >
+                            <thead class="thead-dark">
+                            <!-- <th>Date</th> -->
+                            <th>Workstream</th>
+                            <th>Region</th>
+                             <th>Service</th>
+                             <th>Sub Service</th>
+                             <th>Team Leader</th>
+                             <th>Record</th>
+                             <th>Record Type</th>
+                             <!-- <th>Feedback For Step</th> -->
+                             <!-- <th>Input Received Date</th>
+                             <th>Input Delivered Date</th> -->
+                             <th>Feedback Received Date</th> 
+                             <th>Screen Name</th>
+                             <th>Error Description</th>
+                              <th>Attribute Weightages</th> 
+                             <th>Error Count</th>
+                             <th>Error Type</th>
+                             <th>Feedback For Step</th>
+                             <th>Feedback To</th>
+                             <th>Feedback to Associate</th>
+                             <th>Feedback given by</th>
+                             <th>Feedback given by Name</th>
+                             <th>Feedback Comments</th>
+                             <th>Acceptance</th>
+                             <th>Qual Per</th>
+                            </thead>
+                            <tbody class="thead-light">
+                               <tr *ngFor="let x of reportData | paginate: { id: 'pagination2',itemsPerPage: 10, currentPage: page1,totalItems:reportData.lenght }">
+                                    <!-- <td>{{x.date.split(' ')[0] | date : 'yyyy-MM-dd'}}</td> -->
+                                    <td>{{x.w_name}}</td>
+                                    <td>{{x.region}}</td>
+                                    <td>{{x.service_name}}</td>
+                                    <td>{{x.batch_name}}</td>
+                                    <td>{{x.GLname}}</td>
+                                    <td>{{x.map}}</td>
+                                    <td>{{x.maptype}}</td>                                    
+                                    <!-- <td>{{x.date.split(' ')[0] | date : 'yyyy-MM-dd'}}</td> 
+                                    <td>{{x.date.split(' ')[0] | date : 'yyyy-MM-dd'}}</td> -->
+                                    <td>{{x.date.split(' ')[0] | date : 'yyyy-MM-dd'}}</td>
+                                    <td>{{x.partScreen}}</td>
+                                    <td>{{x.errorDesc}}</td>
+                                    <td>{{x.weightage}}</td>
+                                    <td>{{x.totErr}}</td>
+                                    <td>{{x.Typeofrange}}</td>
+                                    <td>{{x.feedbackstep}}</td>
+                                    <td>{{x.feedbackTo}}</td>
+                                    <td>{{x.feedbackAssociate}}</td>
+                                    <td>{{x.doneby}}</td>
+                                    <td>{{x.donebyname}}</td>
+                                    <td>{{x.remarks}}</td>
+                                    <td>{{x.acceptance}}</td>
+                                    <td>{{x.qual_per}}</td>
+                               </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <pagination-controls *ngIf="reportData != 0" id="pagination2" (pageChange)="page1 = $event">  </pagination-controls>                           
+                    <div *ngIf="reportData == 0 && submitbtn == true" class="nodatamsg">
+                        No Data Found..!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

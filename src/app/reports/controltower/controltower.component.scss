@@ -1,0 +1,80 @@
+.thtextalign{
+    text-align: center !important;
+}
+
+.nodatamsg{
+    text-align: center;
+    color: #e3b430 !important;
+    font-size: 22px;
+}
+
+.custmTbl{
+    th,td{
+        padding : 0.15rem 0.5rem !important;
+        font-size: 0.8rem !important;
+} 
+}
+
+.form-control{
+    font-size: 0.8rem !important;
+}
+
+.input-group{
+    font-size: 0.8rem !important;
+}
+.list-unstyled{
+    font-size: 0.8rem !important;
+}
+
+.mb-1 {
+    display:block;
+  }
+
+.custmbtn{
+    padding : 0.5rem 0.9rem !important;
+    font-size: 0.8rem !important;
+}
+
+.megaBtn button{
+    font-size: 0.8rem !important;
+}
+
+.btncustom{
+    font-size: 0.7rem !important;
+}
+
+.chkcount{
+    font-weight: bold;
+    color:red;
+}
+.head{
+    font-weight: bold;
+    color:white;
+    background-color: #009CA6;
+    height: 20px;
+}
+.tdcust{    
+    background-color:#777779;
+    color: white !important;
+    font-size: 11pt;
+    vertical-align: middle;
+}
+.tdcust1{
+    background-color:#53565A;
+    color: white !important;
+    font-size: 11pt;
+}
+.tdcust2{
+    background-color:#FFA300;
+    color: black !important;
+    font-size: 11pt;
+}
+.tdcust3{
+    background-color:#808080;
+    color: #fff !important;
+    font-size: 11pt;
+    
+}
+td[rowspan = "3"] {
+    vertical-align: middle;
+}

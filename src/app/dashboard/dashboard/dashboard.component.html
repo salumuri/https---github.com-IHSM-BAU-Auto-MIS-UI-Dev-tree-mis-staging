@@ -1,0 +1,219 @@
+ <!-- Minimal statistics section start -->
+ <section id="minimal-statistics">
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+  <div class="row" *ngIf="userType != 'client'">
+      <div class="col-12">
+          <div class="content-header">Manager Module</div>
+          <p class="content-sub-header mb-1">Statistics</p>
+
+      </div>
+  </div>
+
+  <div class="row match-height" *ngIf="userType != 'client'">
+  <div class="row col-xl-9">
+      <div class="col-xl-4 col-lg-6 col-12">
+          <div class="card">
+              <div class="card-content">
+                  <div class="card-body">
+                      <div class="media" (click)="redirectUrl('/inputs/timeentry-list')" style="cursor: pointer;">
+                          <div class="media-body text-left">
+                            <h3 class="mb-1 danger" (click)="redirectUrl('/inputs/timeentry-list')">{{timeSpent}} Hrs</h3>
+                            <span>Time Spent</span>
+                          </div>
+                          <div class="media-right align-self-center" (click)="redirectUrl('/inputs/timeentry-list')">
+
+                              <i class="ft-clock danger font-large-2 float-right"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="media-body text-left">
+                            <h3 class="mb-1 success">$</h3>
+                            <span>Current Achievements</span>
+                        </div>
+                        <div class="media-right align-self-center">
+                            <i class="ft-award success font-large-2 float-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-lg-6 col-12">
+      <div class="card">
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media" (click)="redirectUrl('/inputs/single-timeentry')" style="cursor:pointer">
+                      <div class="media-body text-left">
+                          <h3 class="mb-1 primary">{{feedbackErrorlist.length}}</h3>
+                          <span>Feedback Error Count</span>
+                      </div>
+                      <div class="media-right align-self-center">
+                          <i class="ft-file-text primary font-large-2 float-right"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+
+
+  <div class="col-xl-4 col-lg-6 col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h3 class="mb-1 danger">423</h3>
+                        <span>RealTime Utilization</span>
+                    </div>
+                    <div class="media-right align-self-center">
+                        <i class="ft-repeat danger font-large-2 float-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="col-xl-4 col-lg-6 col-12">
+      <div class="card">
+          <div class="card-content">
+              <div class="card-body">
+                  <div class="media">
+                      <div class="media-body text-left">
+                          <h3 class="mb-1 success">423</h3>
+                          <span>Associate Perfomance</span>
+                      </div>
+                      <div class="media-right align-self-center">
+                          <i class="ft-trending-up success font-large-2 float-right"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-6 col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h3 class="mb-1 primary">423</h3>
+                        <span>User wise Quality</span>
+                    </div>
+                    <div class="media-right align-self-center">
+                        <i class="ft-user primary font-large-2 float-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <div class="col-xl-4 col-lg-6 col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h3 class="mb-1 danger">423</h3>
+                        <span>Service State, Trends</span>
+                    </div>
+                    <div class="media-right align-self-center">
+                        <i class="ft-user danger font-large-2 float-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-12">
+  <div class="card">
+      <div class="card-content">
+          <div class="card-body">
+              <div class="media">
+                  <div class="media-body text-left">
+                      <h3 class="mb-1 success">423</h3>
+                      <span>Service State, Trends</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                      <i class="ft-x-square success font-large-2 float-right"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="col-xl-4 col-lg-6 col-12">
+  <div class="card">
+      <div class="card-content">
+          <div class="card-body">
+              <div class="media">
+                  <div class="media-body text-left">
+                      <h3 class="mb-1 primary">64.89 %</h3>
+                      <span>Completed Units</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                      <i class="ft-pie-chart primary font-large-2 float-right"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  </div>
+
+  <div lass="col-xl-3">
+
+    <div class="col-xl-12 col-lg-6">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title mb-0">Frequently Used Links </h4>
+              <hr>
+          </div>
+          <div class="card-content">
+              <div class="card-body" style="padding-top:0px !important">
+                  <div class="media pt-1 pb-2" *ngFor="let x of getSortedArray(frequentUrls); let ind = index">
+                     <div class="media-body" *ngIf="ind < 6" >
+                         <a (click)="redirectUrl(x.url)"><h4 class="font-medium-1 mb-0" >{{getProperUrl(x.url)}}</h4></a>
+
+                      </div>
+                  </div>
+
+                  <!-- <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let x of getSortedArray(frequentUrls); let ind = index">
+                      <a (click)="redirectUrl(x.url)"><h4 class="font-medium-1 mb-0" >{{getProperUrl(x.url)}}</h4></a>
+                    </li>
+
+                  </ul> -->
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+  </div>
+
+
+  <div *ngIf="userType == 'client'" class="text-center">
+
+    <div class="col-md-12" style="margin-top:60px">
+      <h1>Welcome to <img [src]="logoClient"> Dashboard</h1>
+    </div>
+  </div>
+</section>
+<!-- // Minimal statistics section end -->

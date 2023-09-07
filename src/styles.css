@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+
+.myCustomModalClass .modal-dialog {
+    max-width: 1000px;
+  }
+
+
+body{
+  background-color: #dcdcdf !important;
+}
+
+
+.ngx-datatable.bootstrap.core-bootstrap .datatable-header {
+  background-color: #3b3b44 !important;
+  color : white !important;
+  font-weight: bold;
+}

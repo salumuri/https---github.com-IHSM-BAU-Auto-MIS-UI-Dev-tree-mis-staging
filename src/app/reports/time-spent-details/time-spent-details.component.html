@@ -1,0 +1,318 @@
+
+<section class="checklist">
+    <div class="row">
+      <div class="col-12">
+          <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+          <!--Modal with custom class starts-->
+
+
+
+                  <ng-template #customContent let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Time Spent More Info
+
+                        <div class="pull-right" *ngIf="timeSpentDetailsMore.length > 0">
+                          <div class="col-md-8" >
+                            <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 20px;" (click)="exportexcel('excel-table2','TimeSpentMoreInfo')"><i
+                                class="fa fa-file-excel-o" style="font-size:20px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button>
+                        </div>
+                        </div>
+                      </h4>
+                      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="table m-0 custmTbl" id="excel-table2">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>AssocName</th>
+                                <th>AssocID</th>
+                                <th>Service</th>
+                                <th>SubService</th>
+                                <th>Step</th>
+                                <th>MapCount</th>
+                                <th>Status</th>
+                                <th>TimeSpent</th>
+                                <th>TotalEntites</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let x of timeSpentDetailsMore">
+                                <td>{{x.date | date : 'dd-MM-YYYY'}}</td>
+                                <td>{{x.emp_name}}</td>
+                                <td>{{x.emp_id}}</td>
+                                <td>{{x.service_name}}</td>
+                                <td>{{x.batch_name}}</td>
+                                <td>{{x.step_name}}</td>
+                                <td>{{x.mapCount}}</td>
+                                <td>{{x.status}}</td>
+                                <td>{{x.time_spent}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+                    </div>
+                  </ng-template>
+
+
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Time Entry Details</h4>
+            </div>
+              <div class="card-content custmTbl">
+                  <div class="card-body">
+
+                    <form class="form" [formGroup]="waSearchFm" (ngSubmit)="onSubmit()">
+                      <div class="row contentbody">
+
+                          <div class="col-md-2 col-12">
+                              <h6 class="content-sub-header mb-1">WorkStream<span class="mandatory" style="color: red;">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="wsname" name="wsname" formControlName="wsname"
+                                      (change)="getServiceslist()">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let w of workstreamData" value="{{w.wid}}">{{w.w_name}}
+                                      </option>
+                                  </select>
+                                  <div *ngIf="submitted && f['wsname'].errors" class="customValidation">
+                                      <div *ngIf="f['wsname'].errors['required']">WorkStream Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+
+                          <div class="col-md-2 col-12">
+                              <h6 class="text-capitalize content-sub-header mb-1">Service<span class="mandatory" style="color: red;">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="service" name="service"
+                                      formControlName="service" (change)="getBatches()">
+                                      <option value="">Select Service</option>
+                                      <option *ngFor="let x of walotServices" [ngValue]="x.sid">{{x.service_name}}
+                                      </option>
+                                  </select>
+                                  <div *ngIf="submitted && f['service'].errors" class="customValidation">
+                                      <div *ngIf="f['service'].errors['required']">Service Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+                          <div class="col-md-2 col-12">
+                              <h6 class="text-capitalize content-sub-header mb-1">Sub Service<span class="mandatory" style="color: red;">*</span></h6>
+                              <fieldset class="form-group">
+                                  <select class="form-control" id="state" name="state" formControlName="state">
+                                      <option value="">Select Sub Service</option>
+                                      <option *ngFor="let w of walotBatches" [ngValue]="w.bid">{{w.batch_name}}
+                                      </option>
+                                  </select>
+                                  <div *ngIf="submitted && f['state'].errors" class="customValidation">
+                                      <div *ngIf="f['state'].errors['required']">State Required</div>
+                                  </div>
+                              </fieldset>
+                          </div>
+                          <div class="col-md-3 col-12">
+                            <h6>From Date</h6>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input placeholder="Entry Date" name="fromdt" formControlName="fromdt" ngbDatepicker
+                                    #d2="ngbDatepicker">
+                                    <div class="input-group-append">
+                                    <div class="input-group-text" (click)="d2.toggle()">
+                                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <h6>To Date</h6>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input placeholder="Entry Date" name="todt" formControlName="todt" ngbDatepicker
+                                    #d3="ngbDatepicker">
+                                    <div class="input-group-append">
+                                    <div class="input-group-text" (click)="d3.toggle()">
+                                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                                    </div>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                          <h6>Report Type <span class="mandatory" style="color: red">*</span></h6>
+                          <ul class="list-unstyled mb-0">
+                            <li class="d-inline-block mr-2" *ngFor="let x of recordType; let ind=index;">
+                              <div class="radio">
+                                <input type="radio" name="reportType" value="{{x.rtype}}" id="radio1_{{ind}}"
+                                  (change)="typeChange(x.rtype)" class="form-control" formControlName="reportType">
+                                <label for="radio1_{{ind}}">{{x.rtype}}</label>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div class="col-md-2 col-12">
+                          <h6>Step  <span class="mandatory" style="color: red">*</span></h6>
+                          <fieldset class="form-group">
+                            <select class="form-control" id="step" name="step" formControlName="step">
+                              <option value="">Select Step</option>
+                              <option *ngFor="let w of userSteps" [ngValue]="w.step_id">{{w.step_name}}
+                              </option>
+                            </select>
+                          </fieldset>
+                        </div>
+
+                        <div class="col-md-2 float-right" style="text-align: right;">
+                          <h6>&nbsp;</h6>
+                          <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                      </div>
+                      </div>
+
+
+                  </form>
+                  <hr>
+
+                  <div class="pull-right" *ngIf="timeSpentDetails.length > 0">
+                    <div class="col-md-8" >
+                      <button type="submit"   class="btn btn-sm btn-ligth float-right" style="width: 20px;" (click)="exportexcel('excel-table','TimeSpentDetails')"><i
+                          class="fa fa-file-excel-o" style="font-size:20px;color:rgb(75, 165, 75);margin-right: 30px;"></i></button>
+                  </div>
+                  </div>
+
+                  <div class="table-responsive" *ngIf="recType == 'WS/Step Wise' && timeSpentDetails.length > 0">
+                    <table class="table m-0 custmTbl" id="excel-table">
+                      <thead class="thead-dark">
+                          <tr>
+                              <th>Service</th>
+                              <th>SubService</th>
+                              <th>Step</th>
+                              <th>MapCount</th>
+                              <th>Status</th>
+                              <th>TimeSpent</th>
+                              <th>TotalEntites</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let x of timeSpentDetails">
+                              <td>{{x.service_name}}</td>
+                              <td>{{x.batch_name}}</td>
+                              <td>{{x.step_name}}</td>
+                              <td class="moreInfo" (click)="getMoreInfo(customContent,x)">{{x.mapCount}}</td>
+                              <td>{{x.status}}</td>
+                              <td>{{x.time_spent}}</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+
+
+                  <div class="table-responsive" *ngIf="recType == 'WS/Assoc Wise' && timeSpentDetails.length > 0">
+                    <table class="table m-0 custmTbl" id="excel-table">
+                      <thead class="thead-dark">
+                          <tr>
+                              <th>AssocName</th>
+                              <th>AssocID</th>
+                              <th>Service</th>
+                              <th>SubService</th>
+                              <th>Step</th>
+                              <th>MapCount</th>
+                              <th>Status</th>
+                              <th>TimeSpent</th>
+                              <th>TotalEntites</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let x of timeSpentDetails">
+                              <td>{{x.emp_name}}</td>
+                              <td>{{x.emp_id}}</td>
+                              <td>{{x.service_name}}</td>
+                              <td>{{x.batch_name}}</td>
+                              <td>{{x.step_name}}</td>
+                              <td class="moreInfo" (click)="getMoreInfo(customContent,x)">{{x.mapCount}}</td>
+                              <td>{{x.status}}</td>
+                              <td>{{x.time_spent}}</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+
+
+                  <div class="table-responsive" *ngIf="recType == 'Day/WS Wise' && timeSpentDetails.length > 0">
+                    <table class="table m-0 custmTbl" id="excel-table">
+                      <thead class="thead-dark">
+                          <tr>
+                              <th>Date</th>
+                              <th>Service</th>
+                              <th>SubService</th>
+                              <th>Step</th>
+                              <th>MapCount</th>
+                              <th>Status</th>
+                              <th>TimeSpent</th>
+                              <th>TotalEntites</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                              <tr *ngFor="let x of timeSpentDetails">
+                              <td>{{x.date | date : 'dd-MM-YYYY'}}</td>
+                              <td>{{x.service_name}}</td>
+                              <td>{{x.batch_name}}</td>
+                              <td>{{x.step_name}}</td>
+                              <td class="moreInfo" (click)="getMoreInfo(customContent,x)">{{x.mapCount}}</td>
+                              <td>{{x.status}}</td>
+                              <td>{{x.time_spent}}</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+
+
+
+                  <div class="table-responsive" *ngIf="recType == 'Day/Assoc Wise' && timeSpentDetails.length > 0">
+                    <table class="table m-0 custmTbl" id="excel-table">
+                      <thead class="thead-dark">
+                          <tr>
+                              <th>Date</th>
+                              <th>AssocName</th>
+                              <th>AssocID</th>
+                              <th>Service</th>
+                              <th>SubService</th>
+                              <th>Step</th>
+                              <th>MapCount</th>
+                              <th>Status</th>
+                              <th>TimeSpent</th>
+                              <th>TotalEntites</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let x of timeSpentDetails">
+                              <td>{{x.date | date : 'dd-MM-YYYY'}}</td>
+                              <td>{{x.emp_name}}</td>
+                              <td>{{x.emp_id}}</td>
+                              <td>{{x.service_name}}</td>
+                              <td>{{x.batch_name}}</td>
+                              <td>{{x.step_name}}</td>
+                              <td class="moreInfo" (click)="getMoreInfo(customContent,x)">{{x.mapCount}}</td>
+                              <td>{{x.status}}</td>
+                              <td>{{x.time_spent}}</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  </div>
+
+
+                    </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</section>

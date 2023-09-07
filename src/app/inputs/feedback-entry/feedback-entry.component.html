@@ -1,0 +1,229 @@
+<section>
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+  <!-- {{feedbackErrorlist | json}} -->
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <h4 class="content-header" style="text-align: center">
+          <b>Feedback Entry</b>
+        </h4>
+        <hr style="margin-top: 5px !important; margin-bottom: 5px !important" />
+
+        <div class="card-content custmTbl">
+          <div class="card-body text-center">
+            <div class="row border customebg">
+              <div class="col-sm border">QR-146-CFB</div>
+              <div class="col-sm border">Customer Feedback Form</div>
+              <div class="col-sm border">
+                Version 1.0 Eff Date: 14-June-23
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form class="form" [formGroup]="stSearchFm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <!-- <div class="col-md-2 col-12">
+                  <h6>
+                    Feedback Type<span class="mandatory" style="color: red"
+                      >*</span
+                    >
+                  </h6>
+                  <select
+                    class="form-select form-select-padding-x-sm"
+                    style="width: 100%"
+                    aria-label=".form-select-sm example"
+                    id="ftyle"
+                    name="ftyle"
+                    formControlName="ftyle"
+                    (change)="getServiceslist('a')"
+                  >
+                    <option class="form-select-padding-x-sm" value="">
+                      Select Type
+                    </option>
+                    <option class="form-select-padding-x-sm" value="CCI">
+                      CCI
+                    </option>
+                    <option class="form-select-padding-x-sm" value="CFB">
+                      CFB
+                    </option>
+                  </select>
+                </div> -->
+
+                <div class="col-md-2 col-12">
+                  <h6>
+                    Select Workstream<span class="mandatory" style="color: red">*</span>
+                  </h6>
+                  <select (change)="getFeedbackNames()" class="form-select form-select-padding-x-sm" style="width: 100%"
+                    aria-label=".form-select-sm example" id="wsname" name="wsname" formControlName="wsname">
+                    <option value="">
+                      Select Workstream
+                    </option>
+                    <option class="form-select-padding-x-sm" *ngFor="let w of allworkstreamData"  [ngValue]="w.wid">
+                      {{ w.w_name }}
+                    </option>
+                  </select>
+                  <!-- {{workstreamData?.w_name}} -->
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <h6>
+                    Select Service<span class="mandatory" style="color: red">*</span>
+                  </h6>
+                  <select class="form-select form-select-padding-x-sm" id="service" name="service" formControlName="service"
+                    style="width: 100%">
+                    <option value="">Select Service</option>
+                    <option value="All">All</option>
+                    <option *ngFor="let x of walotServices" [ngValue]="x.service_name">
+                      {{ x.service_name }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- <div class="col-md-2 col-12">
+                  <h6>
+                    Feedback From<span class="mandatory" style="color: red">*</span>
+                  </h6>
+                  <select (change)="selectedUser($event)" class="form-select form-select-padding-x-sm" style="width: 100%" aria-label=".form-select-sm example" id="ffrom" name="ffrom" formControlName="ffrom">
+                    <option [ngValue]="">Select From</option>
+                    <option *ngFor="let f of fdfromnames" value="{{f.emp_no}}-{{f.emp_name}}">
+                      {{ f.emp_name }}
+                    </option>
+                  </select>
+
+                </div> -->
+
+                <div class="col-md-4 col-12">
+                  <h6>
+                    Feedback Duration<span class="mandatory" style="color: red">*</span>
+                  </h6>
+                  <!-- <select (change)="getInfo()" class="form-select form-select-padding-x-sm" style="width: 100%"
+                    aria-label=".form-select-sm example" id="fduration" name="fduration" formControlName="fduration">
+                    <option class="form-select-padding-x-sm" value="">
+                      Select Type
+                    </option>
+                    <option class="form-select-padding-x-sm" *ngFor="let d of durations" value="{{ d.duration }}">
+                      {{ d.duration }}
+                    </option>
+                  </select> -->
+                  {{durations[0]?.duration}}
+                </div>
+              </div>
+            </form>
+          <form #setVal = "ngForm">
+            <div class="card" *ngIf="showTbl">
+              <div class="card-content">
+                <table class="table m-0 custmTbl" cellspacing="0" rules="all" border="1" id="gvFeedbacks" style="
+                                    font-size: 12px;
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    position: static;">
+                  <tbody class="thead-dark">
+                    <tr>
+                      <th scope="col">Sl.No</th>
+                      <th scope="col">Attribute</th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Comments/Suggestions</th>
+                    </tr>
+
+                    <tr *ngFor="let x of feedbacktable; let ind = index">
+                      <td style="width: 5%; font-weight: bold;">
+                        {{ ind + 1 }}
+                      </td>
+                      <td title="ADHERENCE TO SCHEDULES" style="width: 45%; font-weight: bold;">
+                        <!-- <b><font color="Red">ADHERENCE TO SCHEDULES :- </font></b>Work product delivered according to contractual schedule,
+                                      or negotiated alternative. -->
+                        {{ x.feedback_desp }}
+                      </td>
+
+                      <!-- <span *ngIf="x.feedback_id != 5">
+                      <td  style="width: 15%; font-weight: bold;">
+                          <select name="gvFeedbacks$ctl02$ddlRating" [(ngModel)]="x.feedback_rating" id="gvFeedbacks_ctl02_ddlRating" 
+                          (change)="cangeOption(x.feedback_rating,ind)" style="width: 154px">
+                            <option value="">---Please Choose---</option>
+                            <option *ngFor="let x of rating5;let ind = index" value="{{ x.rvalue }}">
+                              {{ x.title }}
+                            </option>
+                          </select>
+                      </td>
+                    </span> -->
+
+                      <td  style="width: 15%; font-weight: bold;">
+                        <span *ngIf="x.feedback_id != 7 && x.feedback_id != 5">
+                          <select name="gvFeedbacks$ctl02$ddlRating" [(ngModel)]="x.feedback_rating" id="gvFeedbacks_ctl02_ddlRating" 
+                          (change)="cangeOption(x.feedback_rating,ind)" style="width: 154px" required>
+                            <option value="">---Please Choose---</option>
+                            <option *ngFor="let x of rating2;let ind = index" value="{{ x.rvalue }}">
+                              {{ x.title }}
+                            </option>
+                          </select>
+                        </span>
+                        <span *ngIf="x.feedback_id == 5">
+                          <select name="gvFeedbacks$ctl02$ddlRating" [(ngModel)]="x.feedback_rating" id="gvFeedbacks_ctl02_ddlRating{{ind}}" 
+                          (change)="cangeOption(x.feedback_rating,ind)" style="width: 154px" required>
+                            <option value="">---Please Choose---</option>
+                            <option *ngFor="let x of rating5;let ind = index" value="{{ x.rvalue }}">
+                              {{ x.title }}
+                            </option>
+                          </select>
+
+
+                        </span>
+                      </td>
+                      <td style="width: 25%; font-weight: bold;">
+                        <textarea [(ngModel)]="x.feedback_comments" name="gvFeedbacks$ctl02$txtComments" rows="2" cols="20"
+                          id="gvFeedbacks_ctl02_txtComments{{ind}}" style="height: 40px; width: 200px"
+                          (keyup)="noEmptyComment(x.feedback_rating,ind)"></textarea>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        
+
+            <div class="row" *ngIf="showTbl">
+              <!-- <div class="col-12"> -->
+              <div class="col-md-9">
+                <table id="dat" class="table m-0 custmTbl" cellpadding="0" cellspacing="0" border="1"
+                  style="font-size: 10px; font-weight: bold">
+                  <tbody>
+                    <tr>
+                      <td align="left">Notes:</td>
+                      <td align="left">
+                        Please give your comments in remarks column indicating
+                        reason for the scores less than or equal to 5
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">&nbsp;</td>
+                      <td align="left">
+                        Please note that the overall rating is not related to
+                        other attributes
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+                <div class="col-md-3 text-right">
+                  <button type="button" style="font-size: 10px !important" class="btn btn-sm btn-secondary" data-dismiss="modal"
+                    (click)="cancelForm()">
+                    <strong>Cancel</strong>
+                  </button>
+                  &nbsp;
+                  <button type="submit"   style="font-size: 10px !important" 
+                  class="btn btn-sm btn-primary" (click)="checkValidation()"
+                   >
+                   <strong>Submit</strong> 
+                  </button>
+                </div>
+              <!-- </div> -->
+            </div>
+          
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
